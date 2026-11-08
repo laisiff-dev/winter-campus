@@ -1270,162 +1270,303 @@
   </footer>
   <script>
     // =========================================================================
-    // 1. 3D ISOMETRIC & REALISTIC ENGINEERING EQUIPMENT SVG GENERATOR
+    // 1. 3D INDUSTRIAL SCADA & DIGITAL TWIN EQUIPMENT SVG GENERATOR
+    //    (Modeled after 3D Industrial Water Plant SCADA Cockpit:
+    //     3D Perspective Grid + Ribbed Tank + Caustic Water + Flanged Pipes +
+    //     Analog Pressure Gauges + 3D Blue Centrifugal Pumps + Holographic Tags)
     // =========================================================================
     function getUnit3DSvg(unitId) {
+      const commonDefs = `
+        <defs>
+          <linearGradient id="scada-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#040d1a"/>
+            <stop offset="100%" stop-color="#0a1e3c"/>
+          </linearGradient>
+          <linearGradient id="pipe-h" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#334155"/>
+            <stop offset="45%" stop-color="#94a3b8"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <linearGradient id="pipe-v" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#334155"/>
+            <stop offset="45%" stop-color="#94a3b8"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <linearGradient id="tank-shell" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#0c2d5e"/>
+            <stop offset="35%" stop-color="#1d5ba6"/>
+            <stop offset="75%" stop-color="#0e3870"/>
+            <stop offset="100%" stop-color="#061a38"/>
+          </linearGradient>
+          <linearGradient id="caustic-water" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="50%" stop-color="#0284c7"/>
+            <stop offset="100%" stop-color="#0369a1"/>
+          </linearGradient>
+          <linearGradient id="pump-blue" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="50%" stop-color="#0284c7"/>
+            <stop offset="100%" stop-color="#075985"/>
+          </linearGradient>
+        </defs>
+        <!-- 3D SCADA Perspective Floor Grid -->
+        <rect x="0" y="0" width="220" height="125" rx="8" fill="url(#scada-bg)"/>
+        <g stroke="#0ea5e9" stroke-opacity="0.16" stroke-width="0.8">
+          <line x1="0" y1="90" x2="220" y2="90"/>
+          <line x1="0" y1="102" x2="220" y2="102"/>
+          <line x1="0" y1="114" x2="220" y2="114"/>
+          <line x1="30" y1="80" x2="5" y2="125"/>
+          <line x1="70" y1="80" x2="55" y2="125"/>
+          <line x1="110" y1="80" x2="110" y2="125"/>
+          <line x1="150" y1="80" x2="165" y2="125"/>
+          <line x1="190" y1="80" x2="215" y2="125"/>
+        </g>
+      `;
+
       const svgs = {
         pre_o3: `
-          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
-            <defs>
-              <linearGradient id="g-o3-tank" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#0284c7"/>
-                <stop offset="100%" stop-color="#002060"/>
-              </linearGradient>
-              <linearGradient id="g-o3-top" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="#38bdf8"/>
-                <stop offset="100%" stop-color="#0369a1"/>
-              </linearGradient>
-            </defs>
-            <!-- 3D High Voltage Ozone Generator Box -->
-            <polygon points="14,35 46,23 46,82 14,94" fill="#334155" stroke="#94a3b8" stroke-width="1.5"/>
-            <polygon points="46,23 68,32 68,90 46,82" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
-            <polygon points="14,35 46,23 68,32 36,44" fill="#475569" stroke="#cbd5e1" stroke-width="1.2"/>
-            <text x="22" y="65" fill="#ffd966" font-size="11" font-weight="900">⚡O₃</text>
-            <!-- 3D Cylindrical Contact Tank -->
-            <ellipse cx="122" cy="88" rx="38" ry="12" fill="#001540" stroke="#38bdf8" stroke-width="1.5"/>
-            <rect x="84" y="26" width="76" height="62" fill="url(#g-o3-tank)" opacity="0.88" stroke="#38bdf8" stroke-width="1.5"/>
-            <ellipse cx="122" cy="26" rx="38" ry="12" fill="url(#g-o3-top)" stroke="#bae6fd" stroke-width="1.5"/>
-            <!-- Fine Diffuser & Rising O3 Micro-bubbles -->
-            <rect x="96" y="80" width="52" height="5" rx="2" fill="#ffd966"/>
-            <circle cx="105" cy="68" r="3.5" fill="none" stroke="#7dd3fc" stroke-width="1.8"/>
-            <circle cx="122" cy="54" r="4.5" fill="none" stroke="#7dd3fc" stroke-width="1.8"/>
-            <circle cx="138" cy="62" r="3" fill="none" stroke="#7dd3fc" stroke-width="1.8"/>
-            <circle cx="114" cy="42" r="3.5" fill="#4ade80" opacity="0.8"/>
-            <circle cx="132" cy="45" r="4" fill="#4ade80" opacity="0.5" stroke="#ffd966" stroke-dasharray="2,1"/>
-            <!-- Connecting Pipe -->
-            <path d="M68,65 L96,82" stroke="#ffd966" stroke-width="3" fill="none"/>
+          <svg viewBox="0 0 220 125" class="w-full h-28 rounded-lg shadow-inner">
+            ${commonDefs}
+            <!-- Left 1# & 2# Ozone Dosing Flanged Manifold Pipes -->
+            <rect x="8" y="42" width="82" height="7" fill="url(#pipe-h)"/>
+            <rect x="8" y="74" width="82" height="7" fill="url(#pipe-h)"/>
+            <rect x="28" y="39" width="3" height="13" fill="#64748b"/>
+            <rect x="28" y="71" width="3" height="13" fill="#64748b"/>
+            <!-- 1# & 2# 3D Blue Ozone Booster Pumps -->
+            <rect x="52" y="38" width="18" height="13" rx="3" fill="url(#pump-blue)" stroke="#7dd3fc" stroke-width="0.8"/>
+            <rect x="52" y="70" width="18" height="13" rx="3" fill="url(#pump-blue)" stroke="#7dd3fc" stroke-width="0.8"/>
+            <!-- Analog Dial Pressure Gauges (1#, 2#) -->
+            <line x1="40" y1="42" x2="40" y2="32" stroke="#94a3b8" stroke-width="2"/>
+            <circle cx="40" cy="27" r="6.5" fill="#f8fafc" stroke="#dc2626" stroke-width="1.5"/>
+            <line x1="40" y1="27" x2="44" y2="24" stroke="#dc2626" stroke-width="1.2"/>
+            <text x="26" y="17" fill="#bae6fd" font-size="7" font-family="monospace">0.82MPa</text>
+            <line x1="40" y1="74" x2="40" y2="64" stroke="#94a3b8" stroke-width="2"/>
+            <circle cx="40" cy="59" r="6.5" fill="#f8fafc" stroke="#dc2626" stroke-width="1.5"/>
+            <line x1="40" y1="59" x2="44" y2="56" stroke="#dc2626" stroke-width="1.2"/>
+            <!-- 3D Ribbed Cylindrical Ozone Contact Tank -->
+            <ellipse cx="136" cy="106" rx="44" ry="11" fill="#082042" stroke="#0284c7" stroke-width="1.2"/>
+            <rect x="98" y="24" width="76" height="80" rx="6" fill="url(#tank-shell)" stroke="#38bdf8" stroke-width="1.2"/>
+            <!-- 3D Structural Ribs on Tank -->
+            <ellipse cx="136" cy="40" rx="39" ry="6" fill="none" stroke="#38bdf8" stroke-opacity="0.45" stroke-width="2"/>
+            <ellipse cx="136" cy="60" rx="39" ry="6" fill="none" stroke="#38bdf8" stroke-opacity="0.45" stroke-width="2"/>
+            <ellipse cx="136" cy="80" rx="39" ry="6" fill="none" stroke="#38bdf8" stroke-opacity="0.45" stroke-width="2"/>
+            <ellipse cx="136" cy="24" rx="38" ry="9" fill="#0c2d5e" stroke="#7dd3fc" stroke-width="1.5"/>
+            <!-- Glowing Caustic Water Column Inside Tank -->
+            <rect x="104" y="42" width="64" height="58" rx="4" fill="url(#caustic-water)" opacity="0.88"/>
+            <ellipse cx="136" cy="42" rx="32" ry="6" fill="#7dd3fc" opacity="0.85"/>
+            <!-- Caustic Wave Highlights & Rising O3 Micro-bubbles -->
+            <path d="M110,56 Q123,51 136,56 T162,56" fill="none" stroke="#bae6fd" stroke-width="1.5" opacity="0.75"/>
+            <path d="M110,74 Q123,69 136,74 T162,74" fill="none" stroke="#bae6fd" stroke-width="1.5" opacity="0.75"/>
+            <circle cx="120" cy="86" r="3" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+            <circle cx="136" cy="68" r="3.5" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+            <circle cx="150" cy="54" r="3" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+            <!-- Holographic SCADA Callout -->
+            <rect x="104" y="25" width="64" height="12" rx="2" fill="#040d1a" opacity="0.8"/>
+            <text x="110" y="34" fill="#38bdf8" font-size="7.5" font-weight="bold">水量 45.2萬CMD</text>
+            <text x="114" y="92" fill="#ffd966" font-size="8" font-weight="900">⚡O₃ 2.07V 破藻</text>
+            <!-- Outlet Pipe -->
+            <rect x="174" y="62" width="38" height="7" fill="url(#pipe-h)"/>
+            <text x="176" y="57" fill="#38bdf8" font-size="7">流向快混 ➔</text>
           </svg>`,
+
         coag_sed: `
-          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
-            <!-- 3D Pulsator Basin Isometric Cutaway -->
-            <polygon points="18,32 82,12 162,32 98,52" fill="#0284c7" stroke="#bae6fd" stroke-width="1.5"/>
-            <polygon points="18,32 98,52 98,98 18,78" fill="#0369a1" opacity="0.9" stroke="#7dd3fc" stroke-width="1.5"/>
-            <polygon points="98,52 162,32 162,78 98,98" fill="#002060" opacity="0.92" stroke="#38bdf8" stroke-width="1.5"/>
-            <!-- Suspended Sludge Blanket Layer -->
-            <polygon points="19,58 98,78 161,58 161,76 98,96 19,76" fill="#c55a11" opacity="0.78"/>
-            <!-- Central Vacuum Pulsator Bell -->
-            <rect x="78" y="16" width="24" height="44" rx="4" fill="#475569" stroke="#ffd966" stroke-width="2"/>
-            <path d="M90,22 L90,52 M84,30 L90,22 L96,30" stroke="#ffd966" stroke-width="2" fill="none"/>
-            <!-- CNN Vision Camera Bounding Boxes -->
-            <rect x="44" y="54" width="16" height="16" fill="none" stroke="#ffd966" stroke-width="1.8"/>
-            <circle cx="52" cy="62" r="5" fill="#f59e0b"/>
-            <rect x="116" y="52" width="18" height="18" fill="none" stroke="#ffd966" stroke-width="1.8"/>
-            <circle cx="125" cy="61" r="6" fill="#f59e0b"/>
-            <text x="36" y="49" fill="#ffd966" font-size="9" font-weight="bold">CNN 視覺</text>
+          <svg viewBox="0 0 220 125" class="w-full h-28 rounded-lg shadow-inner">
+            ${commonDefs}
+            <!-- Left PAC Dosing Parallel Pipes & Metering Pumps -->
+            <rect x="8" y="45" width="68" height="7" fill="url(#pipe-h)"/>
+            <rect x="8" y="78" width="68" height="7" fill="url(#pipe-h)"/>
+            <rect x="38" y="41" width="16" height="13" rx="3" fill="url(#pump-blue)" stroke="#7dd3fc"/>
+            <rect x="38" y="74" width="16" height="13" rx="3" fill="url(#pump-blue)" stroke="#7dd3fc"/>
+            <circle cx="24" cy="32" r="6" fill="#f8fafc" stroke="#dc2626" stroke-width="1.5"/>
+            <line x1="24" y1="38" x2="24" y2="45" stroke="#94a3b8" stroke-width="2"/>
+            <!-- 3D Pulsator Clarifier Tank with Vacuum Bell & Sludge Blanket -->
+            <ellipse cx="136" cy="106" rx="52" ry="12" fill="#082042" stroke="#0284c7" stroke-width="1.2"/>
+            <rect x="88" y="24" width="96" height="78" rx="6" fill="url(#tank-shell)" stroke="#38bdf8" stroke-width="1.4"/>
+            <ellipse cx="136" cy="24" rx="48" ry="10" fill="#0c2d5e" stroke="#7dd3fc" stroke-width="1.5"/>
+            <!-- Clarified Upper Water + Bottom Brown Sludge Blanket -->
+            <rect x="94" y="36" width="84" height="36" fill="url(#caustic-water)" opacity="0.82"/>
+            <rect x="94" y="72" width="84" height="26" fill="#b45309" opacity="0.88"/>
+            <path d="M94,72 Q115,68 136,72 T178,72" fill="none" stroke="#fcd34d" stroke-width="1.5"/>
+            <!-- 3D Central Vacuum Pulsator Bell Chamber -->
+            <rect x="124" y="18" width="24" height="58" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+            <path d="M136,26 L136,64 M131,34 L136,26 L141,34" stroke="#ffd966" stroke-width="1.8" fill="none"/>
+            <!-- CNN Underwater Floc Vision Bounding Boxes -->
+            <rect x="100" y="52" width="16" height="14" fill="none" stroke="#ffd966" stroke-width="1.5"/>
+            <circle cx="108" cy="59" r="4" fill="#f59e0b"/>
+            <rect x="154" y="50" width="16" height="14" fill="none" stroke="#ffd966" stroke-width="1.5"/>
+            <circle cx="162" cy="57" r="4.5" fill="#f59e0b"/>
+            <!-- SCADA Callout Tag -->
+            <text x="102" y="90" fill="#fef08a" font-size="8" font-weight="900">懸浮污泥毯｜CNN 辨識</text>
+            <text x="12" y="22" fill="#38bdf8" font-size="7.5" font-weight="bold">水量 48.0萬CMD</text>
           </svg>`,
+
         pellet_soft: `
-          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
-            <!-- 3D Inverted Cone Fluidized Bed Pellet Reactor -->
-            <ellipse cx="90" cy="18" rx="44" ry="11" fill="#0284c7" stroke="#bae6fd" stroke-width="1.8"/>
-            <polygon points="46,18 134,18 110,94 70,94" fill="#0369a1" opacity="0.88" stroke="#38bdf8" stroke-width="1.8"/>
-            <ellipse cx="90" cy="94" rx="20" ry="6" fill="#002060" stroke="#7dd3fc" stroke-width="1.5"/>
+          <svg viewBox="0 0 220 125" class="w-full h-28 rounded-lg shadow-inner">
+            ${commonDefs}
+            <!-- NaOH & Raw Water 1#, 2#, 3# Manifold Pipes -->
+            <rect x="8" y="38" width="76" height="6" fill="url(#pipe-h)"/>
+            <rect x="8" y="64" width="76" height="6" fill="url(#pipe-h)"/>
+            <rect x="8" y="90" width="86" height="6" fill="url(#pipe-h)"/>
+            <rect x="44" y="34" width="15" height="12" rx="2" fill="url(#pump-blue)" stroke="#7dd3fc"/>
+            <rect x="44" y="60" width="15" height="12" rx="2" fill="url(#pump-blue)" stroke="#7dd3fc"/>
+            <rect x="44" y="86" width="15" height="12" rx="2" fill="url(#pump-blue)" stroke="#7dd3fc"/>
+            <circle cx="28" cy="27" r="5.5" fill="#f8fafc" stroke="#dc2626" stroke-width="1.4"/>
+            <circle cx="28" cy="53" r="5.5" fill="#f8fafc" stroke="#dc2626" stroke-width="1.4"/>
+            <circle cx="28" cy="79" r="5.5" fill="#f8fafc" stroke="#dc2626" stroke-width="1.4"/>
+            <!-- 3D Ribbed Cylindrical & Conical Pellet Softening Reactor -->
+            <ellipse cx="140" cy="110" rx="40" ry="10" fill="#082042" stroke="#0284c7" stroke-width="1.2"/>
+            <polygon points="96,22 184,22 168,104 112,104" fill="url(#tank-shell)" stroke="#38bdf8" stroke-width="1.5"/>
+            <ellipse cx="140" cy="22" rx="44" ry="9" fill="#0c2d5e" stroke="#7dd3fc" stroke-width="1.5"/>
+            <!-- Glowing Caustic Softened Water Column -->
+            <polygon points="102,34 178,34 164,100 116,100" fill="url(#caustic-water)" opacity="0.88"/>
+            <ellipse cx="140" cy="34" rx="38" ry="7" fill="#7dd3fc" opacity="0.85"/>
             <!-- Fluidized Quartz Sand Seeds + White CaCO3 Pellets -->
-            <circle cx="78" cy="76" r="5.5" fill="#ffffff" stroke="#cbd5e1"/><circle cx="78" cy="76" r="2" fill="#c55a11"/>
-            <circle cx="94" cy="80" r="6" fill="#ffffff" stroke="#cbd5e1"/><circle cx="94" cy="80" r="2.2" fill="#c55a11"/>
-            <circle cx="85" cy="62" r="5" fill="#ffffff" stroke="#cbd5e1"/><circle cx="85" cy="62" r="2" fill="#c55a11"/>
-            <circle cx="104" cy="64" r="5.5" fill="#ffffff" stroke="#cbd5e1"/><circle cx="104" cy="64" r="2" fill="#c55a11"/>
-            <circle cx="74" cy="48" r="4.5" fill="#ffffff"/><circle cx="74" cy="48" r="1.8" fill="#c55a11"/>
-            <circle cx="96" cy="46" r="4.8" fill="#ffffff"/><circle cx="96" cy="46" r="1.8" fill="#c55a11"/>
-            <!-- NaOH Dosing Arrow -->
-            <path d="M24,82 L68,82" stroke="#ffd966" stroke-width="2.5"/>
-            <text x="14" y="76" fill="#002060" font-size="9" font-weight="900">NaOH</text>
-            <text x="122" y="55" fill="#002060" font-size="9" font-weight="900">CaCO₃珠</text>
+            <circle cx="128" cy="86" r="5" fill="#ffffff"/><circle cx="128" cy="86" r="2" fill="#c55a11"/>
+            <circle cx="144" cy="88" r="5.5" fill="#ffffff"/><circle cx="144" cy="88" r="2" fill="#c55a11"/>
+            <circle cx="134" cy="70" r="4.8" fill="#ffffff"/><circle cx="134" cy="70" r="1.8" fill="#c55a11"/>
+            <circle cx="152" cy="72" r="5" fill="#ffffff"/><circle cx="152" cy="72" r="2" fill="#c55a11"/>
+            <circle cx="124" cy="54" r="4.2" fill="#ffffff"/><circle cx="124" cy="54" r="1.6" fill="#c55a11"/>
+            <circle cx="146" cy="52" r="4.5" fill="#ffffff"/><circle cx="146" cy="52" r="1.6" fill="#c55a11"/>
+            <!-- Holographic Callout Box -->
+            <rect x="8" y="6" width="82" height="14" rx="2" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8"/>
+            <text x="12" y="16" fill="#ffd966" font-size="7.5" font-weight="bold">pH 8.8~9.4 結晶珠</text>
           </svg>`,
+
         post_o3_bac: `
-          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
-            <!-- 3D Dual Column: Post-O3 + Granular Activated Carbon Biofilm Bed -->
-            <rect x="20" y="22" width="38" height="72" rx="6" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
-            <circle cx="39" cy="72" r="4" fill="none" stroke="#bae6fd" stroke-width="1.5"/>
-            <circle cx="39" cy="50" r="5" fill="none" stroke="#bae6fd" stroke-width="1.5"/>
-            <!-- 3D BAC Filter Tank -->
-            <polygon points="74,26 158,26 158,94 74,94" fill="#0f172a" stroke="#38bdf8" stroke-width="1.8"/>
-            <rect x="76" y="28" width="80" height="22" fill="#0284c7" opacity="0.75"/>
-            <!-- Activated Carbon Granules with Green Biofilm Halo -->
-            <circle cx="92" cy="64" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
-            <circle cx="114" cy="64" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
-            <circle cx="136" cy="64" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
-            <circle cx="102" cy="80" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
-            <circle cx="126" cy="80" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
-            <path d="M58,36 L74,36" stroke="#ffd966" stroke-width="3"/>
-            <text x="84" y="43" fill="#ffd966" font-size="10" font-weight="900">BAC 生物膜好菌</text>
+          <svg viewBox="0 0 220 125" class="w-full h-28 rounded-lg shadow-inner">
+            ${commonDefs}
+            <!-- Left Post-Ozone Contactor Vessel -->
+            <ellipse cx="48" cy="102" rx="24" ry="7" fill="#082042" stroke="#0284c7"/>
+            <rect x="24" y="28" width="48" height="74" rx="5" fill="url(#tank-shell)" stroke="#38bdf8" stroke-width="1.3"/>
+            <rect x="28" y="40" width="40" height="56" fill="url(#caustic-water)" opacity="0.85"/>
+            <circle cx="40" cy="78" r="3" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+            <circle cx="54" cy="60" r="3.5" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+            <text x="30" y="37" fill="#ffd966" font-size="7.5" font-weight="bold">後臭氧斷鍵</text>
+            <!-- Connecting Flanged Pipe & Valve -->
+            <rect x="72" y="56" width="32" height="7" fill="url(#pipe-h)"/>
+            <circle cx="88" cy="52" r="5.5" fill="#f8fafc" stroke="#dc2626" stroke-width="1.3"/>
+            <!-- Right 3D Ribbed BAC Biological Activated Carbon Tank -->
+            <ellipse cx="152" cy="106" rx="46" ry="11" fill="#082042" stroke="#0284c7"/>
+            <rect x="106" y="22" width="92" height="82" rx="6" fill="url(#tank-shell)" stroke="#38bdf8" stroke-width="1.4"/>
+            <ellipse cx="152" cy="22" rx="46" ry="9" fill="#0c2d5e" stroke="#7dd3fc" stroke-width="1.4"/>
+            <rect x="112" y="34" width="80" height="64" fill="url(#caustic-water)" opacity="0.78"/>
+            <!-- Activated Carbon Granules with Glowing Green Biofilm -->
+            <circle cx="128" cy="68" r="6.5" fill="#0f172a" stroke="#4ade80" stroke-width="2.2"/>
+            <circle cx="148" cy="68" r="6.5" fill="#0f172a" stroke="#4ade80" stroke-width="2.2"/>
+            <circle cx="168" cy="68" r="6.5" fill="#0f172a" stroke="#4ade80" stroke-width="2.2"/>
+            <circle cx="138" cy="84" r="6.5" fill="#0f172a" stroke="#4ade80" stroke-width="2.2"/>
+            <circle cx="160" cy="84" r="6.5" fill="#0f172a" stroke="#4ade80" stroke-width="2.2"/>
+            <text x="116" y="50" fill="#ffd966" font-size="8" font-weight="900">BAC 生物膜 (AOC&lt;15)</text>
           </svg>`,
+
         aeration_filter: `
-          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
-            <!-- 3D Cascade Aeration Tower + Rapid Sand Filter -->
-            <rect x="18" y="16" width="46" height="78" rx="4" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5"/>
-            <line x1="24" y1="34" x2="52" y2="34" stroke="#ffd966" stroke-width="3"/>
-            <line x1="30" y1="52" x2="58" y2="52" stroke="#ffd966" stroke-width="3"/>
-            <line x1="24" y1="70" x2="52" y2="70" stroke="#ffd966" stroke-width="3"/>
-            <circle cx="38" cy="25" r="3.5" fill="#c55a11"/>
-            <circle cx="44" cy="43" r="3.5" fill="#c55a11"/>
-            <!-- Rapid Sand Filter Bed -->
-            <rect x="82" y="34" width="80" height="60" rx="4" fill="#002060" stroke="#38bdf8" stroke-width="1.5"/>
-            <rect x="84" y="62" width="76" height="30" fill="#d97706" opacity="0.85"/>
-            <circle cx="102" cy="56" r="4" fill="#7c2d12" stroke="#fcd34d"/>
-            <circle cx="122" cy="56" r="4" fill="#7c2d12" stroke="#fcd34d"/>
-            <circle cx="142" cy="56" r="4" fill="#7c2d12" stroke="#fcd34d"/>
-            <path d="M64,50 L82,50" stroke="#38bdf8" stroke-width="3"/>
-            <text x="90" y="81" fill="#ffffff" font-size="10" font-weight="900">石英砂截留鐵錳</text>
+          <svg viewBox="0 0 220 125" class="w-full h-28 rounded-lg shadow-inner">
+            ${commonDefs}
+            <!-- Subsurface Water Intake Manifold Pipes & Blowers -->
+            <rect x="8" y="44" width="64" height="7" fill="url(#pipe-h)"/>
+            <rect x="8" y="76" width="64" height="7" fill="url(#pipe-h)"/>
+            <rect x="34" y="40" width="16" height="13" rx="3" fill="url(#pump-blue)" stroke="#7dd3fc"/>
+            <rect x="34" y="72" width="16" height="13" rx="3" fill="url(#pump-blue)" stroke="#7dd3fc"/>
+            <circle cx="20" cy="32" r="5.5" fill="#f8fafc" stroke="#dc2626" stroke-width="1.4"/>
+            <!-- 3D Ribbed Aeration & Rapid Sand Filter Tank -->
+            <ellipse cx="138" cy="106" rx="48" ry="11" fill="#082042" stroke="#0284c7"/>
+            <rect x="90" y="22" width="96" height="82" rx="6" fill="url(#tank-shell)" stroke="#38bdf8" stroke-width="1.4"/>
+            <ellipse cx="138" cy="22" rx="48" ry="9" fill="#0c2d5e" stroke="#7dd3fc" stroke-width="1.4"/>
+            <!-- Upper Aeration Zone + Lower Quartz Sand Filter Bed -->
+            <rect x="96" y="34" width="84" height="38" fill="url(#caustic-water)" opacity="0.85"/>
+            <rect x="96" y="72" width="84" height="26" fill="#d97706" opacity="0.88"/>
+            <!-- Cascade Aeration Trays & Oxidized Fe(OH)3 / MnO2 Precipitates -->
+            <line x1="104" y1="46" x2="146" y2="46" stroke="#ffd966" stroke-width="2.5"/>
+            <line x1="126" y1="58" x2="170" y2="58" stroke="#ffd966" stroke-width="2.5"/>
+            <circle cx="116" cy="66" r="3.5" fill="#7c2d12" stroke="#fcd34d"/>
+            <circle cx="138" cy="66" r="3.5" fill="#7c2d12" stroke="#fcd34d"/>
+            <circle cx="158" cy="66" r="3.5" fill="#7c2d12" stroke="#fcd34d"/>
+            <text x="102" y="89" fill="#ffffff" font-size="8" font-weight="900">氧化截留 Fe(OH)₃/MnO₂</text>
           </svg>`,
+
         uf_system: `
-          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
-            <!-- 3D Pressurized Hollow-Fiber UF Membrane Rack -->
-            <line x1="24" y1="20" x2="156" y2="20" stroke="#0070c0" stroke-width="5" stroke-linecap="round"/>
-            <line x1="24" y1="92" x2="156" y2="92" stroke="#002060" stroke-width="5" stroke-linecap="round"/>
-            <!-- 3 Vertical 3D UF Modules with Hollow Fibers -->
-            <rect x="36" y="22" width="26" height="68" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
-            <line x1="44" y1="26" x2="44" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <line x1="54" y1="26" x2="54" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <rect x="77" y="22" width="26" height="68" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
-            <line x1="85" y1="26" x2="85" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <line x1="95" y1="26" x2="95" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <rect x="118" y="22" width="26" height="68" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
-            <line x1="126" y1="26" x2="126" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <line x1="136" y1="26" x2="136" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <rect x="52" y="46" width="76" height="18" rx="4" fill="#002060"/>
-            <text x="60" y="59" fill="#ffd966" font-size="10" font-weight="900">0.05 μm UF 膜</text>
+          <svg viewBox="0 0 220 125" class="w-full h-28 rounded-lg shadow-inner">
+            ${commonDefs}
+            <!-- Left 1#, 2#, 3# UF Feed Manifold with Pumps & Gauges -->
+            <rect x="8" y="36" width="68" height="6" fill="url(#pipe-h)"/>
+            <rect x="8" y="62" width="68" height="6" fill="url(#pipe-h)"/>
+            <rect x="8" y="88" width="68" height="6" fill="url(#pipe-h)"/>
+            <rect x="38" y="32" width="15" height="12" rx="2" fill="url(#pump-blue)" stroke="#7dd3fc"/>
+            <rect x="38" y="58" width="15" height="12" rx="2" fill="url(#pump-blue)" stroke="#7dd3fc"/>
+            <rect x="38" y="84" width="15" height="12" rx="2" fill="url(#pump-blue)" stroke="#7dd3fc"/>
+            <circle cx="22" cy="26" r="5.5" fill="#f8fafc" stroke="#dc2626" stroke-width="1.4"/>
+            <circle cx="22" cy="52" r="5.5" fill="#f8fafc" stroke="#dc2626" stroke-width="1.4"/>
+            <!-- 3D Pressurized Hollow-Fiber UF Membrane Skid Rack -->
+            <rect x="76" y="20" width="128" height="7" rx="3" fill="url(#pipe-h)" stroke="#38bdf8" stroke-width="0.8"/>
+            <rect x="76" y="96" width="128" height="7" rx="3" fill="url(#pipe-h)" stroke="#38bdf8" stroke-width="0.8"/>
+            <!-- 4 Cylindrical 3D UF Membrane Vessels -->
+            <rect x="84" y="27" width="22" height="69" rx="7" fill="url(#caustic-water)" stroke="#7dd3fc" stroke-width="1.5"/>
+            <rect x="114" y="27" width="22" height="69" rx="7" fill="url(#caustic-water)" stroke="#7dd3fc" stroke-width="1.5"/>
+            <rect x="144" y="27" width="22" height="69" rx="7" fill="url(#caustic-water)" stroke="#7dd3fc" stroke-width="1.5"/>
+            <rect x="174" y="27" width="22" height="69" rx="7" fill="url(#caustic-water)" stroke="#7dd3fc" stroke-width="1.5"/>
+            <!-- Hollow Fiber Strands inside Vessels -->
+            <line x1="95" y1="30" x2="95" y2="92" stroke="#bae6fd" stroke-width="1.2" stroke-dasharray="3,2"/>
+            <line x1="125" y1="30" x2="125" y2="92" stroke="#bae6fd" stroke-width="1.2" stroke-dasharray="3,2"/>
+            <line x1="155" y1="30" x2="155" y2="92" stroke="#bae6fd" stroke-width="1.2" stroke-dasharray="3,2"/>
+            <line x1="185" y1="30" x2="185" y2="92" stroke="#bae6fd" stroke-width="1.2" stroke-dasharray="3,2"/>
+            <!-- Holographic Tag -->
+            <rect x="88" y="52" width="104" height="16" rx="3" fill="#040d1a" opacity="0.88" stroke="#ffd966"/>
+            <text x="94" y="63" fill="#ffd966" font-size="8.5" font-weight="900">0.05μm 攔截隱孢子蟲</text>
           </svg>`,
+
         lpro_system: `
-          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
-            <!-- 3D Horizontal Spiral-Wound LPRO Pressure Vessels Array -->
-            <rect x="20" y="20" width="136" height="22" rx="11" fill="#0284c7" stroke="#bae6fd" stroke-width="2"/>
-            <ellipse cx="152" cy="31" rx="6" ry="11" fill="#002060" stroke="#ffd966" stroke-width="1.5"/>
-            <rect x="20" y="48" width="136" height="22" rx="11" fill="#0369a1" stroke="#bae6fd" stroke-width="2"/>
-            <ellipse cx="152" cy="59" rx="6" ry="11" fill="#002060" stroke="#ffd966" stroke-width="1.5"/>
-            <rect x="34" y="76" width="110" height="18" rx="9" fill="#7030a0" stroke="#e9d5ff" stroke-width="2"/>
-            <!-- Spiral Grid Lines -->
-            <line x1="55" y1="20" x2="55" y2="42" stroke="#ffd966" stroke-width="1.5" stroke-dasharray="2,2"/>
-            <line x1="95" y1="20" x2="95" y2="42" stroke="#ffd966" stroke-width="1.5" stroke-dasharray="2,2"/>
-            <text x="36" y="35" fill="#ffffff" font-size="10" font-weight="900">LPRO 逆滲透膜陣列</text>
-            <text x="48" y="89" fill="#ffd966" font-size="9" font-weight="bold">回收率 &gt; 90% 抗垢監控</text>
+          <svg viewBox="0 0 220 125" class="w-full h-28 rounded-lg shadow-inner">
+            ${commonDefs}
+            <!-- Left High-Pressure 1#, 2#, 3# Booster Pumps & Analog Gauges -->
+            <rect x="8" y="34" width="68" height="6" fill="url(#pipe-h)"/>
+            <rect x="8" y="60" width="68" height="6" fill="url(#pipe-h)"/>
+            <rect x="8" y="86" width="68" height="6" fill="url(#pipe-h)"/>
+            <rect x="38" y="29" width="18" height="14" rx="3" fill="url(#pump-blue)" stroke="#ffd966" stroke-width="1"/>
+            <rect x="38" y="55" width="18" height="14" rx="3" fill="url(#pump-blue)" stroke="#ffd966" stroke-width="1"/>
+            <rect x="38" y="81" width="18" height="14" rx="3" fill="url(#pump-blue)" stroke="#ffd966" stroke-width="1"/>
+            <circle cx="22" cy="24" r="6" fill="#f8fafc" stroke="#dc2626" stroke-width="1.5"/>
+            <circle cx="22" cy="50" r="6" fill="#f8fafc" stroke="#dc2626" stroke-width="1.5"/>
+            <!-- 3D Horizontal Spiral-Wound LPRO Pressure Vessels Train -->
+            <rect x="78" y="26" width="126" height="18" rx="9" fill="url(#caustic-water)" stroke="#bae6fd" stroke-width="1.6"/>
+            <ellipse cx="200" cy="35" rx="4" ry="9" fill="#040d1a" stroke="#ffd966"/>
+            <rect x="78" y="52" width="126" height="18" rx="9" fill="url(#caustic-water)" stroke="#bae6fd" stroke-width="1.6"/>
+            <ellipse cx="200" cy="61" rx="4" ry="9" fill="#040d1a" stroke="#ffd966"/>
+            <rect x="78" y="78" width="126" height="18" rx="9" fill="url(#tank-shell)" stroke="#38bdf8" stroke-width="1.6"/>
+            <ellipse cx="200" cy="87" rx="4" ry="9" fill="#040d1a" stroke="#38bdf8"/>
+            <!-- Spiral Membrane Leaf Grid -->
+            <line x1="115" y1="26" x2="115" y2="44" stroke="#ffd966" stroke-dasharray="2,2"/>
+            <line x1="155" y1="26" x2="155" y2="44" stroke="#ffd966" stroke-dasharray="2,2"/>
+            <text x="86" y="38" fill="#ffffff" font-size="8" font-weight="900">LPRO 溶解-擴散除鈣鎂</text>
+            <text x="86" y="90" fill="#ffd966" font-size="8" font-weight="bold">LSI 朗格利爾抗垢監控</text>
           </svg>`,
+
         blend_tank: `
-          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
-            <!-- 3D Blending Tank with UF Bypass Pipe + LPRO Pure Water Pipe -->
-            <path d="M16,28 L66,28 L66,46" fill="none" stroke="#f59e0b" stroke-width="5"/>
-            <path d="M16,66 L66,66" fill="none" stroke="#00b0f0" stroke-width="6"/>
-            <!-- Motorized Bypass Valve -->
-            <circle cx="42" cy="28" r="8" fill="#c55a11" stroke="#ffd966" stroke-width="2"/>
-            <text x="14" y="18" fill="#c55a11" font-size="9" font-weight="900">UF 旁通 22%</text>
-            <text x="14" y="82" fill="#0070c0" font-size="9" font-weight="900">LPRO 純水 78%</text>
-            <!-- 3D Cylindrical Clear Blending Tank -->
-            <ellipse cx="118" cy="88" rx="40" ry="10" fill="#0284c7"/>
-            <rect x="78" y="26" width="80" height="62" fill="#00b0f0" opacity="0.82" stroke="#002060" stroke-width="1.8"/>
-            <ellipse cx="118" cy="26" rx="40" ry="10" fill="#7dd3fc" stroke="#002060" stroke-width="1.5"/>
-            <circle cx="102" cy="58" r="4" fill="#ffd966"/>
-            <circle cx="128" cy="66" r="4" fill="#ffd966"/>
-            <circle cx="116" cy="48" r="3" fill="#ffffff"/>
-            <text x="86" y="78" fill="#002060" font-size="10" font-weight="900">黃金比例混合水</text>
+          <svg viewBox="0 0 220 125" class="w-full h-28 rounded-lg shadow-inner">
+            ${commonDefs}
+            <!-- 1# UF Bypass Pipe (18-24%) & 2# LPRO Permeate Pipe (76-82%) -->
+            <rect x="8" y="38" width="88" height="7" fill="url(#pipe-h)"/>
+            <rect x="8" y="74" width="88" height="8" fill="url(#pipe-h)"/>
+            <!-- Motorized Bypass Valve + Analog Gauge + Flowmeter -->
+            <rect x="48" y="33" width="16" height="14" rx="2" fill="#d97706" stroke="#fef08a" stroke-width="1.2"/>
+            <rect x="48" y="70" width="16" height="14" rx="2" fill="url(#pump-blue)" stroke="#7dd3fc" stroke-width="1.2"/>
+            <circle cx="26" cy="26" r="6" fill="#f8fafc" stroke="#dc2626" stroke-width="1.5"/>
+            <line x1="26" y1="32" x2="26" y2="38" stroke="#94a3b8" stroke-width="2"/>
+            <text x="8" y="15" fill="#fcd34d" font-size="7.5" font-weight="900">UF旁通 18~24%</text>
+            <text x="8" y="96" fill="#38bdf8" font-size="7.5" font-weight="900">LPRO純水 78%</text>
+            <!-- 3D Ribbed Cylindrical Blending Clearwell Tank (Exact Match to Reference Photo!) -->
+            <ellipse cx="144" cy="106" rx="46" ry="11" fill="#082042" stroke="#0284c7" stroke-width="1.2"/>
+            <rect x="102" y="20" width="84" height="84" rx="6" fill="url(#tank-shell)" stroke="#38bdf8" stroke-width="1.4"/>
+            <ellipse cx="144" cy="38" rx="43" ry="6" fill="none" stroke="#38bdf8" stroke-opacity="0.5" stroke-width="2"/>
+            <ellipse cx="144" cy="58" rx="43" ry="6" fill="none" stroke="#38bdf8" stroke-opacity="0.5" stroke-width="2"/>
+            <ellipse cx="144" cy="78" rx="43" ry="6" fill="none" stroke="#38bdf8" stroke-opacity="0.5" stroke-width="2"/>
+            <ellipse cx="144" cy="20" rx="42" ry="9" fill="#0c2d5e" stroke="#7dd3fc" stroke-width="1.5"/>
+            <!-- Glowing Caustic Water Column Inside Tank -->
+            <rect x="108" y="38" width="72" height="62" rx="4" fill="url(#caustic-water)" opacity="0.92"/>
+            <ellipse cx="144" cy="38" rx="36" ry="7" fill="#7dd3fc" opacity="0.9"/>
+            <path d="M114,52 Q129,47 144,52 T174,52" fill="none" stroke="#e0f2fe" stroke-width="1.5" opacity="0.8"/>
+            <path d="M114,70 Q129,65 144,70 T174,70" fill="none" stroke="#e0f2fe" stroke-width="1.5" opacity="0.8"/>
+            <text x="114" y="32" fill="#38bdf8" font-size="7.5" font-weight="bold">水量 22.5萬CMD</text>
+            <text x="114" y="88" fill="#ffd966" font-size="8" font-weight="900">黃金硬度 ~100</text>
           </svg>`
       };
       return svgs[unitId] || svgs.pre_o3;
@@ -2294,6 +2435,78 @@
       });
     }
 
+    // Helper: Draw a 3D Industrial SCADA Analog Pressure Gauge + Blue Pump + Flanged Pipe Segment
+    function drawScadaPipeGaugePump(ctx, x1, x2, y, pressureText, pumpLabel, timestamp) {
+      // 3D Metallic Pipe Body
+      const pGrad = ctx.createLinearGradient(0, y - 5, 0, y + 5);
+      pGrad.addColorStop(0, '#334155');
+      pGrad.addColorStop(0.45, '#cbd5e1');
+      pGrad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = pGrad;
+      ctx.fillRect(x1, y - 4.5, x2 - x1, 9);
+
+      // Pipe Flanges
+      ctx.fillStyle = '#64748b';
+      ctx.fillRect(x1 + 8, y - 7, 3.5, 14);
+      ctx.fillRect(x2 - 11, y - 7, 3.5, 14);
+
+      const midX = (x1 + x2) / 2;
+
+      // 3D Blue Centrifugal Booster Pump
+      const pumpGrad = ctx.createLinearGradient(0, y - 9, 0, y + 9);
+      pumpGrad.addColorStop(0, '#38bdf8');
+      pumpGrad.addColorStop(0.5, '#0284c7');
+      pumpGrad.addColorStop(1, '#0c4a6e');
+      ctx.fillStyle = pumpGrad;
+      ctx.fillRect(midX - 4, y - 8, 20, 16);
+      ctx.strokeStyle = '#7dd3fc';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(midX - 4, y - 8, 20, 16);
+
+      // Cooling fins on pump motor
+      ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+      ctx.beginPath();
+      ctx.moveTo(midX, y - 5); ctx.lineTo(midX + 12, y - 5);
+      ctx.moveTo(midX, y);     ctx.lineTo(midX + 12, y);
+      ctx.moveTo(midX, y + 5); ctx.lineTo(midX + 12, y + 5);
+      ctx.stroke();
+
+      // Analog Dial Pressure Gauge on stem
+      const gx = x1 + (x2 - x1) * 0.28;
+      const gy = y - 18;
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.moveTo(gx, y - 4);
+      ctx.lineTo(gx, gy);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(gx, gy, 7.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#f8fafc';
+      ctx.fill();
+      ctx.strokeStyle = '#dc2626';
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+
+      // Rotating/vibrating red needle
+      const ang = -0.6 + Math.sin(timestamp * 0.005 + gx) * 0.15;
+      ctx.strokeStyle = '#dc2626';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(gx, gy);
+      ctx.lineTo(gx + Math.cos(ang) * 5.5, gy + Math.sin(ang) * 5.5);
+      ctx.stroke();
+
+      ctx.fillStyle = '#bae6fd';
+      ctx.font = 'bold 8.5px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(pressureText, gx, gy + 29);
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText(pumpLabel, midX + 6, y - 11);
+      ctx.textAlign = 'left';
+    }
+
     function drawPlant3DFlowCanvas(timestamp) {
       const c = document.getElementById('plant-3d-flow-canvas');
       if (!c || state.activeTab !== 'plant-flow') return;
@@ -2301,115 +2514,143 @@
       const rect = c.parentElement.getBoundingClientRect();
       if (c.width !== Math.floor(rect.width) || c.height !== Math.floor(rect.height)) {
         c.width = Math.max(320, Math.floor(rect.width));
-        c.height = Math.max(240, Math.floor(rect.height));
+        c.height = Math.max(260, Math.floor(rect.height));
       }
       const w = c.width;
       const h = c.height;
       ctx.clearRect(0, 0, w, h);
 
-      // Isometric Engineering Grid Background
+      // 1. Deep Cyber-SCADA 3D Perspective Floor Grid Background (Exact Reference Style)
       const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
-      bgGrad.addColorStop(0, '#061024');
-      bgGrad.addColorStop(1, '#0d2247');
+      bgGrad.addColorStop(0, '#040b18');
+      bgGrad.addColorStop(0.55, '#07162c');
+      bgGrad.addColorStop(1, '#0b2242');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, w, h);
 
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+      const horizonY = h * 0.42;
+      ctx.strokeStyle = 'rgba(14, 165, 233, 0.14)';
       ctx.lineWidth = 1;
-      for (let gx = 0; gx < w; gx += 40) {
-        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke();
+      for (let py = horizonY; py < h; py += 22) {
+        ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(w, py); ctx.stroke();
       }
-      for (let gy = 0; gy < h; gy += 40) {
-        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
+      for (let i = -6; i <= 14; i++) {
+        const topX = (w / 8) * i;
+        const botX = (w / 2) + (topX - w / 2) * 2.1;
+        ctx.beginPath(); ctx.moveTo(topX, horizonY); ctx.lineTo(botX, h); ctx.stroke();
       }
 
       const plant = PLANT_DATA[state.flowPlant];
-      const padX = Math.max(24, w * 0.05);
+      const padX = Math.max(28, w * 0.045);
       const stepW = (w - padX * 2) / 4;
       const pipeY = h * 0.56;
 
       // Water color stages from Raw -> Unit 1 -> Unit 2 -> Unit 3 -> Unit 4 Clearwell
       const stageColors = state.flowPlant === 'chengcing'
         ? [
-            { r: 145, g: 130, b: 55, a: 0.92, label: '原水 (混濁藻綠)' },
-            { r: 110, g: 155, b: 95, a: 0.78, label: '前臭氧破藻水' },
-            { r: 65, g: 165, b: 205, a: 0.55, label: '脈動沉澱澄清水' },
-            { r: 30, g: 180, b: 235, a: 0.38, label: '結晶軟化低硬水' },
-            { r: 10, g: 195, b: 255, a: 0.24, label: 'BAC 生物穩定清水' }
+            { r: 145, g: 130, b: 55, a: 0.92, p: '0.35MPa', lvl: '4.20m' },
+            { r: 95, g: 165, b: 120, a: 0.80, p: '0.42MPa', lvl: '4.45m' },
+            { r: 50, g: 175, b: 220, a: 0.68, p: '0.38MPa', lvl: '3.95m' },
+            { r: 25, g: 190, b: 245, a: 0.82, p: '0.65MPa', lvl: '4.60m' },
+            { r: 12, g: 205, b: 255, a: 0.90, p: '0.50MPa', lvl: '4.10m' }
           ]
         : [
-            { r: 175, g: 95, b: 45, a: 0.90, label: '伏流水 (含二價鐵錳)' },
-            { r: 95, g: 150, b: 175, a: 0.65, label: '氣曝快濾除鐵錳水' },
-            { r: 40, g: 180, b: 230, a: 0.35, label: '0.05μm UF 除菌水' },
-            { r: 15, g: 205, b: 255, a: 0.18, label: 'LPRO 逆滲透純水' },
-            { r: 25, g: 195, b: 250, a: 0.25, label: '黃金比例適飲清水' }
+            { r: 175, g: 95, b: 45, a: 0.90, p: '0.32MPa', lvl: '3.80m' },
+            { r: 85, g: 160, b: 190, a: 0.75, p: '0.45MPa', lvl: '4.15m' },
+            { r: 35, g: 185, b: 240, a: 0.85, p: '0.16MPa', lvl: '3.90m' },
+            { r: 14, g: 208, b: 255, a: 0.92, p: '0.95MPa', lvl: '4.30m' },
+            { r: 20, g: 200, b: 252, a: 0.92, p: '0.48MPa', lvl: '4.05m' }
           ];
 
-      // Draw connecting 3D pipelines & animated flowing water droplets
-      ctx.lineWidth = 10;
-      ctx.strokeStyle = '#1e293b';
-      ctx.beginPath();
-      ctx.moveTo(padX, pipeY);
-      ctx.lineTo(w - padX, pipeY);
-      ctx.stroke();
-
-      for (let i = 0; i < 36; i++) {
-        const prog = ((i / 36) + (timestamp * 0.00012)) % 1;
-        const px = padX + prog * (w - padX * 2);
-        const stIdx = Math.min(4, Math.floor(prog * 5));
-        const col = stageColors[stIdx];
-        ctx.beginPath();
-        ctx.arc(px, pipeY, 4.2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${col.r}, ${col.g}, ${col.b}, 0.95)`;
-        ctx.fill();
-      }
-
-      // If Kaotan, draw the UF -> Blend Tank 22% Bypass overhead pipeline!
+      // 2. If Kaotan, draw 3D Overhead Bypass Flanged Pipe with Motorized Valve & Flowmeter
       if (state.flowPlant === 'kaotan') {
         const ufX = padX + stepW * 1.5;
         const blendX = padX + stepW * 3.5;
-        const byY = h * 0.18;
+        const byY = h * 0.16;
         ctx.strokeStyle = '#f59e0b';
-        ctx.lineWidth = 4;
-        ctx.setLineDash([6, 4]);
+        ctx.lineWidth = 6;
         ctx.beginPath();
-        ctx.moveTo(ufX, pipeY - 55);
+        ctx.moveTo(ufX, pipeY - 58);
         ctx.lineTo(ufX, byY);
         ctx.lineTo(blendX, byY);
-        ctx.lineTo(blendX, pipeY - 55);
+        ctx.lineTo(blendX, pipeY - 58);
+        ctx.stroke();
+
+        // Animated flow dashes on bypass pipe
+        ctx.strokeStyle = '#fef08a';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 8]);
+        ctx.lineDashOffset = -(timestamp * 0.04) % 16;
+        ctx.beginPath();
+        ctx.moveTo(ufX, byY);
+        ctx.lineTo(blendX, byY);
         ctx.stroke();
         ctx.setLineDash([]);
+
+        // Bypass Digital Flowmeter Box
+        const midByX = (ufX + blendX) / 2;
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(midByX - 95, byY - 11, 190, 20);
+        ctx.strokeStyle = '#f59e0b';
+        ctx.strokeRect(midByX - 95, byY - 11, 190, 20);
         ctx.fillStyle = '#ffd966';
         ctx.font = 'bold 11px "Microsoft JhengHei", sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('⚡ UF 產水旁通管線 (Bypass 18%～24% 直接勾兌省電)', (ufX + blendX) / 2, byY - 5);
+        ctx.fillText('⚡ UF 產水旁通管線 (Bypass 22%｜瞬時 2060 M³/H)', midByX, byY + 3);
+        ctx.textAlign = 'left';
       }
 
-      // Draw 4 3D Isometric Reactor Units along the pipeline
+      // 3. Draw 4 3D Ribbed Cylindrical Reactor Tanks + Parallel Flanged Manifold Pipes Between Them
       plant.units.forEach((u, idx) => {
         const cx = padX + stepW * (idx + 0.5);
         const cy = pipeY;
-        const boxW = Math.min(135, stepW * 0.78);
-        const boxH = 108;
+        const boxW = Math.min(126, stepW * 0.62);
+        const boxH = 114;
         const isSel = idx === state.flowUnitIdx;
         const col = stageColors[idx + 1];
 
-        // 3D Shadow & Pedestal
-        ctx.fillStyle = isSel ? 'rgba(0, 176, 240, 0.28)' : 'rgba(0, 0, 0, 0.35)';
-        ctx.beginPath();
-        ctx.ellipse(cx, cy + boxH / 2 + 12, boxW * 0.52, 14, 0, 0, Math.PI * 2);
-        ctx.fill();
+        // Draw connecting 1# & 2# parallel flanged manifold pipes to the left of each tank
+        const pipeStartX = idx === 0 ? 8 : (padX + stepW * (idx - 0.5) + boxW * 0.44);
+        const pipeEndX = cx - boxW * 0.44;
+        if (pipeEndX - pipeStartX > 28) {
+          drawScadaPipeGaugePump(ctx, pipeStartX, pipeEndX, cy - 14, col.p, `${idx + 1}#主泵`, timestamp);
+          // Second parallel pipe below
+          const pGrad = ctx.createLinearGradient(0, cy + 12, 0, cy + 20);
+          pGrad.addColorStop(0, '#334155');
+          pGrad.addColorStop(0.5, '#94a3b8');
+          pGrad.addColorStop(1, '#0f172a');
+          ctx.fillStyle = pGrad;
+          ctx.fillRect(pipeStartX, cy + 12, pipeEndX - pipeStartX, 7);
 
-        // 3D Tank Cylinder / Isometric Box
+          // Glowing animated flow arrows
+          const arrowX = pipeStartX + ((timestamp * 0.04) % Math.max(10, pipeEndX - pipeStartX - 10));
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(arrowX, cy - 14, 3, 0, Math.PI * 2);
+          ctx.arc(arrowX, cy + 15.5, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // 3D Glowing Circular Base Pedestal on Floor Grid
+        ctx.fillStyle = isSel ? 'rgba(14, 165, 233, 0.32)' : 'rgba(7, 89, 133, 0.25)';
+        ctx.beginPath();
+        ctx.ellipse(cx, cy + boxH / 2 + 12, boxW * 0.56, 15, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = isSel ? '#38bdf8' : 'rgba(56, 189, 248, 0.35)';
+        ctx.lineWidth = isSel ? 2 : 1;
+        ctx.stroke();
+
+        // 3D Corrugated / Ribbed Cylindrical Tank Shell
         const topY = cy - boxH / 2;
         const botY = cy + boxH / 2;
-        const rx = boxW * 0.44;
-        const ry = 12;
+        const rx = boxW * 0.45;
+        const ry = 11;
 
-        // Tank Wall
         const wallGrad = ctx.createLinearGradient(cx - rx, topY, cx + rx, botY);
-        wallGrad.addColorStop(0, isSel ? '#0284c7' : '#1e3a5f');
-        wallGrad.addColorStop(1, isSel ? '#002060' : '#0f172a');
+        wallGrad.addColorStop(0, '#0a254d');
+        wallGrad.addColorStop(0.35, isSel ? '#1d68bd' : '#154682');
+        wallGrad.addColorStop(0.75, '#0c2f5c');
+        wallGrad.addColorStop(1, '#05152d');
         ctx.fillStyle = wallGrad;
         ctx.beginPath();
         ctx.ellipse(cx, botY, rx, ry, 0, 0, Math.PI);
@@ -2418,44 +2659,103 @@
         ctx.closePath();
         ctx.fill();
         ctx.strokeStyle = isSel ? '#ffd966' : '#38bdf8';
-        ctx.lineWidth = isSel ? 3 : 1.5;
+        ctx.lineWidth = isSel ? 2.6 : 1.4;
         ctx.stroke();
 
-        // Cutaway Window showing internal water transparency & reaction particles
-        ctx.fillStyle = `rgba(${col.r}, ${col.g}, ${col.b}, ${col.a})`;
-        ctx.fillRect(cx - rx + 10, topY + 18, rx * 2 - 20, boxH - 28);
-        ctx.strokeStyle = 'rgba(255,255,255,0.45)';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(cx - rx + 10, topY + 18, rx * 2 - 20, boxH - 28);
-
-        // Internal animated reaction elements inside cutaway window
-        for (let p = 0; p < 8; p++) {
-          const px = cx - rx + 18 + ((p * 23 + timestamp * 0.02) % (rx * 2 - 36));
-          const py = botY - 16 - ((p * 17 + timestamp * 0.035) % (boxH - 38));
+        // 3D Corrugated Structural Ribs around Tank Exterior
+        for (let rIdx = 1; rIdx <= 3; rIdx++) {
+          const ribY = topY + rIdx * (boxH / 4);
           ctx.beginPath();
-          ctx.arc(px, py, idx === 2 && state.flowPlant === 'chengcing' ? 4 : 3, 0, Math.PI * 2);
-          ctx.fillStyle = idx === 2 && state.flowPlant === 'chengcing' ? '#ffffff' : '#ffd966';
+          ctx.ellipse(cx, ribY, rx + 2, ry * 0.65, 0, 0, Math.PI);
+          ctx.strokeStyle = 'rgba(125, 211, 252, 0.38)';
+          ctx.lineWidth = 2.2;
+          ctx.stroke();
+        }
+
+        // Glowing Caustic Water Column Inside Tank (Like the Uploaded Reference Image!)
+        const liqTopY = topY + 26 + Math.sin(timestamp * 0.002 + idx) * 2;
+        const liqH = botY - liqTopY;
+        const innerRx = rx - 6;
+
+        const liqGrad = ctx.createLinearGradient(cx - innerRx, liqTopY, cx + innerRx, botY);
+        liqGrad.addColorStop(0, `rgba(${Math.min(255, col.r + 35)}, ${Math.min(255, col.g + 35)}, ${Math.min(255, col.b + 20)}, ${col.a})`);
+        liqGrad.addColorStop(0.5, `rgba(${col.r}, ${col.g}, ${col.b}, ${col.a})`);
+        liqGrad.addColorStop(1, `rgba(${Math.max(0, col.r - 30)}, ${Math.max(0, col.g - 30)}, ${Math.max(0, col.b - 20)}, ${col.a})`);
+
+        ctx.fillStyle = liqGrad;
+        ctx.beginPath();
+        ctx.ellipse(cx, botY - 2, innerRx, ry - 2, 0, 0, Math.PI);
+        ctx.lineTo(cx - innerRx, liqTopY);
+        ctx.lineTo(cx + innerRx, liqTopY);
+        ctx.closePath();
+        ctx.fill();
+
+        // Glowing Caustic Water Ripple Waves across the Water Cylinder
+        ctx.strokeStyle = 'rgba(186, 230, 253, 0.65)';
+        ctx.lineWidth = 1.3;
+        for (let wy = liqTopY + 14; wy < botY - 8; wy += 16) {
+          ctx.beginPath();
+          for (let wx = cx - innerRx + 4; wx <= cx + innerRx - 4; wx += 8) {
+            const waveY = wy + Math.sin((wx * 0.12) + (timestamp * 0.005) + wy) * 2.5;
+            if (wx === cx - innerRx + 4) ctx.moveTo(wx, waveY);
+            else ctx.lineTo(wx, waveY);
+          }
+          ctx.stroke();
+        }
+
+        // Water Surface Meniscus Ellipse
+        ctx.beginPath();
+        ctx.ellipse(cx, liqTopY, innerRx, ry * 0.72, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${Math.min(255, col.r + 55)}, ${Math.min(255, col.g + 45)}, 255, 0.85)`;
+        ctx.fill();
+        ctx.strokeStyle = '#e0f2fe';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        // Internal Reaction Particles (O3 bubbles / Flocs / CaCO3 Pellets / Biofilm)
+        for (let p = 0; p < 7; p++) {
+          const px = cx - innerRx + 10 + ((p * 19 + timestamp * 0.02) % Math.max(12, innerRx * 2 - 20));
+          const py = botY - 10 - ((p * 15 + timestamp * 0.035) % Math.max(15, liqH - 14));
+          ctx.beginPath();
+          ctx.arc(px, py, idx === 2 && state.flowPlant === 'chengcing' ? 3.8 : 2.8, 0, Math.PI * 2);
+          ctx.fillStyle = idx === 2 && state.flowPlant === 'chengcing' ? '#ffffff' : '#fef08a';
           ctx.fill();
         }
 
-        // Tank Top Roof Ellipse
+        // Tank Top Rim Ellipse
         ctx.beginPath();
         ctx.ellipse(cx, topY, rx, ry, 0, 0, Math.PI * 2);
-        ctx.fillStyle = isSel ? '#38bdf8' : '#0369a1';
+        ctx.fillStyle = '#082042';
         ctx.fill();
-        ctx.strokeStyle = isSel ? '#ffd966' : '#bae6fd';
-        ctx.lineWidth = 1.8;
+        ctx.strokeStyle = isSel ? '#ffd966' : '#7dd3fc';
+        ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Unit Title & Purpose Pill below tank
+        // Tank Top Header Telemetry Text (Like "水量 376.6 M3" inside tank top)
         ctx.textAlign = 'center';
+        ctx.fillStyle = '#7dd3fc';
+        ctx.font = 'bold 9.5px monospace';
+        ctx.fillText(u.designCap.replace('設計規模：', ''), cx, topY + 16);
+
+        // Tank Water Level Readout Inside Cylinder (Like "液位 3.85 M")
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 10px monospace';
+        ctx.fillText(`液位 ${col.lvl}`, cx, botY - 12);
+
+        // Floating SCADA Holographic Callout Tag Below Tank
+        ctx.fillStyle = isSel ? 'rgba(112, 48, 160, 0.92)' : 'rgba(15, 23, 42, 0.88)';
+        ctx.fillRect(cx - rx - 6, botY + 18, rx * 2 + 12, 36);
+        ctx.strokeStyle = isSel ? '#ffd966' : '#38bdf8';
+        ctx.lineWidth = 1.2;
+        ctx.strokeRect(cx - rx - 6, botY + 18, rx * 2 + 12, 36);
+
         ctx.fillStyle = isSel ? '#ffd966' : '#ffffff';
-        ctx.font = 'bold 13px "Microsoft JhengHei", sans-serif';
-        ctx.fillText(`${u.stepNum}：${u.name}`, cx, botY + 30);
+        ctx.font = 'bold 12px "Microsoft JhengHei", sans-serif';
+        ctx.fillText(`${u.stepNum}：${u.name}`, cx, botY + 34);
 
         ctx.fillStyle = '#7dd3fc';
-        ctx.font = '11px "Microsoft JhengHei", sans-serif';
-        ctx.fillText(u.shortDesc, cx, botY + 46);
+        ctx.font = '10.5px "Microsoft JhengHei", sans-serif';
+        ctx.fillText(u.shortDesc, cx, botY + 49);
         ctx.textAlign = 'left';
       });
     }
@@ -3299,197 +3599,306 @@
       const h = c.height;
       ctx.clearRect(0, 0, w, h);
 
-      // Split Canvas: Left 66% = 3D Cutaway Reactor Vessel; Right 34% = Live Treated Water Transparency Beaker
-      const reactorW = Math.floor(w * 0.65);
+      // Split Canvas: Left 66% = 3D Industrial SCADA Reactor Twin; Right 34% = Live Treated Water Transparency Beaker
+      const reactorW = Math.floor(w * 0.66);
       const beakerX = reactorW + 6;
       const beakerW = w - beakerX - 6;
 
-      // Dynamic water background inside reactor reflecting current turbidity & quality
-      const turb = state.computed.turbidity;
-      const turbFactor = Math.min(1, Math.max(0, (turb - 0.05) / 1.2));
-      const bgR = Math.round(8 + turbFactor * 110);
-      const bgG = Math.round(45 + turbFactor * 65);
-      const bgB = Math.round(105 - turbFactor * 55);
-
-      const grad = ctx.createLinearGradient(0, 0, reactorW, h);
-      grad.addColorStop(0, '#041028');
-      grad.addColorStop(1, `rgb(${bgR}, ${bgG}, ${bgB})`);
-      ctx.fillStyle = grad;
+      // 1. Dark 3D Industrial SCADA Cockpit Background & Perspective Floor Grid (like reference image)
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+      bgGrad.addColorStop(0, '#030b17');
+      bgGrad.addColorStop(0.65, '#071936');
+      bgGrad.addColorStop(1, '#041022');
+      ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, reactorW, h);
 
-      // Draw 3D Reactor Vessel Frame in Left Zone
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(8, 26, reactorW - 16, h - 62);
+      const horizonY = h * 0.62;
+      ctx.save();
+      ctx.strokeStyle = 'rgba(14, 165, 233, 0.16)';
+      ctx.lineWidth = 1;
+      for (let gy = horizonY; gy < h; gy += 13) {
+        ctx.beginPath();
+        ctx.moveTo(0, gy);
+        ctx.lineTo(reactorW, gy);
+        ctx.stroke();
+      }
+      for (let gx = -40; gx <= reactorW + 40; gx += 36) {
+        ctx.beginPath();
+        ctx.moveTo(reactorW * 0.5 + (gx - reactorW * 0.5) * 0.45, horizonY);
+        ctx.lineTo(gx, h);
+        ctx.stroke();
+      }
+      ctx.restore();
 
       const unitIdx = state.selectedUnitIdx;
+      const plant = PLANT_DATA[state.currentPlant];
+      const unitObj = plant.units[unitIdx];
+      const sliderVal = state.sliders[unitObj.id];
 
+      // 2. Left 1#, 2#, 3# Parallel Flanged Manifold Pipes + Analog Pressure Gauges + 3D Blue Centrifugal Pumps
+      const manifoldX = 18;
+      const tankCx = Math.floor(reactorW * 0.63);
+      const tankRx = Math.min(62, Math.floor(reactorW * 0.23));
+      const tankLeft = tankCx - tankRx;
+      const tankRight = tankCx + tankRx;
+      const tankTop = 36;
+      const tankBot = h - 38;
+      const tankH = tankBot - tankTop;
+
+      // Vertical Header Pipe on Left
+      const vPipeGrad = ctx.createLinearGradient(manifoldX - 4, 0, manifoldX + 5, 0);
+      vPipeGrad.addColorStop(0, '#1e293b');
+      vPipeGrad.addColorStop(0.5, '#94a3b8');
+      vPipeGrad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = vPipeGrad;
+      ctx.fillRect(manifoldX - 4, 46, 8, tankBot - 52);
+
+      // 3 Parallel Horizontal Branch Pipes (1#, 2#, 3#) with Gauges & 3D Blue Pumps
+      const branchYs = [56, Math.floor((56 + tankBot - 18) / 2), tankBot - 18];
+      branchYs.forEach((by, bIdx) => {
+        const pVal = (0.72 + bIdx * 0.04 + (sliderVal % 5) * 0.01).toFixed(3);
+        drawScadaPipeGaugePump(ctx, manifoldX + 2, by, tankLeft - manifoldX + 2, {
+          pumpLabel: `${bIdx + 1}#`,
+          pressureText: `${pVal} MPa`,
+          flowVal: `${Math.round(720 + sliderVal * 8)}`,
+          timestamp: timestamp + bIdx * 400
+        });
+      });
+
+      // 3. Center 3D Corrugated Cylindrical Reactor Tank with Glowing Caustic Water Waves
+      ctx.save();
+      // Circular Floor Base Pad
+      ctx.fillStyle = 'rgba(8, 35, 75, 0.88)';
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.ellipse(tankCx, tankBot + 6, tankRx + 14, 12, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Tank Outer Shell
+      const shellGrad = ctx.createLinearGradient(tankLeft, 0, tankRight, 0);
+      shellGrad.addColorStop(0, '#0a254d');
+      shellGrad.addColorStop(0.32, '#1d5ba6');
+      shellGrad.addColorStop(0.72, '#0e3870');
+      shellGrad.addColorStop(1, '#061836');
+      ctx.fillStyle = shellGrad;
+      ctx.beginPath();
+      ctx.moveTo(tankLeft, tankTop);
+      ctx.lineTo(tankLeft, tankBot);
+      ctx.ellipse(tankCx, tankBot, tankRx, 10, 0, Math.PI, 0, true);
+      ctx.lineTo(tankRight, tankTop);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+
+      // 4 Horizontal 3D Corrugated Rib Rings
+      for (let r = 1; r <= 4; r++) {
+        const ry = tankTop + (tankH * r) / 5;
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.42)';
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        ctx.ellipse(tankCx, ry, tankRx + 2, 6, 0, 0, Math.PI);
+        ctx.stroke();
+      }
+
+      // Inner Cutaway Glowing Caustic Water Column
+      const waterTop = tankTop + 18 + Math.sin(timestamp * 0.003) * 2;
+      const waterRx = tankRx - 7;
+      const waterGrad = ctx.createLinearGradient(tankCx - waterRx, waterTop, tankCx + waterRx, tankBot);
+      waterGrad.addColorStop(0, 'rgba(56, 189, 248, 0.92)');
+      waterGrad.addColorStop(0.55, 'rgba(2, 132, 199, 0.88)');
+      waterGrad.addColorStop(1, 'rgba(3, 105, 161, 0.95)');
+      ctx.fillStyle = waterGrad;
+      ctx.beginPath();
+      ctx.moveTo(tankCx - waterRx, waterTop);
+      ctx.lineTo(tankCx - waterRx, tankBot - 2);
+      ctx.ellipse(tankCx, tankBot - 2, waterRx, 8, 0, Math.PI, 0, true);
+      ctx.lineTo(tankCx + waterRx, waterTop);
+      ctx.closePath();
+      ctx.fill();
+
+      // Animated Caustic Ripples inside Tank Water
+      ctx.strokeStyle = 'rgba(224, 242, 254, 0.45)';
+      ctx.lineWidth = 1.2;
+      for (let wy = waterTop + 10; wy < tankBot - 8; wy += 12) {
+        const off = Math.sin(timestamp * 0.004 + wy * 0.2) * 4;
+        ctx.beginPath();
+        ctx.moveTo(tankCx - waterRx + 6, wy);
+        ctx.quadraticCurveTo(tankCx + off, wy + 4, tankCx + waterRx - 6, wy);
+        ctx.stroke();
+      }
+
+      // Top Water Meniscus Ellipse & Tank Roof Rim
+      ctx.fillStyle = 'rgba(186, 230, 253, 0.72)';
+      ctx.beginPath();
+      ctx.ellipse(tankCx, waterTop, waterRx, 6.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#071b38';
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.ellipse(tankCx, tankTop, tankRx, 9, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+
+      // 4. Unit-Specific Microscopic Reaction Overlay inside 3D Tank
       if (state.currentPlant === 'chengcing') {
         if (unitIdx === 0) {
           const o3Dose = state.sliders.pre_o3;
-          // 3D Bottom Diffuser Bar
           ctx.fillStyle = '#ffd966';
-          ctx.fillRect(28, h - 46, reactorW - 56, 6);
-          particles.forEach((p, idx) => {
-            const px = 20 + ((p.x + timestamp * 0.03) % (reactorW - 40));
-            const py = 34 + ((p.y + Math.sin(timestamp * 0.003 + p.phase) * 10) % (h - 85));
+          ctx.fillRect(tankCx - waterRx + 8, tankBot - 10, (waterRx - 8) * 2, 4);
+          particles.slice(0, 20).forEach((p, idx) => {
+            const px = tankCx - waterRx + 10 + ((p.x + timestamp * 0.025) % ((waterRx - 10) * 2));
+            const py = tankBot - 12 - ((timestamp * 0.045 + idx * 14) % (tankH - 30));
             if (idx % 2 === 0) {
-              const by = h - 46 - ((timestamp * 0.05 + idx * 15) % (h - 80));
               ctx.beginPath();
-              ctx.arc(px, by, 2 + o3Dose * 1.4, 0, Math.PI * 2);
-              ctx.strokeStyle = '#00B0F0';
-              ctx.lineWidth = 1.6;
+              ctx.arc(px, py, 2 + o3Dose * 1.1, 0, Math.PI * 2);
+              ctx.strokeStyle = '#e0f2fe';
+              ctx.lineWidth = 1.4;
               ctx.stroke();
             } else {
-              const intact = o3Dose < 1.3;
               ctx.beginPath();
-              ctx.arc(px, py, p.r, 0, Math.PI * 2);
-              ctx.fillStyle = intact ? '#4ADE80' : 'rgba(74, 222, 128, 0.22)';
+              ctx.arc(px, py, 3.2, 0, Math.PI * 2);
+              ctx.fillStyle = o3Dose < 1.3 ? '#4ADE80' : 'rgba(74, 222, 128, 0.25)';
               ctx.fill();
             }
           });
-          ctx.fillStyle = '#FFD966';
-          ctx.font = 'bold 11px sans-serif';
-          ctx.fillText(`⚡ 3D 前臭氧接觸塔剖面 (O₃: ${o3Dose} mg/L)`, 14, 18);
         } else if (unitIdx === 1) {
           const pac = state.sliders.coag_sed;
-          const flocRadius = Math.min(13, 3 + pac * 0.14);
-          // 3D Pulsator Bell & Sludge Blanket
-          ctx.fillStyle = 'rgba(197, 90, 17, 0.42)';
-          ctx.fillRect(10, h - 88, reactorW - 20, 50);
-          ctx.fillStyle = '#334155';
-          ctx.fillRect(reactorW / 2 - 22, 28, 44, 52);
-          ctx.strokeStyle = '#ffd966';
-          ctx.strokeRect(reactorW / 2 - 22, 28, 44, 52);
-
-          particles.slice(0, 18).forEach((p, idx) => {
-            const px = 20 + ((p.x + timestamp * 0.025) % (reactorW - 40));
-            const py = 40 + ((p.y + timestamp * 0.02) % (h - 90));
+          const flocRadius = Math.min(9, 2.5 + pac * 0.11);
+          particles.slice(0, 14).forEach((p, idx) => {
+            const px = tankCx - waterRx + 12 + ((p.x + timestamp * 0.02) % ((waterRx - 12) * 2));
+            const py = waterTop + 12 + ((p.y + timestamp * 0.018) % (tankH - 36));
             ctx.beginPath();
             ctx.arc(px, py, flocRadius, 0, Math.PI * 2);
             ctx.fillStyle = '#F59E0B';
             ctx.fill();
             if (idx % 4 === 0) {
-              const bs = flocRadius * 2.5;
+              const bs = flocRadius * 2.4;
               ctx.strokeStyle = '#FFD966';
-              ctx.lineWidth = 1.5;
+              ctx.lineWidth = 1.3;
               ctx.strokeRect(px - bs / 2, py - bs / 2, bs, bs);
-              ctx.fillStyle = '#FFD966';
-              ctx.font = 'bold 9px monospace';
-              ctx.fillText(`CNN ${(flocRadius * 18).toFixed(0)}μm`, px - bs / 2, py - bs / 2 - 2);
             }
           });
-          ctx.fillStyle = '#FFD966';
-          ctx.font = 'bold 11px sans-serif';
-          ctx.fillText(`👁️ 3D 脈動沉澱池與 CNN 視覺框選膠羽`, 14, 18);
         } else if (unitIdx === 2) {
           const ph = state.sliders.pellet_soft;
           const isOverPh = ph > 9.65;
-          const crystalSize = Math.max(3.5, Math.min(10, (ph - 7.5) * 3.2));
-          // Draw 3D Inverted Cone Hopper Walls
-          ctx.strokeStyle = '#38bdf8';
-          ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          ctx.moveTo(16, 30);
-          ctx.lineTo(48, h - 40);
-          ctx.lineTo(reactorW - 48, h - 40);
-          ctx.lineTo(reactorW - 16, 30);
-          ctx.stroke();
-
-          particles.slice(0, 26).forEach((p, idx) => {
-            const floatY = h - 48 - ((idx * 17 + Math.sin(timestamp * 0.004 + p.phase) * 14) % (h - 95));
-            const floatX = 52 + ((idx * 29) % (reactorW - 104)) + Math.cos(timestamp * 0.003 + idx) * 5;
+          const crystalSize = Math.max(3, Math.min(7.5, (ph - 7.5) * 2.5));
+          particles.slice(0, 18).forEach((p, idx) => {
+            const floatY = tankBot - 14 - ((idx * 13 + Math.sin(timestamp * 0.004 + p.phase) * 10) % (tankH - 35));
+            const floatX = tankCx - waterRx + 14 + ((idx * 23) % ((waterRx - 14) * 2));
             ctx.beginPath();
             ctx.arc(floatX, floatY, crystalSize, 0, Math.PI * 2);
             ctx.fillStyle = isOverPh ? '#F87171' : '#FFFFFF';
             ctx.fill();
             ctx.beginPath();
-            ctx.arc(floatX, floatY, 2.5, 0, Math.PI * 2);
+            ctx.arc(floatX, floatY, 2, 0, Math.PI * 2);
             ctx.fillStyle = '#C55A11';
             ctx.fill();
           });
-          ctx.fillStyle = isOverPh ? '#FCA5A5' : '#FFD966';
-          ctx.font = 'bold 11px sans-serif';
-          ctx.fillText(`💎 3D 錐形流化床結晶槽 (石英砂長成 CaCO₃ 珠)`, 14, 18);
         } else {
           const bacDose = state.sliders.post_o3_bac;
-          for (let gx = 26; gx < reactorW - 24; gx += 36) {
-            for (let gy = h * 0.44; gy < h - 44; gy += 30) {
+          for (let gx = tankCx - waterRx + 14; gx < tankCx + waterRx - 10; gx += 20) {
+            for (let gy = waterTop + 26; gy < tankBot - 12; gy += 18) {
               ctx.beginPath();
-              ctx.arc(gx + (gy % 14), gy, 10, 0, Math.PI * 2);
+              ctx.arc(gx + (gy % 6), gy, 6.5, 0, Math.PI * 2);
               ctx.fillStyle = '#1E293B';
               ctx.fill();
               ctx.strokeStyle = bacDose >= 1.0 ? '#4ADE80' : '#94A3B8';
-              ctx.lineWidth = 2.4;
+              ctx.lineWidth = 1.8;
               ctx.stroke();
             }
           }
-          ctx.fillStyle = '#FFD966';
-          ctx.font = 'bold 11px sans-serif';
-          ctx.fillText(`🦠 3D BAC 生物活性碳濾床 (異營菌分解 AOC)`, 14, 18);
         }
       } else {
         if (unitIdx === 0) {
           const airRatio = state.sliders.aeration_filter;
-          // 3D Cascade Trays
           ctx.fillStyle = '#ffd966';
-          ctx.fillRect(24, 52, reactorW * 0.45, 5);
-          ctx.fillRect(reactorW * 0.35, 86, reactorW * 0.45, 5);
-          ctx.fillStyle = 'rgba(217, 119, 6, 0.55)';
-          ctx.fillRect(14, h - 68, reactorW - 28, 30);
-          particles.slice(0, 24).forEach((p, idx) => {
-            const px = 20 + ((p.x + timestamp * 0.03) % (reactorW - 40));
-            const py = 34 + ((p.y + timestamp * 0.04) % (h - 75));
+          ctx.fillRect(tankCx - waterRx + 8, waterTop + 14, waterRx * 1.1, 4);
+          ctx.fillRect(tankCx - 4, waterTop + 34, waterRx * 1.1, 4);
+          particles.slice(0, 18).forEach((p) => {
+            const px = tankCx - waterRx + 10 + ((p.x + timestamp * 0.025) % ((waterRx - 10) * 2));
+            const py = waterTop + 10 + ((p.y + timestamp * 0.035) % (tankH - 32));
             ctx.beginPath();
-            ctx.arc(px, py, 3.6, 0, Math.PI * 2);
-            ctx.fillStyle = airRatio >= 4.0 ? '#00B0F0' : '#C55A11';
+            ctx.arc(px, py, 3.2, 0, Math.PI * 2);
+            ctx.fillStyle = airRatio >= 4.0 ? '#e0f2fe' : '#C55A11';
             ctx.fill();
           });
-          ctx.fillStyle = '#FFD966';
-          ctx.font = 'bold 11px sans-serif';
-          ctx.fillText(`🌬️ 3D 階梯氣曝塔與快濾池 (氣水比 ${airRatio})`, 14, 18);
         } else if (unitIdx === 1 || unitIdx === 2) {
-          const memX = reactorW * 0.52;
-          ctx.strokeStyle = unitIdx === 1 ? '#00B0F0' : '#FFD966';
-          ctx.lineWidth = 5;
-          ctx.setLineDash([6, 4]);
+          ctx.strokeStyle = unitIdx === 1 ? '#e0f2fe' : '#FFD966';
+          ctx.lineWidth = 3.5;
+          ctx.setLineDash([5, 3]);
           ctx.beginPath();
-          ctx.moveTo(memX, 30);
-          ctx.lineTo(memX, h - 40);
+          ctx.moveTo(tankCx, waterTop + 6);
+          ctx.lineTo(tankCx, tankBot - 6);
           ctx.stroke();
           ctx.setLineDash([]);
-
-          particles.slice(0, 28).forEach((p, idx) => {
-            p.x = (p.x + p.vx * 1.1) % (reactorW - 20);
+          particles.slice(0, 18).forEach((p, idx) => {
             const isClean = idx % 2 === 0;
-            const drawX = (!isClean && p.x > memX - 10) ? (p.x % (memX - 24)) + 14 : Math.max(14, p.x);
-            const drawY = 34 + (p.y % (h - 78));
+            const offset = ((p.x + timestamp * 0.03) % (waterRx - 12));
+            const drawX = isClean ? tankCx + 6 + offset : tankCx - waterRx + 8 + offset;
+            const drawY = waterTop + 12 + (p.y % (tankH - 34));
             ctx.beginPath();
-            ctx.arc(drawX, drawY, isClean ? 2.8 : 5, 0, Math.PI * 2);
-            ctx.fillStyle = isClean ? '#00B0F0' : '#F87171';
+            ctx.arc(drawX, drawY, isClean ? 2.5 : 4.2, 0, Math.PI * 2);
+            ctx.fillStyle = isClean ? '#bae6fd' : '#F87171';
             ctx.fill();
           });
-          ctx.fillStyle = '#FFD966';
-          ctx.font = 'bold 11px sans-serif';
-          ctx.fillText(unitIdx === 1 ? `🔬 3D 0.05μm UF 中空纖維膜篩分` : `💎 3D LPRO 逆滲透聚醯胺膜截留鈣鎂`, 14, 18);
         } else {
           const blend = state.sliders.blend_tank;
-          particles.slice(0, 28).forEach((p, idx) => {
-            const px = 20 + ((p.x + timestamp * 0.04) % (reactorW - 40));
-            const py = 36 + ((p.y + Math.sin(timestamp * 0.004 + idx) * 8) % (h - 80));
+          particles.slice(0, 20).forEach((p, idx) => {
+            const px = tankCx - waterRx + 10 + ((p.x + timestamp * 0.03) % ((waterRx - 10) * 2));
+            const py = waterTop + 12 + ((p.y + Math.sin(timestamp * 0.004 + idx) * 6) % (tankH - 34));
             const isMin = (idx % 100) < blend * 1.6;
             ctx.beginPath();
-            ctx.arc(px, py, isMin ? 4.2 : 2.8, 0, Math.PI * 2);
-            ctx.fillStyle = isMin ? '#FFD966' : '#00B0F0';
+            ctx.arc(px, py, isMin ? 3.8 : 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = isMin ? '#FFD966' : '#e0f2fe';
             ctx.fill();
           });
-          ctx.fillStyle = '#FFD966';
-          ctx.font = 'bold 11px sans-serif';
-          ctx.fillText(`⚖️ 3D UF/LPRO 產水混合池 (旁通 ${blend}%)`, 14, 18);
         }
       }
 
-      // Draw Right Zone: Live Treated Water Transparency 3D Beaker!
+      // 5. Floating Holographic Leader-Line Telemetry Callout Box (matching reference image)
+      ctx.save();
+      ctx.fillStyle = '#FFD966';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillText(`🛰️ 3D 實廠機組數位雙生：${unitObj.name} (${sliderVal} ${unitObj.unit})`, 10, 18);
+
+      const boxW = 112;
+      const boxH = 34;
+      const boxX = Math.max(8, tankLeft - 52);
+      const boxY = tankBot - 42;
+      ctx.fillStyle = 'rgba(12, 42, 82, 0.9)';
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.roundRect(boxX, boxY, boxW, boxH, 4);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#e0f2fe';
+      ctx.font = 'bold 9.5px monospace';
+      ctx.fillText(`水量: 376.6 m³`, boxX + 6, boxY + 13);
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText(`液位: 1.850 m`, boxX + 6, boxY + 26);
+
+      // Leader line & target circle
+      ctx.beginPath();
+      ctx.moveTo(boxX + boxW, boxY + 20);
+      ctx.lineTo(tankCx - 12, boxY + 28);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(tankCx - 12, boxY + 28, 3, 0, Math.PI * 2);
+      ctx.fillStyle = '#38bdf8';
+      ctx.fill();
+      ctx.restore();
+
+      // 6. Right Zone: Live Treated Water Transparency 3D Beaker
+      const turb = state.computed.turbidity;
       const outTrans = Math.max(15, Math.min(99, Math.round(100 - turb * 32)));
       const outAlpha = Math.min(0.92, 0.16 + turb * 0.42);
       const outR = Math.min(190, Math.round(15 + turb * 110));
