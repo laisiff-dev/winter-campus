@@ -1,0 +1,3717 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antigravity IDE｜AI 綠色大腦：澄清湖與拷潭高級淨水場「智慧看診」數位雙生模擬器</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-canvas: #F4F7F9;
+      --bg-card: #FFFFFF;
+      --bg-subcard-gray: #F2F2F2;
+      --bg-subcard-blue: #DEEBF7;
+      --bg-subcard-purple: #F1EBF7;
+      --bg-subcard-orange: #FBE5D6;
+      --bg-subcard-yellow: #FFF2CC;
+      --brand-navy: #002060;
+      --brand-medblue: #0070C0;
+      --brand-purple: #7030A0;
+      --brand-sky: #00B0F0;
+      --brand-amber: #C55A11;
+      --brand-red: #C00000;
+      --brand-gold: #FFD966;
+      --brand-green: #548235;
+      --text-primary: #1E293B;
+      --text-secondary: #475569;
+      --border-soft: #BDD7EE;
+    }
+
+    body {
+      font-family: 'Microsoft JhengHei', 'Noto Sans TC', 'Inter', sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    body.dark-ide {
+      --bg-canvas: #0B1120;
+      --bg-card: #0F172A;
+      --bg-subcard-gray: #1E293B;
+      --bg-subcard-blue: #0C2D48;
+      --bg-subcard-purple: #241434;
+      --bg-subcard-orange: #331A12;
+      --bg-subcard-yellow: #2D2612;
+      --text-primary: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --border-soft: #334155;
+    }
+
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .title-dual-purple {
+      color: #7030A0;
+      font-size: clamp(1.3rem, 2.1vw, 1.8rem);
+      font-weight: 900;
+      line-height: 1.25;
+    }
+    body.dark-ide .title-dual-purple { color: #C084FC; }
+
+    .title-dual-navy {
+      color: #002060;
+      font-size: clamp(1.3rem, 2.1vw, 1.8rem);
+      font-weight: 900;
+      line-height: 1.25;
+    }
+    body.dark-ide .title-dual-navy { color: #38BDF8; }
+
+    .section-banner-navy {
+      background-color: #002060;
+      color: #FFFFFF;
+      font-size: 1.02rem;
+      font-weight: 700;
+    }
+
+    .kpi-hero-amber {
+      color: #C55A11;
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    body.dark-ide .kpi-hero-amber { color: #FB923C; }
+
+    .kpi-alert-red {
+      color: #C00000;
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    body.dark-ide .kpi-alert-red { color: #F87171; }
+
+    .kpi-ok-green {
+      color: #548235;
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    body.dark-ide .kpi-ok-green { color: #4ADE80; }
+
+    .ide-card {
+      background-color: var(--bg-card);
+      border: 1.5px solid var(--border-soft);
+      box-shadow: 0 4px 16px rgba(0, 32, 96, 0.06);
+    }
+
+    .ide-card-active {
+      background-color: var(--bg-card);
+      border: 2.5px solid #0070C0;
+      box-shadow: 0 8px 22px rgba(0, 112, 192, 0.18);
+    }
+
+    /* 3D Isometric & Realistic Equipment Card Styling */
+    .unit-3d-card {
+      position: relative;
+      background: linear-gradient(145deg, #ffffff 0%, #eaf3fb 100%);
+      border: 2px solid #9cc3e5;
+      box-shadow: 0 8px 0 #002060, 0 12px 20px rgba(0, 32, 96, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .unit-3d-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 11px 0 #002060, 0 16px 26px rgba(0, 32, 96, 0.22);
+    }
+    .unit-3d-card.active-3d {
+      background: linear-gradient(145deg, #002060 0%, #003b8e 100%);
+      color: #ffffff;
+      border: 2.5px solid #00B0F0;
+      box-shadow: 0 8px 0 #7030A0, 0 14px 28px rgba(0, 176, 240, 0.32);
+    }
+
+    input[type="range"] {
+      accent-color: #0070C0;
+      cursor: pointer;
+    }
+
+    .kw-fill {
+      display: inline-block;
+      padding: 0 6px;
+      margin: 0 2px;
+      border-radius: 4px;
+      background-color: #FFF2CC;
+      color: #C00000;
+      font-weight: 900;
+      border: 1px solid #C55A11;
+    }
+
+    .pulse-ring {
+      animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulseRing {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .blank-input {
+      border-bottom: 2.5px solid #0070C0;
+      background-color: #FFF2CC;
+      color: #002060;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 6px 6px 0 0;
+      min-width: 110px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .blank-input:focus {
+      outline: none;
+      background-color: #FFFFFF;
+      border-bottom-color: #7030A0;
+      box-shadow: 0 0 0 3px rgba(112, 48, 160, 0.2);
+    }
+    .blank-input.correct {
+      background-color: #DCFCE7;
+      border-bottom-color: #16A34A;
+      color: #15803D;
+    }
+    .blank-input.wrong {
+      background-color: #FEE2E2;
+      border-bottom-color: #DC2626;
+      color: #B91C1C;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- ===================================================================== -->
+  <!-- TOP ANTIGRAVITY IDE STATUS & 5-STAGE NAVIGATION BAR                   -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 bg-[#002060] text-white border-b-2 border-[#00B0F0] px-3 sm:px-4 py-2.5 shadow-lg">
+    <div class="max-w-7xl mx-auto flex flex-col xl:flex-row xl:items-center xl:justify-between gap-2">
+
+      <!-- Left: Antigravity IDE Workspace Badge & Identity -->
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <div class="px-2.5 py-1 rounded-lg bg-[#7030A0] text-white font-mono-code text-xs font-bold tracking-wider flex items-center gap-1.5 shadow-inner shrink-0">
+            <span>⚡ ANTIGRAVITY 3D TWIN</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          </div>
+          <div class="text-xs sm:text-sm font-medium text-sky-100 truncate">
+            <span class="text-[#FFD966] font-bold">輔英科大環工系｜</span>智匯環保新時代研習營（主講：賴文亮 教授）
+          </div>
+        </div>
+        <button id="btn-theme-toggle" type="button" class="xl:hidden px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-[#FFD966] border border-[#FFD966]/40">
+          ☀️ 高對比
+        </button>
+      </div>
+
+      <!-- Right: 4-Stage Learning Journey + Dual Simulators + Scoreboard Tabs -->
+      <nav class="flex flex-wrap items-center gap-1.5" aria-label="系統五大核心模組切換">
+        <button id="tab-water-visual" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1">
+          <span>💧</span>
+          <span>(1) 水質外觀透明度＆飲水標準</span>
+        </button>
+        <button id="tab-plant-flow" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1">
+          <span>🏭</span>
+          <span>(2) 兩廠 3D 動態流程＆機制</span>
+        </button>
+        <button id="tab-chengcing" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1">
+          <span>🏥</span>
+          <span>(3A) 診間一：澄清湖模擬</span>
+        </button>
+        <button id="tab-kaotan" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1">
+          <span>🔬</span>
+          <span>(3B) 診間二：拷潭雙薄膜</span>
+        </button>
+        <button id="tab-online-quiz" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1">
+          <span>🎓</span>
+          <span>(4) 線上學習單評分＆即時回饋</span>
+        </button>
+        <button id="tab-scoreboard" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1">
+          <span>🏆</span>
+          <span>排行榜</span>
+          <span id="badge-record-count" class="px-1.5 py-0.2 bg-white/25 text-white rounded-full text-[11px]">4</span>
+        </button>
+        <button id="btn-theme-toggle-desktop" type="button" class="hidden xl:inline-flex px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-[#FFD966] border border-[#FFD966]/40 hover:bg-slate-700 transition">
+          ☀️ 投影高對比
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- STANDARD 3-PIECE HEADER (賴文亮教授標準頁首三件套)                     -->
+  <!-- ===================================================================== -->
+  <div class="max-w-7xl w-full mx-auto px-4 pt-3">
+    <div class="ide-card rounded-2xl p-3.5 sm:p-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 pb-2.5 border-b-[3px] border-[#00B0F0]">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#7030A0] text-white text-xs font-bold self-start">
+          <span>單元二｜AI 綠色大腦啟動（40 分鐘）</span>
+        </div>
+
+        <h1 class="text-left md:text-center flex-1">
+          <span class="title-dual-purple">AI 綠色大腦啟動</span>
+          <span class="mx-1.5 font-black text-slate-400">-</span>
+          <span id="header-main-topic" class="title-dual-navy">澄清湖與拷潭高級淨水場「3D 數位雙生」看診與線上評量系統</span>
+        </h1>
+
+        <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <div class="flex items-center gap-1 bg-[#DEEBF7] text-[#002060] px-2.5 py-1 rounded-xl border border-[#0070C0]/40">
+            <label for="team-select" class="text-xs font-bold">組別｜</label>
+            <select id="team-select" class="bg-transparent text-[#002060] text-xs font-black focus:outline-none cursor-pointer">
+              <option value="第一組（澄清新星隊）">第一組（澄清新星隊）</option>
+              <option value="第二組（綠腦先鋒隊）">第二組（綠腦先鋒隊）</option>
+              <option value="第三組（薄膜特攻隊）">第三組（薄膜特攻隊）</option>
+              <option value="第四組（淨水守護隊）">第四組（淨水守護隊）</option>
+            </select>
+          </div>
+          <input id="student-name-input" type="text" placeholder="輸入學員姓名(選填)" class="px-2.5 py-1 rounded-xl border border-[#0070C0]/40 text-xs font-bold text-[#002060] bg-white w-36" />
+        </div>
+      </div>
+
+      <!-- 4-Step Learning Progress Bar -->
+      <div class="mt-2.5 rounded-xl section-banner-navy px-3.5 py-2 flex flex-col lg:flex-row lg:items-center justify-between gap-2">
+        <div class="text-xs sm:text-sm leading-snug">
+          <span class="text-[#FFD966] font-black">教學引導路徑｜</span>
+          <span id="plant-subtitle-desc">① 觀察原水與處理水透明度變化與飲水標準 ➔ ② 探索澄清湖與拷潭 3D 動態流程與機制 ➔ ③ 親手操作雙水廠看診滑桿 ➔ ④ 完成線上學習單即時評分回饋！</span>
+        </div>
+        <div class="flex items-center gap-2 shrink-0 text-xs">
+          <button id="btn-quick-quiz" type="button" class="px-2.5 py-1 rounded-full bg-[#FFD966] text-[#002060] font-black hover:bg-amber-300 transition">
+            ✍️ 前往線上填答與評分
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN WORKSPACE                                                        -->
+  <!-- ===================================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-4 space-y-5">
+
+    <!-- =================================================================== -->
+    <!-- MODULE (1): RAW VS TREATED WATER DYNAMIC APPEARANCE & STANDARDS     -->
+    <!-- =================================================================== -->
+    <div id="water-visual-view" class="hidden space-y-5">
+      <section class="ide-card rounded-2xl p-4 sm:p-5 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b-2 border-[#00B0F0] pb-3">
+          <div>
+            <span class="px-2.5 py-0.5 rounded bg-[#0070C0] text-white text-xs font-bold">STAGE 1｜WATER OPTICS & QUALITY STANDARDS</span>
+            <h2 class="text-lg sm:text-xl font-black text-[#002060] mt-1">
+              💧 (1) 原水與處理後水之「外觀透明度動態視覺化」與飲用水水質標準
+            </h2>
+            <p class="text-xs sm:text-sm font-medium text-[#475569]">
+              透過光學啤酒-朗伯定律（Beer-Lambert Law）與廷得耳光束散射（Tyndall Effect），真實模擬不同濃度（濁度、藻類、鐵錳、TDS）下水體的混濁度、色澤與底部標靶透明度變化！
+            </p>
+          </div>
+          <button type="button" onclick="switchTab('plant-flow')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#7030A0] text-white hover:bg-purple-800 transition shrink-0 shadow">
+            下一步：(2) 探索兩廠 3D 動態流程 ➔
+          </button>
+        </div>
+
+        <!-- Interactive 3D Beaker Comparison Lab -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          <!-- Left 7 Cols: Live 3-Beaker Optical Transparency Canvas -->
+          <div class="lg:col-span-7 bg-slate-950 rounded-2xl p-4 border-2 border-[#002060] flex flex-col justify-between space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span class="px-2 py-0.5 rounded bg-[#FFD966] text-[#002060] text-xs font-black">LIVE 3D BEAKER OPTICS</span>
+                <h3 class="text-sm sm:text-base font-black text-white mt-0.5">
+                  🔬 原水 vs. 傳統處理 vs. 高級淨水處理「3D 燒杯透明度與雷射穿透」實境比較
+                </h3>
+              </div>
+              <label class="flex items-center gap-1.5 text-xs font-bold text-rose-400 cursor-pointer bg-slate-900 px-3 py-1 rounded-lg border border-rose-500/40">
+                <input id="toggle-laser-beam" type="checkbox" checked class="accent-rose-500" />
+                <span>🔦 開啟紅光雷射筆（觀察膠體廷得耳散射光束）</span>
+              </label>
+            </div>
+
+            <!-- 3D Beaker Canvas -->
+            <div class="relative w-full h-72 sm:h-80 rounded-xl overflow-hidden bg-gradient-to-b from-slate-900 via-[#08152c] to-slate-950 border border-sky-500/30">
+              <canvas id="beaker-compare-canvas" class="w-full h-full block"></canvas>
+            </div>
+
+            <!-- Preset Water Sample Selector Buttons -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <button type="button" onclick="setBeakerPreset('storm')" class="p-2 rounded-xl bg-amber-950/90 hover:bg-amber-900 text-amber-200 border border-amber-500/50 text-xs font-black text-left transition">
+                ⛈️ 暴雨泥沙原水<br><span class="text-[11px] font-normal text-amber-300">濁度 380 NTU (極混濁)</span>
+              </button>
+              <button type="button" onclick="setBeakerPreset('algae')" class="p-2 rounded-xl bg-emerald-950/90 hover:bg-emerald-900 text-emerald-200 border border-emerald-500/50 text-xs font-black text-left transition">
+                🦠 優養化微囊藻原水<br><span class="text-[11px] font-normal text-emerald-300">葉綠素a 68 μg/L (藻綠)</span>
+              </button>
+              <button type="button" onclick="setBeakerPreset('femn')" class="p-2 rounded-xl bg-rose-950/90 hover:bg-rose-900 text-rose-200 border border-rose-500/50 text-xs font-black text-left transition">
+                🩸 伏流水高鐵錳原水<br><span class="text-[11px] font-normal text-rose-300">Fe/Mn 1.85 mg/L (紅褐)</span>
+              </button>
+              <button type="button" onclick="setBeakerPreset('normal')" class="p-2 rounded-xl bg-sky-950/90 hover:bg-sky-900 text-sky-200 border border-sky-500/50 text-xs font-black text-left transition">
+                💧 平水期一般原水<br><span class="text-[11px] font-normal text-sky-300">濁度 15 NTU・硬度 255</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right 5 Cols: Real-time Concentration Sliders for Transparency & TDS Blind Test -->
+          <div class="lg:col-span-5 flex flex-col justify-between space-y-3 bg-[#DEEBF7] p-4 rounded-2xl border-2 border-[#0070C0]">
+            <div>
+              <span class="px-2.5 py-0.5 rounded bg-[#002060] text-[#FFD966] text-xs font-black">互動濃度調控器</span>
+              <h3 class="text-base font-black text-[#002060] mt-1">
+                🎛️ 親手拉動水質濃度滑桿，觀察左圖燒杯「透明度與色澤」即時變化！
+              </h3>
+              <p class="text-xs text-[#1E293B] mt-0.5">
+                水體透光率計算公式：$T = 10^{-\alpha \cdot C \cdot L}$。當懸浮微粒（NTU）、藻類或鐵錳濃度愈高，光線散射與吸收愈強，燒杯底部標靶愈模糊！
+              </p>
+            </div>
+
+            <div class="space-y-2.5 bg-white p-3.5 rounded-xl border border-[#0070C0]/30">
+              <div>
+                <div class="flex justify-between text-xs font-black text-[#002060]">
+                  <span>① 原水濁度（懸浮泥沙與膠體濃度）</span>
+                  <span id="opt-turb-label" class="text-[#C55A11] font-mono-code">120 NTU (透光率 22%)</span>
+                </div>
+                <input id="opt-turb-slider" type="range" min="1" max="380" step="1" value="120" class="w-full h-2 mt-1" />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-black text-[#002060]">
+                  <span>② 藻類葉綠素 a 濃度（優養化微囊藻與臭味）</span>
+                  <span id="opt-algae-label" class="text-[#548235] font-mono-code">15 μg/L</span>
+                </div>
+                <input id="opt-algae-slider" type="range" min="0" max="80" step="1" value="15" class="w-full h-2 mt-1" />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-black text-[#002060]">
+                  <span>③ 鐵錳離子氧化態濃度（紅黑水色度來源）</span>
+                  <span id="opt-femn-label" class="text-[#C00000] font-mono-code">0.25 mg/L</span>
+                </div>
+                <input id="opt-femn-slider" type="range" min="0" max="2.5" step="0.05" value="0.25" class="w-full h-2 mt-1" />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-black text-[#002060]">
+                  <span>④ 總溶解固體 TDS / 鈣鎂硬度（離子微粒密度）</span>
+                  <span id="opt-tds-label" class="text-[#7030A0] font-mono-code">280 mg/L</span>
+                </div>
+                <input id="opt-tds-slider" type="range" min="10" max="600" step="5" value="280" class="w-full h-2 mt-1" />
+              </div>
+            </div>
+
+            <!-- Optical Readout Summary Box -->
+            <div class="bg-[#002060] text-white p-3 rounded-xl text-xs space-y-1">
+              <div class="flex items-center justify-between font-bold text-[#FFD966]">
+                <span>👁️ 視覺光學感測診斷結果：</span>
+                <span id="opt-secchi-badge" class="px-2 py-0.5 rounded bg-rose-600 text-white">底部刻度：模糊不可見</span>
+              </div>
+              <p id="opt-diagnosis-desc" class="text-sky-100 leading-relaxed">
+                目前原水混濁度高，雷射光束在左杯呈現強烈廷得耳光柱；經澄清湖「結晶軟化＋臭氧BAC」與拷潭「UF＋LPRO雙薄膜」處理後，濁度降至 0.04–0.12 NTU，底部十字標靶清晰可見！
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drinking Water Quality Standards Interactive Encyclopedia -->
+        <div class="space-y-3 pt-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-base sm:text-lg font-black text-[#002060] flex items-center gap-2">
+              <span>📜 我國《飲用水水質標準》vs. 澄清湖／拷潭高級淨水場「黃金內控標準」一覽表</span>
+            </h3>
+            <span class="text-xs font-bold text-[#7030A0]">💡 點擊任一指標卡片可在上方 3D 燒杯中預覽該水質異常外觀！</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            <!-- Standard 1: Turbidity -->
+            <div onclick="setBeakerPreset('storm')" class="cursor-pointer p-4 rounded-xl bg-[#F2F2F2] hover:bg-[#DEEBF7] border-2 border-[#BDD7EE] hover:border-[#0070C0] transition space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded bg-[#002060] text-[#FFD966] text-xs font-black">物理與感官指標</span>
+                <span class="text-xs font-bold text-[#0070C0]">點擊模擬混濁 ➔</span>
+              </div>
+              <div class="text-base font-black text-[#002060]">1. 濁度（Turbidity）</div>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="font-bold text-[#C00000]">法規上限：≤ 2.0 NTU</span>
+                <span class="font-black text-[#548235]">高級廠實績：0.04–0.15 NTU</span>
+              </div>
+              <p class="text-xs text-[#475569] leading-relaxed">
+                由水中黏土、淤泥、膠體與微生物引起的光散射程度。濁度愈低不僅外觀晶瑩剔透，更能確保病原菌（如隱孢子蟲）無處藏身。
+              </p>
+            </div>
+
+            <!-- Standard 2: Total Hardness -->
+            <div onclick="setBeakerPreset('normal')" class="cursor-pointer p-4 rounded-xl bg-[#F2F2F2] hover:bg-[#DEEBF7] border-2 border-[#BDD7EE] hover:border-[#0070C0] transition space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded bg-[#7030A0] text-white text-xs font-black">適飲性與結垢指標</span>
+                <span class="text-xs font-bold text-[#0070C0]">點擊模擬高硬度 ➔</span>
+              </div>
+              <div class="text-base font-black text-[#002060]">2. 總硬度（Total Hardness as CaCO₃）</div>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="font-bold text-[#C00000]">法規上限：≤ 300 mg/L</span>
+                <span class="font-black text-[#548235]">黃金適飲：80–150 mg/L</span>
+              </div>
+              <p class="text-xs text-[#475569] leading-relaxed">
+                主要為鈣、鎂離子。過去高雄枯水期原水硬度常逾 340 mg/L（煮沸易生白色茶垢、口感苦澀）；澄清湖以「結晶軟化」、拷潭以「LPRO＋UF旁通調水」精準降至約 100–120 mg/L。
+              </p>
+            </div>
+
+            <!-- Standard 3: TDS -->
+            <div onclick="setBeakerPreset('normal')" class="cursor-pointer p-4 rounded-xl bg-[#F2F2F2] hover:bg-[#DEEBF7] border-2 border-[#BDD7EE] hover:border-[#0070C0] transition space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded bg-[#7030A0] text-white text-xs font-black">破冰盲測核心指標</span>
+                <span class="text-xs font-bold text-[#0070C0]">點擊模擬 TDS ➔</span>
+              </div>
+              <div class="text-base font-black text-[#002060]">3. 總溶解固體量（TDS）</div>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="font-bold text-[#C00000]">法規上限：≤ 500 mg/L</span>
+                <span class="font-black text-[#548235]">高級調配水：100–180 mg/L</span>
+              </div>
+              <p class="text-xs text-[#475569] leading-relaxed">
+                水中溶解性礦物質鹽類總和。純 RO 水 TDS 僅約 10 mg/L（無礦物質且具管網腐蝕性），拷潭廠透過 18%–24% UF 旁通勾兌出甘甜適飲的黃金比例水！
+              </p>
+            </div>
+
+            <!-- Standard 4: Fe & Mn -->
+            <div onclick="setBeakerPreset('femn')" class="cursor-pointer p-4 rounded-xl bg-[#F2F2F2] hover:bg-[#DEEBF7] border-2 border-[#BDD7EE] hover:border-[#0070C0] transition space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded bg-[#C55A11] text-white text-xs font-black">伏流水色味與護膜指標</span>
+                <span class="text-xs font-bold text-[#0070C0]">點擊模擬紅黑水 ➔</span>
+              </div>
+              <div class="text-base font-black text-[#002060]">4. 鐵（Fe）與 錳（Mn）</div>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="font-bold text-[#C00000]">法規：Fe ≤ 0.3 / Mn ≤ 0.05 mg/L</span>
+                <span class="font-black text-[#548235]">高級廠：ND (&lt;0.01)</span>
+              </div>
+              <p class="text-xs text-[#475569] leading-relaxed">
+                地下伏流水常含二價鐵錳，氧化後會使自來水變紅褐色或黑水、染黃衣物，更會造成 RO/UF 薄膜不可逆中毒堵塞，須由「氣曝塔＋快濾池」預先氧化攔截。
+              </p>
+            </div>
+
+            <!-- Standard 5: THMs & Odor -->
+            <div onclick="setBeakerPreset('algae')" class="cursor-pointer p-4 rounded-xl bg-[#F2F2F2] hover:bg-[#DEEBF7] border-2 border-[#BDD7EE] hover:border-[#0070C0] transition space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded bg-[#C00000] text-white text-xs font-black">致癌消毒副產物與除臭</span>
+                <span class="text-xs font-bold text-[#0070C0]">點擊模擬藻華原水 ➔</span>
+              </div>
+              <div class="text-base font-black text-[#002060]">5. 總三鹵甲烷（THMs）與臭度</div>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="font-bold text-[#C00000]">法規：THMs ≤ 0.08 mg/L</span>
+                <span class="font-black text-[#548235]">高級廠：&lt; 0.015 mg/L</span>
+              </div>
+              <p class="text-xs text-[#475569] leading-relaxed">
+                傳統淨水場「前加氯」與藻類腐植質反應易產生致癌三鹵甲烷。澄清湖改用「前臭氧」破藻除臭（分解土霉味 Geosmin），從源頭杜絕 THMs 生成！
+              </p>
+            </div>
+
+            <!-- Standard 6: AOC & Cryptosporidium -->
+            <div onclick="setBeakerPreset('algae')" class="cursor-pointer p-4 rounded-xl bg-[#F2F2F2] hover:bg-[#DEEBF7] border-2 border-[#BDD7EE] hover:border-[#0070C0] transition space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded bg-[#548235] text-white text-xs font-black">國際生物穩定與病原防線</span>
+                <span class="text-xs font-bold text-[#0070C0]">點擊檢視 ➔</span>
+              </div>
+              <div class="text-base font-black text-[#002060]">6. 生物穩定度 AOC ＆ 隱孢子蟲</div>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="font-bold text-[#C00000]">荷蘭標準：AOC &lt; 15 μg-C/L</span>
+                <span class="font-black text-[#548235]">隱孢子蟲：100% 零檢出</span>
+              </div>
+              <p class="text-xs text-[#475569] leading-relaxed">
+                澄清湖透過「後臭氧＋BAC 生物活性碳好菌」將 AOC 降至 10–12 μg-C/L，防止配水管網細菌再生；拷潭則以 0.05 μm UF 超微細膜 100% 物理攔截耐氯隱孢子蟲！
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODULE (2): 3D DYNAMIC PROCESS FLOW & MECHANISM OF BOTH PLANTS      -->
+    <!-- =================================================================== -->
+    <div id="plant-flow-view" class="hidden space-y-5">
+      <section class="ide-card rounded-2xl p-4 sm:p-5 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b-2 border-[#00B0F0] pb-3">
+          <div>
+            <span class="px-2.5 py-0.5 rounded bg-[#7030A0] text-white text-xs font-bold">STAGE 2｜3D DYNAMIC ENGINEERING PROCESS & MECHANISM</span>
+            <h2 class="text-lg sm:text-xl font-black text-[#002060] mt-1">
+              🏭 (2) 澄清湖 vs. 拷潭高級淨水場「3D 立體動態操作流程」與各單元處理機制目的
+            </h2>
+            <p class="text-xs sm:text-sm font-medium text-[#475569]">
+              採用 3D 等角立體工程剖面（3D Cutaway Twin）與即時流體粒子動畫，直觀呈現兩座高級水廠從原水到清水的完整蛻變過程。點擊任一立體設備即可深入剖析其物理／化學／生物機制與工程目的！
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <button type="button" onclick="switchTab('chengcing')" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#0070C0] text-white hover:bg-sky-700 transition shadow">
+              下一步：(3) 進入雙水廠互動看診台 ➔
+            </button>
+          </div>
+        </div>
+
+        <!-- Plant Selector Sub-tabs inside Module 2 -->
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-[#DEEBF7] p-3 rounded-xl border border-[#0070C0]">
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="flow-btn-cc" type="button" onclick="selectFlowPlant('chengcing')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#002060] text-[#FFD966] shadow-md transition">
+              🏥 澄清湖高級淨水場（45.2 萬 CMD｜結晶軟化＋臭氧生物活性碳）
+            </button>
+            <button id="flow-btn-kt" type="button" onclick="selectFlowPlant('kaotan')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-white text-[#002060] hover:bg-sky-50 border border-[#0070C0] transition">
+              🔬 高雄拷潭高級淨水場（22.5 萬 CMD｜除鐵錳＋UF超過濾＋LPRO逆滲透）
+            </button>
+          </div>
+          <div class="text-xs font-bold text-[#C00000]">
+            👇 點擊下方 3D 立體設備槽體或下方卡片可切換檢視內部反應機制
+          </div>
+        </div>
+
+        <!-- Full-Width 3D Isometric Animated Plant Pipeline Canvas -->
+        <div class="relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden bg-slate-950 border-2 border-[#002060] shadow-xl">
+          <canvas id="plant-3d-flow-canvas" class="w-full h-full block cursor-pointer"></canvas>
+          <div class="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+            <span id="flow-3d-banner-title" class="px-3 py-1 rounded-lg bg-[#002060]/90 text-[#FFD966] text-xs sm:text-sm font-black border border-[#00B0F0]/50">
+              🏥 澄清湖高級淨水場 3D 動態剖面流程圖（點擊槽體可切換焦點）
+            </span>
+            <span class="px-3 py-1 rounded-lg bg-slate-900/90 text-sky-300 text-xs font-mono-code border border-slate-700">
+              水色動態演變：混濁原水 ➔ 氧化脫穩 ➔ 軟化除硬 ➔ 晶瑩甘甜清水
+            </span>
+          </div>
+        </div>
+
+        <!-- 4 Realistic 3D Equipment Mechanism & Purpose Cards -->
+        <div id="flow-3d-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Populated dynamically by JS with rich 3D SVG illustrations + Mechanism + Purpose -->
+        </div>
+
+        <!-- Detailed Engineering Comparison Table between the 2 Plants -->
+        <div class="rounded-xl p-4 bg-[#F2F2F2] border border-[#BDD7EE] space-y-2.5">
+          <h3 class="text-base font-black text-[#002060] flex items-center gap-2">
+            <span>⚖️ 兩座高級淨水場「核心工程技術路線與除硬度／除污染機制」超級比一比</span>
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm bg-white rounded-lg overflow-hidden">
+              <thead>
+                <tr class="bg-[#002060] text-white">
+                  <th class="p-2.5">比較維度</th>
+                  <th class="p-2.5 text-[#FFD966]">🏥 澄清湖高級淨水場（化學結晶 ＋ 生物活性碳路線）</th>
+                  <th class="p-2.5 text-sky-300">🔬 高雄拷潭高級淨水場（物理雙薄膜 UF + LPRO 路線）</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 text-[#1E293B]">
+                <tr>
+                  <td class="p-2.5 font-black text-[#002060]">設計處理規模</td>
+                  <td class="p-2.5 font-bold">前臭氧 45.2 萬 CMD ／ 快混沉澱 48.0 萬 CMD ／ 軟化與 BAC 40.5 萬 CMD</td>
+                  <td class="p-2.5 font-bold">UF 超過濾 25.0 萬 CMD ／ LPRO 與產水混合池出水 22.5 萬 CMD</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-black text-[#002060]">前處理防線目的</td>
+                  <td class="p-2.5"><strong>前臭氧接觸池：</strong>以 $\text{O}_3$（$2.07\text{ V}$）破壞微囊藻與土霉味，取代前加氯避免生成致癌<strong>三鹵甲烷（THMs）</strong>。</td>
+                  <td class="p-2.5"><strong>氣曝塔＋快濾池：</strong>曝氣溶氧將伏流水 $\text{Fe}^{2+}/\text{Mn}^{2+}$ 氧化為<strong>三價鐵 $\text{Fe(OH)}_3$ 與二氧化錳 $\text{MnO}_2$</strong> 截留，防止薄膜中毒。</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-black text-[#002060]">除濁與除病原機制</td>
+                  <td class="p-2.5"><strong>快混與脈動沉澱池：</strong>投加 PAC 壓縮<strong>電雙層</strong>，形成懸浮<strong>污泥毯</strong>攔截膠羽（AI 水下 CNN 鏡頭取代 30 分鐘<strong>瓶杯試驗</strong>）。</td>
+                  <td class="p-2.5"><strong>UF 超過濾系統：</strong>採用 <strong>$0.05\text{ }\mu\text{m}$</strong> 中空纖維膜物理篩分，100% 攔截膠體與耐氯<strong>隱孢子蟲</strong>（出水 $\text{SDI} < 3$）。</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-black text-[#002060]">除硬度（軟化）核心</td>
+                  <td class="p-2.5"><strong>結晶軟化反應槽：</strong>底部填充<strong>石英砂</strong>晶種，加 $\text{NaOH}$ 控 pH 於 <strong>8.8～9.4</strong>，異相成核長成<strong>碳酸鈣（$\text{CaCO}_3$）</strong>結晶珠（零污泥餅）。</td>
+                  <td class="p-2.5"><strong>LPRO 低壓逆滲透：</strong>依「<strong>溶解-擴散模型</strong>」截留鈣鎂與 TDS，並監控<strong>朗格利爾飽和指數（LSI）</strong>防止膜尾結垢。</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-black text-[#002060]">最終水質調質與穩定</td>
+                  <td class="p-2.5"><strong>後臭氧＋BAC 生物活性碳：</strong>斷鍵大分子後由活性碳<strong>生物膜（異營菌）</strong>礦化分解 <strong>AOC</strong> 至荷蘭標準 <strong>$15\text{ }\mu\text{g-C/L}$</strong> 以下。</td>
+                  <td class="p-2.5"><strong>UF / LPRO 產水混合池：</strong>將 <strong>18%～24%</strong> 已除菌除濁之 UF 產水旁通（Bypass）勾兌 LPRO 純水，保留適飲礦物質並省高壓電費！</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODULE (3): INTERACTIVE DUAL PLANT DIAGNOSTIC SIMULATOR (EXISTING+) -->
+    <!-- =================================================================== -->
+    <div id="simulator-view" class="space-y-5">
+
+      <!-- STEP 1: SUDDEN SYMPTOM SCENARIOS (病徵掛號區) -->
+      <section class="ide-card rounded-2xl p-4 sm:p-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+          <h2 class="text-base sm:text-lg font-black text-[#002060] dark:text-sky-300 flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-md bg-[#0070C0] text-white text-xs sm:text-sm font-bold">Step 1｜掛號問診</span>
+            <span id="scenario-section-title">選擇水廠突發「病徵」情境（共 8 種感測器水質異常事件）</span>
+          </h2>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-[#7F7F7F]">點擊下方 4 張病徵卡切換異常情境</span>
+            <button type="button" onclick="switchTab('online-quiz')" class="px-3 py-1 rounded-lg bg-[#548235] text-white text-xs font-black hover:bg-emerald-700 transition">
+              ✍️ 填寫線上學習單 ➔
+            </button>
+          </div>
+        </div>
+
+        <!-- Scenario Cards Grid -->
+        <div id="scenario-buttons-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <!-- Populated dynamically by JS -->
+        </div>
+
+        <!-- Active Symptom Alert & AI Trigger Bar -->
+        <div id="symptom-alert-box" class="mt-4 rounded-xl p-4 bg-[#FBE5D6] border-2 border-[#C55A11] flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="symptom-badge" class="px-2.5 py-0.5 text-xs sm:text-sm font-black rounded bg-[#C55A11] text-white">情境 0：正常平水期</span>
+              <span id="symptom-title" class="text-base sm:text-lg font-black text-[#002060]">原水水質穩定，請維持最佳節能操作</span>
+            </div>
+            <p id="symptom-detail" class="text-xs sm:text-sm font-medium text-[#262626] leading-relaxed">
+              進水濁度 15 NTU、總硬度 235 mg/L、葉綠素 a 10 μg/L。可嘗試微調各單元滑桿觀察水質與電費變化。
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <button id="btn-reset-sliders" type="button" class="px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-[#002060] border-2 border-[#002060] hover:bg-slate-100 transition">
+              ↺ 重設為傳統人工定值
+            </button>
+            <button id="btn-ai-diagnose" type="button" class="pulse-ring px-4 py-2.5 rounded-xl font-black text-xs sm:text-sm bg-[#7030A0] text-white border-2 border-[#FFD966] shadow-lg hover:bg-purple-800 transition flex items-center gap-1.5">
+              <span>🤖</span>
+              <span>AI 綠色大腦一鍵看診開處方</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2: ANTIGRAVITY IDE 3-ZONE WORKBENCH -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+        <!-- LEFT / CENTER 7 COLS: 3D Process Units + Parameter Sliders + Actual Engineering Principles -->
+        <section class="lg:col-span-7 space-y-5">
+
+          <div class="ide-card rounded-2xl p-4 sm:p-5 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h2 class="text-base sm:text-lg font-black text-[#002060] dark:text-sky-300 flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-md bg-[#7030A0] text-white text-xs sm:text-sm font-bold">Step 2｜3D 實體單元調控</span>
+                <span>點擊立體處理單元檢視「操作機制與目的」並拉動滑桿</span>
+              </h2>
+            </div>
+
+            <!-- Interactive 3D Process Pipeline Chain -->
+            <div id="process-chain-container" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <!-- Populated by JS with 3D isometric unit SVG icons -->
+            </div>
+
+            <!-- ACTUAL OPERATION PRINCIPLE DEEP-DIVE CARD -->
+            <div id="unit-principle-card" class="rounded-xl p-4 bg-[#DEEBF7] border-2 border-[#0070C0] space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#0070C0]/30 pb-2">
+                <div class="flex items-center gap-2">
+                  <span id="principle-unit-badge" class="px-2.5 py-0.5 rounded bg-[#002060] text-[#FFD966] text-xs font-black">單元 1｜工程原理</span>
+                  <h3 id="principle-unit-title" class="text-base sm:text-lg font-black text-[#002060]">前臭氧接觸池（Pre-Ozonation）實際操作原理</h3>
+                </div>
+                <span id="principle-design-cap" class="text-xs font-bold text-[#C55A11] bg-[#FFF2CC] px-2.5 py-0.5 rounded border border-[#C55A11]/40">設計規模：45.2 萬 CMD</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-[#1E293B]">
+                <div class="bg-white/95 p-3 rounded-lg border border-[#0070C0]/20 space-y-1.5">
+                  <div class="font-black text-[#0070C0] flex items-center justify-between">
+                    <span>⚙️ 物理／化學／生物反應機制：</span>
+                    <span class="text-[11px] px-1.5 py-0.5 rounded bg-[#FFF2CC] text-[#C00000] border border-[#C55A11]">紅字對應線上填空</span>
+                  </div>
+                  <p id="principle-mechanism-text" class="leading-relaxed"></p>
+                </div>
+                <div class="bg-white/95 p-3 rounded-lg border border-[#7030A0]/20 space-y-1.5">
+                  <div class="font-black text-[#7030A0]">📐 對應 Antigravity AI 代理與控制公式：</div>
+                  <div id="principle-formula-box" class="font-mono-code text-xs bg-slate-900 text-emerald-300 p-2 rounded"></div>
+                  <p id="principle-control-text" class="leading-relaxed text-xs"></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Unit Sliders List -->
+            <div id="unit-sliders-container" class="space-y-3">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- AI Prescription & Antigravity Agent Diff View -->
+          <div id="ai-prescription-panel" class="ide-card rounded-2xl p-4 sm:p-5 bg-[#F1EBF7] border-2 border-[#7030A0] space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded bg-[#7030A0] text-white text-xs font-black">Antigravity Agent Panel</span>
+                <h3 class="text-base font-black text-[#002060]">AI 綠色大腦「四診合參」處方箋與終端機 Diff 比對視窗</h3>
+              </div>
+              <span id="ai-status-pill" class="text-xs font-bold px-3 py-1 rounded-full bg-[#FBE5D6] text-[#C55A11] border border-[#C55A11]">規劃中：手動調控摸索模式</span>
+            </div>
+
+            <p id="ai-prescription-text" class="text-xs sm:text-base font-medium text-[#262626] leading-relaxed bg-white p-3.5 rounded-xl border border-[#7030A0]/30"></p>
+
+            <div class="bg-slate-950 text-slate-100 rounded-xl p-3.5 font-mono-code text-xs space-y-2 border border-slate-800">
+              <div class="flex flex-wrap items-center justify-between gap-2 text-sky-400 border-b border-slate-800 pb-1.5">
+                <span>// ANTIGRAVITY_AGENT_DIFF_PATCH (手動摸索 ➔ AI 黃金處方)</span>
+                <span id="agent-exec-status" class="text-emerald-400 font-bold">READY</span>
+              </div>
+              <div id="agent-diff-log" class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1"></div>
+              <div id="agent-score-diff-bar" class="pt-2 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs"></div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- RIGHT 5 COLS: 3D Cutaway Microscopic Visualizer + Real-Time Water Transparency Beakers + KPI + Radar -->
+        <section class="lg:col-span-5 space-y-5">
+
+          <!-- Live 3D Cutaway + Water Transparency Visualizer Card -->
+          <div class="ide-card rounded-2xl p-4 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <h3 id="canvas-unit-title" class="text-base font-black text-[#002060] dark:text-white">
+                  🔍 3D 實體反應器剖面與水體透明度透視鏡
+                </h3>
+                <p id="canvas-unit-subtitle" class="text-xs font-medium text-[#475569]">
+                  立體槽體反應動態 ＋ 隨濃度即時變化的原水/出水透明度燒杯
+                </p>
+              </div>
+              <span id="canvas-live-tag" class="px-2.5 py-1 text-xs font-mono-code font-bold rounded bg-[#002060] text-[#FFD966] shrink-0">3D LIVE TWIN</span>
+            </div>
+
+            <div class="relative w-full h-64 sm:h-72 rounded-xl overflow-hidden bg-slate-950 border-2 border-[#002060]">
+              <canvas id="micro-canvas" class="w-full h-full block"></canvas>
+              <div id="canvas-alert-banner" class="hidden absolute top-2 left-2 right-2 px-3 py-1 rounded-lg bg-[#C00000]/95 text-white text-xs font-black text-center shadow-lg">
+                ⚠️ 警告：pH 超過 9.65 產生氫氧化鎂 Mg(OH)₂ 糊狀污泥，結晶珠變紅且水體混濁度反彈！
+              </div>
+              <div id="canvas-overlay-metrics" class="absolute bottom-2 left-2 right-2 flex flex-wrap items-center justify-between gap-1 pointer-events-none text-xs font-mono-code bg-slate-950/85 px-3 py-1.5 rounded-lg border border-sky-500/40 text-white">
+                <span id="overlay-left">單元參數：1.0 mg/L</span>
+                <span id="overlay-right" class="text-[#FFD966] font-bold">出水透光率：98%｜健康度：88 分</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Water Plant Vital Signs (4 KPI Cards + Radar Chart) -->
+          <div class="ide-card rounded-2xl p-4 space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2">
+              <h3 class="text-base font-black text-[#002060] dark:text-white flex items-center gap-1.5">
+                <span>📊</span>
+                <span>水廠生命徵象監測儀（KPI 量化錨點）</span>
+              </h3>
+              <button id="btn-save-score" type="button" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-black bg-[#C55A11] text-white hover:bg-amber-800 transition shadow flex items-center gap-1">
+                <span>🏆</span>
+                <span>登錄本組看診成績</span>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div class="bg-[#F2F2F2] dark:bg-slate-900 border border-[#BDD7EE] rounded-xl p-3 text-center">
+                <div class="text-xs font-bold text-[#002060] dark:text-slate-300">水廠健康總分</div>
+                <div class="mt-1">
+                  <span id="kpi-score" class="kpi-ok-green">88</span>
+                  <span class="text-xs font-bold text-[#7F7F7F]">/100</span>
+                </div>
+                <div id="kpi-score-status" class="text-xs font-bold text-[#548235] mt-1">已運作：優良</div>
+              </div>
+
+              <div class="bg-[#F2F2F2] dark:bg-slate-900 border border-[#BDD7EE] rounded-xl p-3 text-center">
+                <div class="text-xs font-bold text-[#002060] dark:text-slate-300">出水濁度</div>
+                <div class="mt-1">
+                  <span id="kpi-turbidity" class="kpi-hero-amber">0.18</span>
+                  <span class="text-xs font-bold text-[#7F7F7F]">NTU</span>
+                </div>
+                <div id="kpi-turbidity-limit" class="text-xs font-semibold text-[#7F7F7F] mt-1">目標 &lt; 0.30</div>
+              </div>
+
+              <div class="bg-[#F2F2F2] dark:bg-slate-900 border border-[#BDD7EE] rounded-xl p-3 text-center">
+                <div class="text-xs font-bold text-[#002060] dark:text-slate-300">出水總硬度</div>
+                <div class="mt-1">
+                  <span id="kpi-hardness" class="kpi-hero-amber">118</span>
+                  <span class="text-xs font-bold text-[#7F7F7F]">mg/L</span>
+                </div>
+                <div id="kpi-hardness-limit" class="text-xs font-semibold text-[#7F7F7F] mt-1">適飲 80–150</div>
+              </div>
+
+              <div class="bg-[#F2F2F2] dark:bg-slate-900 border border-[#BDD7EE] rounded-xl p-3 text-center">
+                <div id="kpi-fourth-label" class="text-xs font-bold text-[#002060] dark:text-slate-300">AOC 生物穩定度</div>
+                <div class="mt-1">
+                  <span id="kpi-fourth-val" class="kpi-hero-amber">12</span>
+                  <span id="kpi-fourth-unit" class="text-xs font-bold text-[#7F7F7F]">μg-C/L</span>
+                </div>
+                <div id="kpi-cost-sub" class="text-xs font-bold text-[#0070C0] mt-1">成本 2.15 元/噸</div>
+              </div>
+            </div>
+
+            <div class="relative h-56 w-full bg-white dark:bg-slate-950 rounded-xl p-2 border border-[#BDD7EE]">
+              <canvas id="diagnostic-radar-chart"></canvas>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODULE (4): ONLINE INTERACTIVE WORKSHEET, AUTO-GRADING & FOOYIN CTA -->
+    <!-- =================================================================== -->
+    <div id="online-quiz-view" class="hidden space-y-5">
+      <section class="ide-card rounded-2xl p-4 sm:p-5 space-y-6">
+        <!-- Header & Live Score Banner -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b-2 border-[#00B0F0] pb-3">
+          <div>
+            <span class="px-2.5 py-0.5 rounded bg-[#548235] text-white text-xs font-bold">STAGE 4｜INTERACTIVE E-WORKSHEET & INSTANT FEEDBACK</span>
+            <h2 class="text-lg sm:text-xl font-black text-[#002060] mt-1">
+              🎓 (4) 線上互動診斷病歷學習單・自動評分與即時學習成效回饋系統
+            </h2>
+            <p class="text-xs sm:text-sm font-medium text-[#475569]">
+              免紙本抄寫！學員可直接在線上完成「破冰盲測 TDS 透明度模擬」、「兩廠工程原理填空」與「總院長臨床問答」，系統即時批改計分、提供多面向詳解回饋並頒發主治醫師證書！
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <div class="px-3.5 py-2 rounded-xl bg-[#002060] text-white text-xs sm:text-sm font-black flex items-center gap-2 border-2 border-[#FFD966]">
+              <span>📊 線上學習單總得分：</span>
+              <span id="online-total-score" class="text-xl text-[#FFD966] font-mono-code">0</span>
+              <span>/ 100 分</span>
+            </div>
+            <button id="btn-grade-all" type="button" class="pulse-ring px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black bg-[#7030A0] text-white border-2 border-[#FFD966] hover:bg-purple-800 transition shadow-lg">
+              ✅ 一鍵批改評分＆顯示多元詳解
+            </button>
+            <button id="btn-fill-demo-answers" type="button" class="px-3 py-2.5 rounded-xl text-xs font-bold bg-[#DEEBF7] text-[#002060] border border-[#0070C0] hover:bg-sky-200 transition" title="供教師或助教示範一鍵填入正確答案">
+              🪄 助教示範填入解答
+            </button>
+          </div>
+        </div>
+
+        <!-- PART A: 破冰盲測 TDS 實測紀錄與燒杯透明度即時模擬 -->
+        <div class="rounded-2xl p-4 bg-[#FFF2CC] border-2 border-[#C55A11] space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-base font-black text-[#002060] flex items-center gap-2">
+              <span>🥤 第一部分：破冰盲測 TDS 實測紀錄與「不同濃度透明度變化」線上模擬（15 分）</span>
+            </h3>
+            <span id="partA-score-badge" class="px-2.5 py-0.5 rounded bg-[#C55A11] text-white text-xs font-black">尚未批改（滿分 15 分）</span>
+          </div>
+          <p class="text-xs sm:text-sm text-[#1E293B]">
+            請輸入或拉動下方 A、B、C 三杯水之 TDS（mg/L）與混濁度（NTU），觀察右側<strong>「三杯水真實透明度與離子微粒濃度模擬圖」</strong>，並選擇各杯水的正確水質身分！
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+            <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <!-- Cup A -->
+              <div class="bg-white p-3 rounded-xl border-2 border-[#C55A11]/50 space-y-2">
+                <div class="font-black text-sm text-[#002060]">🥛 A 杯水樣實測</div>
+                <div>
+                  <label class="font-bold text-[#475569]">實測 TDS (mg/L)：</label>
+                  <input id="cupA-tds" type="number" value="285" min="1" max="800" class="w-full mt-0.5 px-2 py-1 border rounded font-mono-code font-black text-[#C55A11] text-sm" />
+                </div>
+                <div>
+                  <label class="font-bold text-[#475569]">外觀濁度 (NTU)：</label>
+                  <input id="cupA-ntu" type="range" value="35" min="0" max="200" class="w-full" />
+                  <div id="cupA-ntu-label" class="text-[11px] font-mono-code text-right text-[#C55A11]">35 NTU (微混濁)</div>
+                </div>
+                <div>
+                  <label class="font-bold text-[#002060]">判讀 A 杯水質身分：</label>
+                  <select id="cupA-role" class="w-full mt-0.5 p-1.5 border rounded font-bold text-[#002060] bg-[#DEEBF7]">
+                    <option value="raw" selected>高硬度模擬原水 (260–350 mg/L)</option>
+                    <option value="ro">LPRO 純水 (8–20 mg/L)</option>
+                    <option value="blend">黃金調配水 (95–120 mg/L)</option>
+                  </select>
+                </div>
+                <div id="cupA-feedback" class="hidden text-[11px] font-bold p-1.5 rounded"></div>
+              </div>
+
+              <!-- Cup B -->
+              <div class="bg-white p-3 rounded-xl border-2 border-[#0070C0]/50 space-y-2">
+                <div class="font-black text-sm text-[#002060]">🥛 B 杯水樣實測</div>
+                <div>
+                  <label class="font-bold text-[#475569]">實測 TDS (mg/L)：</label>
+                  <input id="cupB-tds" type="number" value="12" min="1" max="800" class="w-full mt-0.5 px-2 py-1 border rounded font-mono-code font-black text-[#0070C0] text-sm" />
+                </div>
+                <div>
+                  <label class="font-bold text-[#475569]">外觀濁度 (NTU)：</label>
+                  <input id="cupB-ntu" type="range" value="0" min="0" max="50" class="w-full" />
+                  <div id="cupB-ntu-label" class="text-[11px] font-mono-code text-right text-[#0070C0]">0.03 NTU (極清澈)</div>
+                </div>
+                <div>
+                  <label class="font-bold text-[#002060]">判讀 B 杯水質身分：</label>
+                  <select id="cupB-role" class="w-full mt-0.5 p-1.5 border rounded font-bold text-[#002060] bg-[#DEEBF7]">
+                    <option value="raw">高硬度模擬原水 (260–350 mg/L)</option>
+                    <option value="ro" selected>LPRO 純水 (8–20 mg/L)</option>
+                    <option value="blend">黃金調配水 (95–120 mg/L)</option>
+                  </select>
+                </div>
+                <div id="cupB-feedback" class="hidden text-[11px] font-bold p-1.5 rounded"></div>
+              </div>
+
+              <!-- Cup C -->
+              <div class="bg-white p-3 rounded-xl border-2 border-[#548235]/50 space-y-2">
+                <div class="font-black text-sm text-[#002060]">🥛 C 杯水樣實測</div>
+                <div>
+                  <label class="font-bold text-[#475569]">實測 TDS (mg/L)：</label>
+                  <input id="cupC-tds" type="number" value="105" min="1" max="800" class="w-full mt-0.5 px-2 py-1 border rounded font-mono-code font-black text-[#548235] text-sm" />
+                </div>
+                <div>
+                  <label class="font-bold text-[#475569]">外觀濁度 (NTU)：</label>
+                  <input id="cupC-ntu" type="range" value="0" min="0" max="50" class="w-full" />
+                  <div id="cupC-ntu-label" class="text-[11px] font-mono-code text-right text-[#548235]">0.05 NTU (晶瑩適飲)</div>
+                </div>
+                <div>
+                  <label class="font-bold text-[#002060]">判讀 C 杯水質身分：</label>
+                  <select id="cupC-role" class="w-full mt-0.5 p-1.5 border rounded font-bold text-[#002060] bg-[#DEEBF7]">
+                    <option value="raw">高硬度模擬原水 (260–350 mg/L)</option>
+                    <option value="ro">LPRO 純水 (8–20 mg/L)</option>
+                    <option value="blend" selected>黃金調配水 (95–120 mg/L)</option>
+                  </select>
+                </div>
+                <div id="cupC-feedback" class="hidden text-[11px] font-bold p-1.5 rounded"></div>
+              </div>
+            </div>
+
+            <!-- Live 3-Cup Transparency & TDS Particle Canvas -->
+            <div class="lg:col-span-5 bg-slate-950 rounded-xl p-3 border-2 border-[#002060]">
+              <div class="text-xs font-black text-[#FFD966] mb-1.5 flex items-center justify-between">
+                <span>🔬 A / B / C 三杯水「不同濃度之透明度與微粒」即時模擬圖</span>
+                <span class="text-[11px] text-sky-300">拉動左側滑桿即時變化</span>
+              </div>
+              <div class="relative w-full h-48 rounded-lg overflow-hidden bg-slate-900">
+                <canvas id="tds-cups-canvas" class="w-full h-full block"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PART B: 第一診間＆第二診間 工程操作原理線上填空（45 分，共 15 格，支援多元同義答案） -->
+        <div class="rounded-2xl p-4 bg-[#DEEBF7] border-2 border-[#0070C0] space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-base font-black text-[#002060]">
+                ✍️ 第二部分：兩廠 8 大處理單元「物理／化學／生物操作原理」線上填空（45 分，每格 3 分）
+              </h3>
+              <p class="text-xs text-[#1E293B]">
+                支援<strong>多元同義答案批改</strong>（例如填寫「臭氧」、「O3」、「O₃」皆給滿分！也可點擊詞庫膠囊快速帶入）。批改後會同時列出所有可接受的多元標準答案！
+              </p>
+            </div>
+            <span id="partB-score-badge" class="px-2.5 py-0.5 rounded bg-[#0070C0] text-white text-xs font-black">尚未批改（滿分 45 分）</span>
+          </div>
+
+          <!-- Word Bank Helper Pills -->
+          <div class="bg-white/90 p-3 rounded-xl border border-[#0070C0]/30 text-xs space-y-1.5">
+            <div class="font-black text-[#7030A0]">💡 輔助詞庫提示（可直接打字輸入，或先點選下方填空框再點擊詞庫膠囊自動帶入）：</div>
+            <div id="word-bank-container" class="flex flex-wrap gap-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- 澄清湖填空區 -->
+            <div class="bg-white p-4 rounded-xl border border-[#0070C0]/40 space-y-3 text-xs sm:text-sm leading-loose">
+              <div class="font-black text-[#002060] text-sm sm:text-base border-b pb-1.5 flex items-center justify-between">
+                <span>🏥 第一診間：澄清湖高級淨水場（8 格）</span>
+                <span class="text-xs text-[#7030A0]">設計水量 45.2 萬 CMD</span>
+              </div>
+
+              <div>
+                <span class="font-black text-[#0070C0]">【單元 1 前臭氧接觸池】</span>
+                利用高壓放電產生強氧化劑
+                <input data-blank-id="cc_b1" type="text" placeholder="(1) 填入氧化劑" class="blank-input w-28" />
+                （標準電位 2.07 V），先行破壞優養化微囊藻細胞壁與土霉味分子，取代傳統「前加氯」，從源頭避免與腐植質反應生成致癌消毒副產物
+                <input data-blank-id="cc_b2" type="text" placeholder="(2) 消毒副產物" class="blank-input w-28" />
+                （THMs）。
+                <div id="fb-cc_b1_b2" class="hidden text-xs mt-1 p-1.5 rounded bg-slate-100"></div>
+              </div>
+
+              <div>
+                <span class="font-black text-[#0070C0]">【單元 2 快混與脈動沉澱池】</span>
+                投加多元氯化鋁（PACl）進行
+                <input data-blank-id="cc_b3" type="text" placeholder="(3) 電性機制" class="blank-input w-24" />
+                壓縮與電性中和使微粒脫穩，於脈動式沉澱池形成懸浮
+                <input data-blank-id="cc_b4" type="text" placeholder="(4) 懸浮攔截層" class="blank-input w-28" />
+                攔截膠羽。AI 以水下鏡頭取代耗時 30 分鐘的傳統人工
+                <input data-blank-id="cc_b5" type="text" placeholder="(5) 傳統試驗" class="blank-input w-28" />
+                （Jar Test）。
+                <div id="fb-cc_b3_b5" class="hidden text-xs mt-1 p-1.5 rounded bg-slate-100"></div>
+              </div>
+
+              <div>
+                <span class="font-black text-[#0070C0]">【單元 3 結晶軟化反應槽】</span>
+                於槽底填充
+                <input data-blank-id="cc_b6" type="text" placeholder="(6) 晶種材質" class="blank-input w-24" />
+                作為晶種，注入 NaOH 控制黃金 pH 於 8.8～9.4，使鈣離子在晶種表面發生異相成核結晶長成
+                <input data-blank-id="cc_b7" type="text" placeholder="(7) 結晶產物" class="blank-input w-28" />
+                結晶珠排出，實現零化學污泥餅。
+                <div id="fb-cc_b6_b7" class="hidden text-xs mt-1 p-1.5 rounded bg-slate-100"></div>
+              </div>
+
+              <div>
+                <span class="font-black text-[#0070C0]">【單元 4 後臭氧＋生物活性碳 BAC】</span>
+                先由後臭氧將大分子有機物斷鍵切碎為親水性小分子，再進入不加氯之活性碳濾床，由碳粒表面附著之生物膜（異營菌）好菌將生物可利用有機碳（AOC）徹底礦化分解為 CO₂ 與 H₂O，將出水 AOC 穩定控制在荷蘭生物穩定標準
+                <input data-blank-id="cc_b8" type="text" placeholder="(8) 數值標準" class="blank-input w-20" />
+                μg-C/L 以下。
+                <div id="fb-cc_b8" class="hidden text-xs mt-1 p-1.5 rounded bg-slate-100"></div>
+              </div>
+            </div>
+
+            <!-- 拷潭填空區 -->
+            <div class="bg-white p-4 rounded-xl border border-[#0070C0]/40 space-y-3 text-xs sm:text-sm leading-loose">
+              <div class="font-black text-[#002060] text-sm sm:text-base border-b pb-1.5 flex items-center justify-between">
+                <span>🔬 第二診間：拷潭高級淨水場（7 格）</span>
+                <span class="text-xs text-[#7030A0]">設計出水量 22.5 萬 CMD</span>
+              </div>
+
+              <div>
+                <span class="font-black text-[#0070C0]">【單元 1 氣曝塔與快濾池】</span>
+                將地下伏流水中溶解態二價鐵（Fe²⁺）與二價錳（Mn²⁺）經曝氣溶氧氧化為不溶性
+                <input data-blank-id="kt_b1" type="text" placeholder="(9) 鐵氧化沉澱物" class="blank-input w-32" />
+                與
+                <input data-blank-id="kt_b2" type="text" placeholder="(10) 錳氧化沉澱物" class="blank-input w-28" />
+                沉澱，並由快濾池石英砂截留，防止後端昂貴薄膜發生不可逆鐵錳中毒堵塞。
+                <div id="fb-kt_b1_b2" class="hidden text-xs mt-1 p-1.5 rounded bg-slate-100"></div>
+              </div>
+
+              <div>
+                <span class="font-black text-[#0070C0]">【單元 2 UF 超過濾系統】</span>
+                採用孔徑僅
+                <input data-blank-id="kt_b3" type="text" placeholder="(11) 孔徑數值" class="blank-input w-20" />
+                μm 之中空纖維超過濾薄膜，透過物理尺寸篩分機制 100% 攔截膠體、微粒與抗氯性極強之
+                <input data-blank-id="kt_b4" type="text" placeholder="(12) 致病微生物" class="blank-input w-28" />
+                （致病原生動物），使出水淤泥密度指數 SDI 小於 3。
+                <div id="fb-kt_b3_b4" class="hidden text-xs mt-1 p-1.5 rounded bg-slate-100"></div>
+              </div>
+
+              <div>
+                <span class="font-black text-[#0070C0]">【單元 3 LPRO 低壓逆滲透】</span>
+                施加大於滲透壓之操作壓力，依「
+                <input data-blank-id="kt_b5" type="text" placeholder="(13) 傳輸模型名稱" class="blank-input w-32" />
+                模型」讓水分子透過聚醯胺致密層，高效截留鈣鎂硬度離子與總溶解固體（TDS），並即時監控
+                <input data-blank-id="kt_b6" type="text" placeholder="(14) 飽和指數名稱" class="blank-input w-28" />
+                飽和指數（LSI）防止尾部膜管結垢。
+                <div id="fb-kt_b5_b6" class="hidden text-xs mt-1 p-1.5 rounded bg-slate-100"></div>
+              </div>
+
+              <div>
+                <span class="font-black text-[#0070C0]">【單元 4 UF / LPRO 產水混合池】</span>
+                純 LPRO 產水缺乏礦物質且具管網腐蝕性；故將約
+                <input data-blank-id="kt_b7" type="text" placeholder="(15) 旁通百分比區間" class="blank-input w-28" />
+                % 已除菌除濁之 UF 產水旁通（Bypass）與 LPRO 產水依質量平衡調配，保留適度鈣鎂離子（約 100 mg/L）並大幅節省高壓泵電力。
+                <div id="fb-kt_b7" class="hidden text-xs mt-1 p-1.5 rounded bg-slate-100"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PART C: 實戰看診處方線上紀錄表（自動同步模擬器數據，亦可線上編輯與對照多元解答） -->
+        <div class="rounded-2xl p-4 bg-[#F2F2F2] border-2 border-[#BDD7EE] space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-base font-black text-[#002060]">
+                📊 第三部分：兩廠 8 大水質病徵「手動摸索 vs. AI 綠色大腦處方」線上同步看診紀錄表
+              </h3>
+              <p class="text-xs text-[#475569]">
+                系統已自動帶入您在「第一診間」與「第二診間」拉動滑桿的實測數據；點擊「👁️ 顯示／隱藏助教標準解答」可隨時核對黃金處方！
+              </p>
+            </div>
+            <button id="btn-toggle-answers" type="button" class="px-3 py-1.5 rounded-lg text-xs font-black bg-[#7030A0] text-white hover:bg-purple-800 transition">
+              👁️ 顯示／隱藏助教標準解答
+            </button>
+          </div>
+          <div class="overflow-x-auto rounded-xl border border-[#BDD7EE]">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-[#002060] text-white">
+                  <th class="py-2 px-3 font-bold">診間別</th>
+                  <th class="py-2 px-3 font-bold">突發水質病徵情境</th>
+                  <th class="py-2 px-3 font-bold">單元 1（手動➔AI）</th>
+                  <th class="py-2 px-3 font-bold">單元 2（手動➔AI）</th>
+                  <th class="py-2 px-3 font-bold">單元 3（手動➔AI）</th>
+                  <th class="py-2 px-3 font-bold">單元 4（手動➔AI）</th>
+                  <th class="py-2 px-3 font-bold">健康總分（手動➔AI）</th>
+                  <th class="py-2 px-3 font-bold">助教駐桌解說重點</th>
+                </tr>
+              </thead>
+              <tbody id="worksheet-summary-tbody" class="divide-y divide-slate-200 bg-white text-[#1E293B]"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PART D: 學習成效即時問答測驗（40 分，共 5 題臨床決策單選與複選問答，點選立即呈現即時回饋） -->
+        <div class="rounded-2xl p-4 bg-[#F1EBF7] border-2 border-[#7030A0] space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-base font-black text-[#002060]">
+                🧠 第四部分：水廠總院長臨床會診「即時互動問答測驗」（40 分，每題 8 分，作答即刻顯示學時回饋！）
+              </h3>
+              <p class="text-xs text-[#475569]">
+                點選任一選項後，系統會<strong>立即呈現即時診斷回饋（Instant Formative Feedback）</strong>與背後環工科學原理！
+              </p>
+            </div>
+            <span id="partD-score-badge" class="px-2.5 py-0.5 rounded bg-[#7030A0] text-white text-xs font-black">已得 0 / 40 分</span>
+          </div>
+
+          <div id="interactive-quiz-container" class="space-y-3.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- PART E: 個人化學習成效診斷書 ＆ 輔英科技大學環境工程與科學系招生亮點召喚卡 -->
+        <div id="admission-showcase-card" class="rounded-2xl p-5 bg-gradient-to-br from-[#002060] via-[#0b2b6b] to-[#3b1261] text-white border-2 border-[#FFD966] shadow-2xl space-y-4">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-sky-400/30 pb-4">
+            <div class="space-y-1">
+              <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#FFD966] text-[#002060] text-xs font-black">
+                <span>🎖️ AI 水廠主治醫師學習成效即時診斷報告</span>
+              </div>
+              <h3 id="cert-title-banner" class="text-xl sm:text-2xl font-black text-white">
+                完成上方線上填答並點擊「✅ 一鍵批改評分」，即可領取本組專屬 AI 主治醫師認證與升學導航！
+              </h3>
+              <p id="cert-Personalized-feedback" class="text-xs sm:text-sm text-sky-200 leading-relaxed">
+                透過今天的「澄清湖與拷潭高級淨水場數位雙生看診」，你已經親手體驗了環境工程師如何結合 AI 演算法守護大高雄百萬市民的每一滴飲用水！
+              </p>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center gap-2 shrink-0">
+              <button id="btn-submit-quiz-to-board" type="button" class="px-4 py-2.5 rounded-xl bg-[#FFD966] text-[#002060] font-black text-xs sm:text-sm hover:bg-amber-300 transition shadow-lg">
+                🏆 將線上評量成績登錄至四組排行榜
+              </button>
+            </div>
+          </div>
+
+          <!-- Why Study at Fooyin Env Eng Showcase (吸引學生到校就讀) -->
+          <div class="space-y-2.5">
+            <div class="text-sm sm:text-base font-black text-[#FFD966] flex items-center gap-2">
+              <span>🚀 喜歡今天充滿科技感的 AI 綠色大腦實作嗎？歡迎加入【輔英科技大學 環境工程與科學系】成為高薪 AI 綠領工程師！</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+              <div class="p-3.5 rounded-xl bg-white/10 backdrop-blur border border-sky-300/30 space-y-1">
+                <div class="text-sm font-black text-[#FFD966]">🤖 1. AI 智慧環工與數位雙生實戰</div>
+                <p class="text-sky-100 leading-relaxed">
+                  全國技職領先導入 AIoT 智慧水務、無人機環境監測與數位雙生模擬教學，不會寫程式也能上手 AI 綠色科技！
+                </p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-white/10 backdrop-blur border border-sky-300/30 space-y-1">
+                <div class="text-sm font-black text-emerald-300">📜 2. 黃金國家證照＋帶薪實習</div>
+                <p class="text-sky-100 leading-relaxed">
+                  系上設有勞動部認證考場與專業證照輔導班（廢水、空污、甲級環管、下水道），大四全學年知名企業帶薪實習畢業即就業！
+                </p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-white/10 backdrop-blur border border-sky-300/30 space-y-1">
+                <div class="text-sm font-black text-amber-300">💎 3. 半導體廠務與再生水高薪出路</div>
+                <p class="text-sky-100 leading-relaxed">
+                  台積電等南部半導體S廊帶急需「超純水與再生水薄膜工程師（UF/RO）」與「ESG 碳盤查永續管理師」，起薪與發展傲視群倫！
+                </p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-white/10 backdrop-blur border border-sky-300/30 space-y-1">
+                <div class="text-sm font-black text-purple-300">👨‍🏫 4. 賴文亮教授與溫暖師資團隊</div>
+                <p class="text-sky-100 leading-relaxed">
+                  從水處理實廠參訪、專題競賽到考取國立研究所，輔英環工系師長與學長姐手把手帶你探索綠金未來！
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODULE (5): GROUP SCOREBOARD & LIVE COMPETITION                     -->
+    <!-- =================================================================== -->
+    <div id="scoreboard-view" class="hidden space-y-5">
+      <section class="ide-card rounded-2xl p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-[#00B0F0] pb-3">
+          <div>
+            <h2 class="text-lg sm:text-xl font-black text-[#002060] flex items-center gap-2">
+              <span>🏆</span>
+              <span>「AI 水廠主治醫師」四組駐診＆線上評量即時競賽排行榜</span>
+            </h2>
+            <p class="text-xs sm:text-sm font-medium text-[#475569] mt-0.5">
+              即時彙整課堂 4 組學員於「澄清湖／拷潭看診模擬器」與「線上互動學習單評量」之登錄成績。
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="btn-back-to-sim" type="button" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#0070C0] text-white hover:bg-sky-700 transition">
+              ← 返回水廠看診模擬器
+            </button>
+            <button id="btn-reset-default-records" type="button" class="px-3 py-2 rounded-xl text-xs font-bold bg-[#DEEBF7] text-[#002060] border border-[#0070C0]/40 hover:bg-sky-100">
+              載入預設範例
+            </button>
+            <button id="btn-clear-records" type="button" class="px-3 py-2 rounded-xl text-xs font-bold bg-[#FBE5D6] text-[#C00000] border border-[#C00000]/40 hover:bg-rose-100">
+              清空全部紀錄
+            </button>
+          </div>
+        </div>
+
+        <div id="team-podium-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+
+        <div class="overflow-x-auto rounded-xl border border-[#BDD7EE]">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-[#002060] text-white">
+                <th class="py-3 px-4 font-bold">排名</th>
+                <th class="py-3 px-4 font-bold">組別名稱（學員）</th>
+                <th class="py-3 px-4 font-bold">診間／評量項目</th>
+                <th class="py-3 px-4 font-bold">挑戰病徵情境</th>
+                <th class="py-3 px-4 font-bold">模式</th>
+                <th class="py-3 px-4 font-bold text-right">出水濁度</th>
+                <th class="py-3 px-4 font-bold text-right">出水硬度</th>
+                <th class="py-3 px-4 font-bold text-right">單位成本</th>
+                <th class="py-3 px-4 font-bold text-right">總得分</th>
+              </tr>
+            </thead>
+            <tbody id="scoreboard-tbody" class="divide-y divide-slate-200 bg-white text-[#1E293B]"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-msg" class="fixed bottom-5 right-5 z-50 hidden px-4 py-3 rounded-xl bg-[#002060] text-[#FFD966] font-black text-xs sm:text-sm shadow-2xl border-2 border-[#00B0F0]">
+      已登錄看診成績！
+    </div>
+
+  </main>
+
+  <!-- Grounded Reference Footer -->
+  <footer class="border-t border-slate-300 bg-white px-4 py-3 text-xs text-[#7F7F7F]">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div class="font-bold text-[#002060]">
+        輔英科技大學 環境工程與科學系｜智匯環保新時代研習營「單元二：AI 綠色大腦啟動」Antigravity 3D 數位雙生系統
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span>實證工程資料：</span>
+        <a href="https://www.water.gov.tw/dist7/Subject/Detail/38698?nodeId=6852" target="_blank" rel="noopener noreferrer" class="text-[#0070C0] font-semibold hover:underline">台水七區處澄清湖高級淨水場</a>
+        <span>・</span>
+        <a href="https://www.ctwwa.org.tw/SysUpDoc/message/paper/18-17.pdf" target="_blank" rel="noopener noreferrer" class="text-[#0070C0] font-semibold hover:underline">澄清湖高級淨水模廠試驗報告</a>
+        <span>・</span>
+        <a href="https://ktwt.net/%E9%AB%98%E9%9B%84%E6%8B%B7%E6%BD%AD%E9%AB%98%E7%B4%9A%E6%B7%A8%E6%B0%B4%E5%A0%B4/" target="_blank" rel="noopener noreferrer" class="text-[#0070C0] font-semibold hover:underline">高雄拷潭高級淨水場</a>
+        <span>・</span>
+        <a href="https://web-ws.wra.gov.tw/Download.ashx?u=LzAwMS9VcGxvYWQvT2xkRmlsZS93Y2lzL0ZpbGVzL0Vib29rLzAwMDE0My8yOC05LnBkZg%3D%3D&n=MjgtOS5wZGY%3D&icon=..pdf" target="_blank" rel="noopener noreferrer" class="text-[#0070C0] font-semibold hover:underline">水利署薄膜法高級淨水工程</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // =========================================================================
+    // 1. 3D ISOMETRIC & REALISTIC ENGINEERING EQUIPMENT SVG GENERATOR
+    // =========================================================================
+    function getUnit3DSvg(unitId) {
+      const svgs = {
+        pre_o3: `
+          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
+            <defs>
+              <linearGradient id="g-o3-tank" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0284c7"/>
+                <stop offset="100%" stop-color="#002060"/>
+              </linearGradient>
+              <linearGradient id="g-o3-top" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#38bdf8"/>
+                <stop offset="100%" stop-color="#0369a1"/>
+              </linearGradient>
+            </defs>
+            <!-- 3D High Voltage Ozone Generator Box -->
+            <polygon points="14,35 46,23 46,82 14,94" fill="#334155" stroke="#94a3b8" stroke-width="1.5"/>
+            <polygon points="46,23 68,32 68,90 46,82" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+            <polygon points="14,35 46,23 68,32 36,44" fill="#475569" stroke="#cbd5e1" stroke-width="1.2"/>
+            <text x="22" y="65" fill="#ffd966" font-size="11" font-weight="900">⚡O₃</text>
+            <!-- 3D Cylindrical Contact Tank -->
+            <ellipse cx="122" cy="88" rx="38" ry="12" fill="#001540" stroke="#38bdf8" stroke-width="1.5"/>
+            <rect x="84" y="26" width="76" height="62" fill="url(#g-o3-tank)" opacity="0.88" stroke="#38bdf8" stroke-width="1.5"/>
+            <ellipse cx="122" cy="26" rx="38" ry="12" fill="url(#g-o3-top)" stroke="#bae6fd" stroke-width="1.5"/>
+            <!-- Fine Diffuser & Rising O3 Micro-bubbles -->
+            <rect x="96" y="80" width="52" height="5" rx="2" fill="#ffd966"/>
+            <circle cx="105" cy="68" r="3.5" fill="none" stroke="#7dd3fc" stroke-width="1.8"/>
+            <circle cx="122" cy="54" r="4.5" fill="none" stroke="#7dd3fc" stroke-width="1.8"/>
+            <circle cx="138" cy="62" r="3" fill="none" stroke="#7dd3fc" stroke-width="1.8"/>
+            <circle cx="114" cy="42" r="3.5" fill="#4ade80" opacity="0.8"/>
+            <circle cx="132" cy="45" r="4" fill="#4ade80" opacity="0.5" stroke="#ffd966" stroke-dasharray="2,1"/>
+            <!-- Connecting Pipe -->
+            <path d="M68,65 L96,82" stroke="#ffd966" stroke-width="3" fill="none"/>
+          </svg>`,
+        coag_sed: `
+          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
+            <!-- 3D Pulsator Basin Isometric Cutaway -->
+            <polygon points="18,32 82,12 162,32 98,52" fill="#0284c7" stroke="#bae6fd" stroke-width="1.5"/>
+            <polygon points="18,32 98,52 98,98 18,78" fill="#0369a1" opacity="0.9" stroke="#7dd3fc" stroke-width="1.5"/>
+            <polygon points="98,52 162,32 162,78 98,98" fill="#002060" opacity="0.92" stroke="#38bdf8" stroke-width="1.5"/>
+            <!-- Suspended Sludge Blanket Layer -->
+            <polygon points="19,58 98,78 161,58 161,76 98,96 19,76" fill="#c55a11" opacity="0.78"/>
+            <!-- Central Vacuum Pulsator Bell -->
+            <rect x="78" y="16" width="24" height="44" rx="4" fill="#475569" stroke="#ffd966" stroke-width="2"/>
+            <path d="M90,22 L90,52 M84,30 L90,22 L96,30" stroke="#ffd966" stroke-width="2" fill="none"/>
+            <!-- CNN Vision Camera Bounding Boxes -->
+            <rect x="44" y="54" width="16" height="16" fill="none" stroke="#ffd966" stroke-width="1.8"/>
+            <circle cx="52" cy="62" r="5" fill="#f59e0b"/>
+            <rect x="116" y="52" width="18" height="18" fill="none" stroke="#ffd966" stroke-width="1.8"/>
+            <circle cx="125" cy="61" r="6" fill="#f59e0b"/>
+            <text x="36" y="49" fill="#ffd966" font-size="9" font-weight="bold">CNN 視覺</text>
+          </svg>`,
+        pellet_soft: `
+          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
+            <!-- 3D Inverted Cone Fluidized Bed Pellet Reactor -->
+            <ellipse cx="90" cy="18" rx="44" ry="11" fill="#0284c7" stroke="#bae6fd" stroke-width="1.8"/>
+            <polygon points="46,18 134,18 110,94 70,94" fill="#0369a1" opacity="0.88" stroke="#38bdf8" stroke-width="1.8"/>
+            <ellipse cx="90" cy="94" rx="20" ry="6" fill="#002060" stroke="#7dd3fc" stroke-width="1.5"/>
+            <!-- Fluidized Quartz Sand Seeds + White CaCO3 Pellets -->
+            <circle cx="78" cy="76" r="5.5" fill="#ffffff" stroke="#cbd5e1"/><circle cx="78" cy="76" r="2" fill="#c55a11"/>
+            <circle cx="94" cy="80" r="6" fill="#ffffff" stroke="#cbd5e1"/><circle cx="94" cy="80" r="2.2" fill="#c55a11"/>
+            <circle cx="85" cy="62" r="5" fill="#ffffff" stroke="#cbd5e1"/><circle cx="85" cy="62" r="2" fill="#c55a11"/>
+            <circle cx="104" cy="64" r="5.5" fill="#ffffff" stroke="#cbd5e1"/><circle cx="104" cy="64" r="2" fill="#c55a11"/>
+            <circle cx="74" cy="48" r="4.5" fill="#ffffff"/><circle cx="74" cy="48" r="1.8" fill="#c55a11"/>
+            <circle cx="96" cy="46" r="4.8" fill="#ffffff"/><circle cx="96" cy="46" r="1.8" fill="#c55a11"/>
+            <!-- NaOH Dosing Arrow -->
+            <path d="M24,82 L68,82" stroke="#ffd966" stroke-width="2.5"/>
+            <text x="14" y="76" fill="#002060" font-size="9" font-weight="900">NaOH</text>
+            <text x="122" y="55" fill="#002060" font-size="9" font-weight="900">CaCO₃珠</text>
+          </svg>`,
+        post_o3_bac: `
+          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
+            <!-- 3D Dual Column: Post-O3 + Granular Activated Carbon Biofilm Bed -->
+            <rect x="20" y="22" width="38" height="72" rx="6" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+            <circle cx="39" cy="72" r="4" fill="none" stroke="#bae6fd" stroke-width="1.5"/>
+            <circle cx="39" cy="50" r="5" fill="none" stroke="#bae6fd" stroke-width="1.5"/>
+            <!-- 3D BAC Filter Tank -->
+            <polygon points="74,26 158,26 158,94 74,94" fill="#0f172a" stroke="#38bdf8" stroke-width="1.8"/>
+            <rect x="76" y="28" width="80" height="22" fill="#0284c7" opacity="0.75"/>
+            <!-- Activated Carbon Granules with Green Biofilm Halo -->
+            <circle cx="92" cy="64" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
+            <circle cx="114" cy="64" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
+            <circle cx="136" cy="64" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
+            <circle cx="102" cy="80" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
+            <circle cx="126" cy="80" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
+            <path d="M58,36 L74,36" stroke="#ffd966" stroke-width="3"/>
+            <text x="84" y="43" fill="#ffd966" font-size="10" font-weight="900">BAC 生物膜好菌</text>
+          </svg>`,
+        aeration_filter: `
+          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
+            <!-- 3D Cascade Aeration Tower + Rapid Sand Filter -->
+            <rect x="18" y="16" width="46" height="78" rx="4" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5"/>
+            <line x1="24" y1="34" x2="52" y2="34" stroke="#ffd966" stroke-width="3"/>
+            <line x1="30" y1="52" x2="58" y2="52" stroke="#ffd966" stroke-width="3"/>
+            <line x1="24" y1="70" x2="52" y2="70" stroke="#ffd966" stroke-width="3"/>
+            <circle cx="38" cy="25" r="3.5" fill="#c55a11"/>
+            <circle cx="44" cy="43" r="3.5" fill="#c55a11"/>
+            <!-- Rapid Sand Filter Bed -->
+            <rect x="82" y="34" width="80" height="60" rx="4" fill="#002060" stroke="#38bdf8" stroke-width="1.5"/>
+            <rect x="84" y="62" width="76" height="30" fill="#d97706" opacity="0.85"/>
+            <circle cx="102" cy="56" r="4" fill="#7c2d12" stroke="#fcd34d"/>
+            <circle cx="122" cy="56" r="4" fill="#7c2d12" stroke="#fcd34d"/>
+            <circle cx="142" cy="56" r="4" fill="#7c2d12" stroke="#fcd34d"/>
+            <path d="M64,50 L82,50" stroke="#38bdf8" stroke-width="3"/>
+            <text x="90" y="81" fill="#ffffff" font-size="10" font-weight="900">石英砂截留鐵錳</text>
+          </svg>`,
+        uf_system: `
+          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
+            <!-- 3D Pressurized Hollow-Fiber UF Membrane Rack -->
+            <line x1="24" y1="20" x2="156" y2="20" stroke="#0070c0" stroke-width="5" stroke-linecap="round"/>
+            <line x1="24" y1="92" x2="156" y2="92" stroke="#002060" stroke-width="5" stroke-linecap="round"/>
+            <!-- 3 Vertical 3D UF Modules with Hollow Fibers -->
+            <rect x="36" y="22" width="26" height="68" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <line x1="44" y1="26" x2="44" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <line x1="54" y1="26" x2="54" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <rect x="77" y="22" width="26" height="68" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <line x1="85" y1="26" x2="85" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <line x1="95" y1="26" x2="95" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <rect x="118" y="22" width="26" height="68" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <line x1="126" y1="26" x2="126" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <line x1="136" y1="26" x2="136" y2="86" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <rect x="52" y="46" width="76" height="18" rx="4" fill="#002060"/>
+            <text x="60" y="59" fill="#ffd966" font-size="10" font-weight="900">0.05 μm UF 膜</text>
+          </svg>`,
+        lpro_system: `
+          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
+            <!-- 3D Horizontal Spiral-Wound LPRO Pressure Vessels Array -->
+            <rect x="20" y="20" width="136" height="22" rx="11" fill="#0284c7" stroke="#bae6fd" stroke-width="2"/>
+            <ellipse cx="152" cy="31" rx="6" ry="11" fill="#002060" stroke="#ffd966" stroke-width="1.5"/>
+            <rect x="20" y="48" width="136" height="22" rx="11" fill="#0369a1" stroke="#bae6fd" stroke-width="2"/>
+            <ellipse cx="152" cy="59" rx="6" ry="11" fill="#002060" stroke="#ffd966" stroke-width="1.5"/>
+            <rect x="34" y="76" width="110" height="18" rx="9" fill="#7030a0" stroke="#e9d5ff" stroke-width="2"/>
+            <!-- Spiral Grid Lines -->
+            <line x1="55" y1="20" x2="55" y2="42" stroke="#ffd966" stroke-width="1.5" stroke-dasharray="2,2"/>
+            <line x1="95" y1="20" x2="95" y2="42" stroke="#ffd966" stroke-width="1.5" stroke-dasharray="2,2"/>
+            <text x="36" y="35" fill="#ffffff" font-size="10" font-weight="900">LPRO 逆滲透膜陣列</text>
+            <text x="48" y="89" fill="#ffd966" font-size="9" font-weight="bold">回收率 &gt; 90% 抗垢監控</text>
+          </svg>`,
+        blend_tank: `
+          <svg viewBox="0 0 180 110" class="w-full h-24 drop-shadow">
+            <!-- 3D Blending Tank with UF Bypass Pipe + LPRO Pure Water Pipe -->
+            <path d="M16,28 L66,28 L66,46" fill="none" stroke="#f59e0b" stroke-width="5"/>
+            <path d="M16,66 L66,66" fill="none" stroke="#00b0f0" stroke-width="6"/>
+            <!-- Motorized Bypass Valve -->
+            <circle cx="42" cy="28" r="8" fill="#c55a11" stroke="#ffd966" stroke-width="2"/>
+            <text x="14" y="18" fill="#c55a11" font-size="9" font-weight="900">UF 旁通 22%</text>
+            <text x="14" y="82" fill="#0070c0" font-size="9" font-weight="900">LPRO 純水 78%</text>
+            <!-- 3D Cylindrical Clear Blending Tank -->
+            <ellipse cx="118" cy="88" rx="40" ry="10" fill="#0284c7"/>
+            <rect x="78" y="26" width="80" height="62" fill="#00b0f0" opacity="0.82" stroke="#002060" stroke-width="1.8"/>
+            <ellipse cx="118" cy="26" rx="40" ry="10" fill="#7dd3fc" stroke="#002060" stroke-width="1.5"/>
+            <circle cx="102" cy="58" r="4" fill="#ffd966"/>
+            <circle cx="128" cy="66" r="4" fill="#ffd966"/>
+            <circle cx="116" cy="48" r="3" fill="#ffffff"/>
+            <text x="86" y="78" fill="#002060" font-size="10" font-weight="900">黃金比例混合水</text>
+          </svg>`
+      };
+      return svgs[unitId] || svgs.pre_o3;
+    }
+
+    // =========================================================================
+    // 2. PLANT, UNIT ENGINEERING PRINCIPLES & SCENARIO CONFIGURATION
+    // =========================================================================
+    const PLANT_DATA = {
+      chengcing: {
+        id: 'chengcing',
+        name: '澄清湖高級淨水場',
+        subtitle: '澄清湖高級淨水場（設計水量 45.2 萬 CMD）｜前臭氧接觸池 ➔ 快混與脈動沉澱池 ➔ 結晶軟化反應槽 ➔ 後臭氧 ＋ 生物活性碳（BAC）',
+        fourthKpiLabel: 'AOC 生物穩定度',
+        fourthKpiUnit: 'μg-C/L',
+        units: [
+          {
+            id: 'pre_o3',
+            stepNum: '單元 1',
+            name: '前臭氧接觸池',
+            designCap: '設計規模：45.2 萬 CMD',
+            shortDesc: '預氧化除藻・杜絕 THMs',
+            purpose: '破除微囊藻與土霉味分子，取代傳統前加氯，從源頭杜絕致癌三鹵甲烷（THMs）。',
+            sliderLabel: '前臭氧投加量 (Pre-O₃)',
+            unit: 'mg/L',
+            min: 0.2,
+            max: 3.0,
+            step: 0.1,
+            defaultVal: 1.0,
+            aiMethod: 'Spectral-O₃ Agent（依 UV254 與葉綠素 a 動態尋優）',
+            mechanismHtml: '利用高壓放電產生強氧化劑<span class="kw-fill">臭氧（O₃）</span>（標準電位 2.07 V），先行破壞優養化微囊藻細胞壁與土霉味分子（Geosmin / 2-MIB），取代傳統「前加氯」，從源頭避免與腐植質反應生成致癌消毒副產物<span class="kw-fill">三鹵甲烷</span>（THMs），同時發揮微絮凝助凝作用。',
+            formula: 'CT = C_O₃ × t_contact  |  依 UV254 與葉綠素 a 動態尋優',
+            controlNote: '實廠控制參數：臭氧投加量 0.8–2.2 mg/L、接觸時間 4–5 分鐘。若投加不足則藻類與臭味穿透；投加過高則浪費電力。'
+          },
+          {
+            id: 'coag_sed',
+            stepNum: '單元 2',
+            name: '快混與脈動沉澱池',
+            designCap: '設計規模：48.0 萬 CMD',
+            shortDesc: '電雙層壓縮・污泥毯攔截',
+            purpose: '使帶負電微細黏土膠體脫穩聚集為大膠羽，並以懸浮污泥毯高效共沉降除濁。',
+            sliderLabel: '混凝劑 PAC 投加量',
+            unit: 'mg/L',
+            min: 8,
+            max: 75,
+            step: 1,
+            defaultVal: 20,
+            aiMethod: 'Vision-Floc Agent（CNN 1 秒即時辨識膠羽粒徑 μm 與沉降速率）',
+            mechanismHtml: '投加多元氯化鋁（PACl）進行<span class="kw-fill">電雙層</span>壓縮與電性中和使微粒脫穩，於脈動式沉澱池（Pulsator）形成懸浮<span class="kw-fill">污泥毯（Sludge Blanket）</span>攔截膠羽。AI 以水下鏡頭取代耗時 30 分鐘的傳統人工<span class="kw-fill">瓶杯試驗</span>（Jar Test）。',
+            formula: 'G·t = 10⁴–10⁵  |  v_s = g·(ρ_f - ρ_w)·d_f² / (18·μ) [Stokes Law]',
+            controlNote: '實廠控制參數：快混速度梯度 G 值、PAC 加藥量、脈動週期。CNN 卷積神經網路 1 秒內即時辨識膠羽粒徑（μm）與沉降速率並自動前饋加藥。'
+          },
+          {
+            id: 'pellet_soft',
+            stepNum: '單元 3',
+            name: '結晶軟化反應槽',
+            designCap: '設計規模：40.5 萬 CMD',
+            shortDesc: '石英砂晶種流化床除鈣鎂',
+            purpose: '將水中過高鈣鎂硬度轉化為高密度碳酸鈣結晶珠排出，實現零化學污泥餅並消除水垢。',
+            sliderLabel: '結晶軟化槽目標 pH',
+            unit: 'pH',
+            min: 7.8,
+            max: 10.2,
+            step: 0.1,
+            defaultVal: 8.6,
+            aiMethod: 'Crystal-MPC Agent（軟感測器 ＋ 多變數模型預測控制）',
+            mechanismHtml: '於槽底填充<span class="kw-fill">石英砂</span>作為晶種，以高上升流速維持流化床懸浮，注入氫氧化鈉（NaOH）控制黃金 pH 於 <span class="kw-fill">8.8</span>～<span class="kw-fill">9.4</span>，使鈣離子在晶種表面發生異相成核結晶長成<span class="kw-fill">碳酸鈣（CaCO₃）</span>結晶珠排出，實現零化學污泥餅。',
+            formula: 'Ca²⁺ + HCO₃⁻ + OH⁻ ➔ CaCO₃(s)↓ + H₂O （pH > 9.6 易生 Mg(OH)₂ 糊狀污泥）',
+            controlNote: '實廠控制參數：黃金 pH 區間 8.8–9.4。若手動拉超過 pH 9.65，會產生氫氧化鎂糊狀污泥堵塞濾池，微觀結晶珠變紅且出水濁度反彈！'
+          },
+          {
+            id: 'post_o3_bac',
+            stepNum: '單元 4',
+            name: '後臭氧 ＋ 生物活性碳 (BAC)',
+            designCap: '設計規模：40.5 萬 CMD',
+            shortDesc: '大分子斷鍵・生物膜降解 AOC',
+            purpose: '徹底礦化分解微量有機物與致臭物，使出水達國際最高生物穩定度、管網不長菌。',
+            sliderLabel: '後臭氧劑量 (Post-O₃)',
+            unit: 'mg/L',
+            min: 0.3,
+            max: 2.5,
+            step: 0.1,
+            defaultVal: 1.1,
+            aiMethod: 'Bio-LSTM Agent（將出水 AOC 穩定控制在荷蘭標準 15 μg-C/L 以下）',
+            mechanismHtml: '先由後臭氧將大分子有機物斷鍵切碎為親水性小分子，再進入不加氯之活性碳濾床，由碳粒表面附著之<span class="kw-fill">生物膜（異營菌）</span>好菌將生物可利用有機碳（<span class="kw-fill">AOC</span>）徹底礦化分解為 CO₂ 與 H₂O，將出水 AOC 穩定控制在荷蘭生物穩定標準 <span class="kw-fill">15</span> μg-C/L 以下（實廠模廠可達 10–12 μg-C/L）。',
+            formula: 'Large_NOM + O₃ ➔ Small_AOC --(BAC 生物膜好菌)--➔ CO₂ + H₂O',
+            controlNote: '實廠控制參數：後臭氧劑量（約 1.0–1.9 mg/L）與空床接觸時間（EBCT）。確保配水管網生物穩定、不滋生細菌生物膜。'
+          }
+        ],
+        scenarios: [
+          {
+            id: 'cc_normal',
+            badge: '情境 0：正常平水期',
+            badgeColor: 'emerald',
+            title: '正常平水期（濁度 15 NTU・硬度 235 mg/L）',
+            detail: '進水濁度 15 NTU、總硬度 235 mg/L、葉綠素 a 10 μg/L。目標為維持出水硬度 105–120 mg/L 且 AOC 降至 10 μg-C/L 基準平衡狀態。',
+            raw: { turbidity: 15, hardness: 235, algae: 10, toc: 2.1 },
+            manualInit: { pre_o3: 0.8, coag_sed: 16, pellet_soft: 8.4, post_o3_bac: 0.8 },
+            optimal: { pre_o3: 1.1, coag_sed: 20, pellet_soft: 8.9, post_o3_bac: 1.2 },
+            teacherNote: '基準平衡狀態，AOC 降至 10 μg-C/L。',
+            prescription: '【AI 平水期節能處方】Spectral-O₃ Agent 將前臭氧設定於 1.1 mg/L、Vision-Floc Agent 維持 PAC 20 mg/L；Crystal-MPC Agent 將結晶軟化槽定錨於 pH 8.9 促成碳酸鈣穩定結晶於石英砂表面，搭配後臭氧 1.2 mg/L 活化 BAC 生物膜，將出水 AOC 降至 10 μg-C/L。'
+          },
+          {
+            id: 'cc_algae',
+            badge: '病徵一：湖水優養化發燒',
+            badgeColor: 'amber',
+            title: '藻華爆發與土霉味飆升（葉綠素 a 飆至 68 μg/L）',
+            detail: '夏季高溫導致澄清湖藍綠藻暴增，土霉味（Geosmin）與有機物大幅升高！若用傳統前加氯會產生大量致癌三鹵甲烷（THMs）。',
+            raw: { turbidity: 28, hardness: 245, algae: 68, toc: 4.5 },
+            manualInit: { pre_o3: 0.7, coag_sed: 20, pellet_soft: 8.6, post_o3_bac: 0.8 },
+            optimal: { pre_o3: 2.1, coag_sed: 32, pellet_soft: 8.9, post_o3_bac: 1.9 },
+            teacherNote: '雙臭氧拉高破藻除臭，由 BAC 好菌吃掉小分子有機物。',
+            prescription: '【AI 除藻除臭處方】Spectral-O₃ Agent 偵測到葉綠素 a 飆至 68 μg/L，自動將「前臭氧」提升至 2.1 mg/L 氧化破除藻細胞壁助凝（PAC 32 mg/L，軟化 pH 8.9），並由 Bio-LSTM Agent 將「後臭氧」調升至 1.9 mg/L 把致臭分子切碎成小分子有機酸，交由 BAC 生物活性碳好菌分解，徹底消除異味且零 THMs 超標！'
+          },
+          {
+            id: 'cc_storm',
+            badge: '病徵二：暴雨高濁度休克',
+            badgeColor: 'rose',
+            title: '颱風豪雨泥沙暴衝（原水濁度暴衝至 380 NTU）',
+            detail: '原水濁度瞬間暴增 25 倍！傳統人工瓶杯試驗（Jar Test）要花 30 分鐘才能決定加藥量，水廠面臨泥水穿透快濾池的休克危機。',
+            raw: { turbidity: 380, hardness: 190, algae: 18, toc: 3.6 },
+            manualInit: { pre_o3: 1.0, coag_sed: 22, pellet_soft: 8.5, post_o3_bac: 1.0 },
+            optimal: { pre_o3: 1.3, coag_sed: 62, pellet_soft: 8.7, post_o3_bac: 1.4 },
+            teacherNote: '帶學員看微觀透視鏡 CNN 黃色框選膠羽粒徑與出水燒杯透明度變化！',
+            prescription: '【AI 視覺秒級抓藥處方】Vision-Floc Agent 透過水下攝影機與 CNN 卷積神經網路，在 1 秒內辨識出微細膠羽粒徑過小，立即前饋調升 PAC 混凝劑至 62 mg/L（搭配前臭氧 1.3 mg/L、軟化 pH 8.7、後臭氧 1.4 mg/L）穩定脈動沉澱池污泥毯；出水濁度壓制在 0.16 NTU 以下！'
+          },
+          {
+            id: 'cc_hardness',
+            badge: '病徵三：水質腎結石警報',
+            badgeColor: 'sky',
+            title: '枯水期高硬度鈣鎂超標（枯水期總硬度達 345 mg/L）',
+            detail: '南部枯水期原水鈣鎂離子濃度極高（345 mg/L）。若結晶軟化槽 pH 太低則無法結晶，若拉超過 pH 9.65 則會產生氫氧化鎂糊狀污泥堵塞濾池！',
+            raw: { turbidity: 18, hardness: 345, algae: 14, toc: 2.3 },
+            manualInit: { pre_o3: 1.0, coag_sed: 20, pellet_soft: 8.2, post_o3_bac: 1.0 },
+            optimal: { pre_o3: 1.1, coag_sed: 24, pellet_soft: 9.4, post_o3_bac: 1.2 },
+            teacherNote: '若手動拉超過 pH 9.7，結晶珠會變紅且濁度反彈！',
+            prescription: '【AI 結晶軟化精準處方】Crystal-MPC Agent 依據進水導電度與鹼度軟感測模型，將結晶軟化槽精準定錨於黃金上限 pH 9.4（搭配前臭氧 1.1 mg/L、PAC 24 mg/L、後臭氧 1.2 mg/L），使過飽和碳酸鈣 100% 異相成核結晶於石英砂晶種表面，出水硬度完美降至 105 mg/L 且零化學污泥餅！'
+          }
+        ]
+      },
+      kaotan: {
+        id: 'kaotan',
+        name: '拷潭高級淨水場',
+        subtitle: '拷潭高級淨水場（設計出水量 22.5 萬 CMD）｜氣曝塔與快濾池 ➔ UF 超過濾系統（0.05 μm） ➔ LPRO 低壓逆滲透 ➔ UF/LPRO 產水混合池',
+        fourthKpiLabel: '系統造水回收率',
+        fourthKpiUnit: '%',
+        units: [
+          {
+            id: 'aeration_filter',
+            stepNum: '單元 1',
+            name: '氣曝塔與快濾池',
+            designCap: '除鐵錳前處理防線',
+            shortDesc: '氧化二價鐵錳・保護後端薄膜',
+            purpose: '將伏流水中溶解態二價鐵錳氧化為不溶性沉澱並砂濾攔截，保護下游昂貴薄膜不中毒。',
+            sliderLabel: '氣曝塔氣水比 (Air/Water)',
+            unit: '氣水比',
+            min: 1.0,
+            max: 10.0,
+            step: 0.5,
+            defaultVal: 3.5,
+            aiMethod: 'Redox-Guard Agent（監測 ORP，在鐵錳穿透前 30 分鐘排程快濾反洗）',
+            mechanismHtml: '將地下伏流水中溶解態二價鐵（Fe²⁺）與二價錳（Mn²⁺）經曝氣溶氧氧化為不溶性<span class="kw-fill">三價鐵（氫氧化鐵 Fe(OH)₃）</span>與<span class="kw-fill">二氧化錳（MnO₂）</span>沉澱，並由快濾池石英砂截留，防止後端昂貴薄膜發生不可逆鐵錳中毒堵塞。',
+            formula: '4Fe²⁺ + O₂ + 10H₂O ➔ 4Fe(OH)₃(s)↓ + 8H⁺  |  2Mn²⁺ + O₂ + 2H₂O ➔ 2MnO₂(s)↓ + 4H⁺',
+            controlNote: '實廠控制參數：氣曝塔氣水比、氧化還原電位（ORP）。AI 在鐵錳穿透快濾池前 30 分鐘自動排程反洗，保護 UF/LPRO 薄膜。'
+          },
+          {
+            id: 'uf_system',
+            stepNum: '單元 2',
+            name: 'UF 超過濾系統',
+            designCap: '設計規模：25.0 萬 CMD',
+            shortDesc: '0.05μm 中空纖維膜篩分病原',
+            purpose: '以 0.05 μm 物理篩分 100% 攔截微粒、膠體與耐氯隱孢子蟲，使出水 SDI < 3。',
+            sliderLabel: 'UF 反洗間隔時間',
+            unit: '分鐘',
+            min: 15,
+            max: 75,
+            step: 5,
+            defaultVal: 45,
+            aiMethod: 'Membrane-PdM Agent（依跨膜壓差 TMP 斜率預測性反洗）',
+            mechanismHtml: '採用孔徑僅 <span class="kw-fill">0.05</span> μm 之中空纖維超過濾薄膜，透過物理尺寸篩分機制 100% 攔截膠體、微粒與抗氯性極強之<span class="kw-fill">隱孢子蟲</span>（致病微生物），使出水淤泥密度指數 SDI 小於 3。',
+            formula: 'J = TMP / [μ · (R_m + R_cake + R_irrev)]  |  依 TMP 斜率預測性反洗',
+            controlNote: '實廠控制參數：跨膜壓差（TMP）與反洗間隔（分鐘）。TMP 飆高時必須縮短反洗間隔（如 20 分鐘）排走濾餅。'
+          },
+          {
+            id: 'lpro_system',
+            stepNum: '單元 3',
+            name: 'LPRO 低壓逆滲透',
+            designCap: '回收率 > 90%（每噸約 2.1 元）',
+            shortDesc: '溶解-擴散模型除硬度與 TDS',
+            purpose: '透過聚醯胺致密層高效截留鈣鎂硬度離子、TDS 與農藥微量污染物，達成深度軟化。',
+            sliderLabel: 'LPRO 操作壓力',
+            unit: 'bar',
+            min: 6.0,
+            max: 15.0,
+            step: 0.5,
+            defaultVal: 9.5,
+            aiMethod: 'Scale-Twin Agent（兼顧高造水率與每噸約 2.1 元低成本）',
+            mechanismHtml: '施加大於滲透壓之操作壓力，依「<span class="kw-fill">溶解-擴散（Solution-Diffusion）</span>模型」讓水分子透過聚醯胺致密層，高效截留鈣鎂硬度離子與總溶解固體（TDS），並即時監控<span class="kw-fill">朗格利爾（Langelier）</span>飽和指數（LSI）防止尾部膜管結垢。',
+            formula: 'J_w = A · (ΔP - Δπ)  ｜  LSI = pH - pH_s',
+            controlNote: '實廠控制參數：高壓泵操作壓力（bar）與 LSI 飽和指數。避免盲目加壓到 14.5 bar 導致尾部膜管結垢與高電費。'
+          },
+          {
+            id: 'blend_tank',
+            stepNum: '單元 4',
+            name: 'UF / LPRO 產水混合池',
+            designCap: '設計規模：22.5 萬 CMD',
+            shortDesc: '旁通調配適飲礦物質並省電',
+            purpose: '將已除菌之 UF 產水旁通 18%–24% 與 LPRO 純水混合，保留適飲礦物質、防止管網腐蝕並省電。',
+            sliderLabel: 'UF 旁通混合比 (Bypass %)',
+            unit: '%',
+            min: 0,
+            max: 45,
+            step: 1,
+            defaultVal: 15,
+            aiMethod: 'Blend-PID Agent（質量平衡調配適飲硬度與節省高壓泵電力）',
+            mechanismHtml: '純 LPRO 產水缺乏礦物質且具管網腐蝕性；故將約 <span class="kw-fill">18</span>%～<span class="kw-fill">24</span>%（或 15%～25%）已除菌除濁之 UF 產水旁通（Bypass）與 LPRO 產水依質量平衡調配，保留適度鈣鎂離子（約 100 mg/L）並大幅節省高壓泵電力。',
+            formula: 'C_blend = (Q_UF · C_UF + Q_LPRO · C_LPRO) / Q_total',
+            controlNote: '實廠控制參數：UF 旁通混合比（Bypass %）。每增加 1% 合規 UF 旁通量即可直接減少 1% LPRO 高壓抽水電費！'
+          }
+        ],
+        scenarios: [
+          {
+            id: 'kt_normal',
+            badge: '情境 0：正常運轉期',
+            badgeColor: 'emerald',
+            title: '正常運轉期（鐵錳 0.20 mg/L・硬度 255 mg/L）',
+            detail: '原水濁度 12 NTU、鐵錳 0.20 mg/L、硬度 255 mg/L。目標為開啟 22% UF 旁通混合，兼顧 98 mg/L 適飲硬度與每噸約 2.08 元低成本。',
+            raw: { turbidity: 12, hardness: 255, femn: 0.20, tmpBase: 0.48 },
+            manualInit: { aeration_filter: 3.0, uf_system: 55, lpro_system: 11.5, blend_tank: 10 },
+            optimal: { aeration_filter: 4.0, uf_system: 40, lpro_system: 9.5, blend_tank: 22 },
+            teacherNote: '開啟 22% UF 旁通混合，兼顧 98 mg/L 適飲硬度與低成本。',
+            prescription: '【AI 雙薄膜節能處方】Redox-Guard 設定氣水比 4.0、UF 反洗 40 分鐘；Scale-Twin Agent 將 LPRO 變頻高壓泵調降至 9.5 bar，並由 Blend-PID Agent 開啟 22% UF 產水旁通混合（Bypass），讓出水保有 98 mg/L 適飲硬度，每噸操作成本壓低至 2.08 元！'
+          },
+          {
+            id: 'kt_femn',
+            badge: '病徵一：紅黑水貧血症',
+            badgeColor: 'amber',
+            title: '伏流水二價鐵錳飆高（伏流水鐵錳飆至 1.85 mg/L）',
+            detail: '地下伏流水二價鐵與二價錳突增至 1.85 mg/L！若氣曝塔氧化不完全而穿透快濾池，鐵錳氧化物會直接堵死下游昂貴的 UF 與 LPRO 薄膜！',
+            raw: { turbidity: 22, hardness: 265, femn: 1.85, tmpBase: 0.72 },
+            manualInit: { aeration_filter: 2.5, uf_system: 50, lpro_system: 10.0, blend_tank: 20 },
+            optimal: { aeration_filter: 8.5, uf_system: 30, lpro_system: 10.0, blend_tank: 18 },
+            teacherNote: '強制曝氣氧化二價鐵錳並縮短反洗，保護下游薄膜不中毒。',
+            prescription: '【AI 除鐵錳護膜處方】Redox-Guard Agent 由進水 ORP 驟降預判高鐵錳來襲，立即將氣曝塔氣水比拉升至 8.5 強制氧化二價鐵錳為 Fe(OH)₃ 與 MnO₂ 沉澱，並將 UF 反洗間隔縮短至 30 分鐘（搭配 LPRO 10.0 bar、旁通 18%），實現零薄膜鐵錳中毒！'
+          },
+          {
+            id: 'kt_uf_fouling',
+            badge: '病徵二：薄膜血管硬化',
+            badgeColor: 'rose',
+            title: '膠體塞孔跨膜壓差飆升（膠體塞孔 TMP 飆破 1.6 bar）',
+            detail: '微細膠體與大分子有機物塞滿 UF 膜 0.05 μm 毛細孔，TMP 跨膜壓差飆破 1.6 bar！太晚反洗會斷絲，太頻繁反洗則造水率暴跌。',
+            raw: { turbidity: 95, hardness: 240, femn: 0.45, tmpBase: 1.62 },
+            manualInit: { aeration_filter: 3.5, uf_system: 65, lpro_system: 11.0, blend_tank: 15 },
+            optimal: { aeration_filter: 5.5, uf_system: 20, lpro_system: 9.5, blend_tank: 20 },
+            teacherNote: 'TMP 飆高時必須將 UF 反洗間隔縮短至 20 分鐘排走濾餅。',
+            prescription: '【AI 預測性反洗 (PdM) 處方】Membrane-PdM Agent 分析達西定律濾阻上升斜率，將氣水比調至 5.5 並自動將 UF 反沖洗間隔縮短至 20 分鐘高頻脈衝氣水反洗排走濾餅（搭配 LPRO 9.5 bar、旁通 20%），使 TMP 迅速回落至安全區間！'
+          },
+          {
+            id: 'kt_lpro_scale',
+            badge: '病徵三：高血壓結垢危機',
+            badgeColor: 'sky',
+            title: '高硬度高 TDS 引發結垢與高耗電（硬度 350・TDS 580 mg/L）',
+            detail: '原水總硬度飆至 350 mg/L、TDS 580 mg/L，LPRO 膜面面臨碳酸鈣結垢（Scaling）危機，且傳統人工盲目拉高泵浦壓力至 14.5 bar 導致電費破表！',
+            raw: { turbidity: 16, hardness: 350, femn: 0.30, tmpBase: 0.60 },
+            manualInit: { aeration_filter: 3.5, uf_system: 45, lpro_system: 14.5, blend_tank: 5 },
+            optimal: { aeration_filter: 4.5, uf_system: 35, lpro_system: 11.5, blend_tank: 24 },
+            teacherNote: '不盲目加壓到 14.5 bar，搭配 24% UF 旁通調水省 28% 電費！',
+            prescription: '【AI 數位雙生阻垢調水處方】Scale-Twin Agent 即時計算朗格利爾結垢指數（LSI），不盲目加壓到 14.5 bar，而是將 LPRO 壓力最佳化於 11.5 bar（氣水比 4.5、反洗 35 分），同時由 Blend-PID Agent 將 UF 旁通混合比提升至 24%，讓混合出水硬度落在 108 mg/L，省下 28% 電費！'
+          }
+        ]
+      }
+    };
+
+    // =========================================================================
+    // 3. ONLINE WORKSHEET MULTI-ANSWER RUBRIC & FORMATIVE QUIZ DATA
+    // =========================================================================
+    const BLANK_RUBRIC = {
+      cc_b1: { accepted: ['臭氧', 'O3', 'O₃', '臭氧(O3)', '臭氧（O₃）'], display: '臭氧（或 O₃ / O3）', demo: '臭氧 (O₃)' },
+      cc_b2: { accepted: ['三鹵甲烷', 'THMs', 'THM', '總三鹵甲烷', '三鹵甲烷(THMs)'], display: '三鹵甲烷（或 THMs / 總三鹵甲烷）', demo: '三鹵甲烷' },
+      cc_b3: { accepted: ['電雙層', '雙電層', '擴散電雙層'], display: '電雙層（或 雙電層）', demo: '電雙層' },
+      cc_b4: { accepted: ['污泥毯', '汙泥毯', 'Sludge Blanket', 'sludge blanket', '污泥層', '懸浮污泥毯'], display: '污泥毯（或 Sludge Blanket / 懸浮污泥層）', demo: '污泥毯' },
+      cc_b5: { accepted: ['瓶杯試驗', '燒杯試驗', 'Jar Test', 'jar test', '混凝瓶杯試驗'], display: '瓶杯試驗（或 Jar Test / 燒杯試驗）', demo: '瓶杯試驗' },
+      cc_b6: { accepted: ['石英砂', '矽砂', 'SiO2', '石英砂晶種'], display: '石英砂（或 矽砂）', demo: '石英砂' },
+      cc_b7: { accepted: ['碳酸鈣', 'CaCO3', 'CaCO₃', '碳酸鈣(CaCO3)', '碳酸鈣結晶'], display: '碳酸鈣（或 CaCO₃ / CaCO3）', demo: '碳酸鈣 (CaCO₃)' },
+      cc_b8: { accepted: ['15', '10', '12', '10~15', '10-15', '12~15', '12-15'], display: '15（或實廠模廠值 10～15）', demo: '15' },
+      kt_b1: { accepted: ['三價鐵', '氫氧化鐵', 'Fe(OH)3', 'Fe(OH)₃', '三價鐵(氫氧化鐵)', '氧化鐵'], display: '三價鐵 / 氫氧化鐵 Fe(OH)₃', demo: '三價鐵 Fe(OH)₃' },
+      kt_b2: { accepted: ['二氧化錳', 'MnO2', 'MnO₂', '四價錳', '不溶性錳'], display: '二氧化錳（或 MnO₂ / 四價錳）', demo: '二氧化錳 (MnO₂)' },
+      kt_b3: { accepted: ['0.05', '0.05μm', '0.05um'], display: '0.05', demo: '0.05' },
+      kt_b4: { accepted: ['隱孢子蟲', '梨形鞭毛蟲', '致病原生動物', 'Cryptosporidium', '原蟲', '大腸桿菌'], display: '隱孢子蟲（或 梨形鞭毛蟲 / 致病原生動物）', demo: '隱孢子蟲' },
+      kt_b5: { accepted: ['溶解-擴散', '溶解擴散', 'Solution-Diffusion', 'solution-diffusion', '溶解－擴散'], display: '溶解-擴散（或 Solution-Diffusion）', demo: '溶解-擴散' },
+      kt_b6: { accepted: ['朗格利爾', 'Langelier', 'langelier', 'LSI', '碳酸鈣結垢'], display: '朗格利爾（或 Langelier / LSI）', demo: '朗格利爾' },
+      kt_b7: { accepted: ['18~24', '18-24', '15~25', '15-25', '18%～24%', '20', '22', '18', '24'], display: '18～24（或 15～25 / 22）', demo: '18～24' }
+    };
+
+    const WORD_BANK_LIST = [
+      '臭氧 (O₃)', '三鹵甲烷', '電雙層', '污泥毯', '瓶杯試驗',
+      '石英砂', '碳酸鈣 (CaCO₃)', '15', '三價鐵 Fe(OH)₃', '二氧化錳 (MnO₂)',
+      '0.05', '隱孢子蟲', '溶解-擴散', '朗格利爾', '18～24'
+    ];
+
+    const QUIZ_QUESTIONS = [
+      {
+        id: 'q1',
+        title: 'Q1.【光學透明度與除濁機制】當颱風暴雨導致澄清湖原水濁度暴衝至 380 NTU（燒杯呈現黃褐色不透光、雷射筆出現強烈廷得耳光束）時，Antigravity AI 綠色大腦如何實現「秒級救治」？',
+        options: [
+          'A. 等待實驗室人工完成 30 分鐘瓶杯試驗（Jar Test）後再手動加藥',
+          'B. 由 Vision-Floc Agent 透過水下鏡頭與 CNN 卷積神經網路，1 秒內辨識膠羽粒徑（μm）與沉降速率並自動前饋調升 PAC 至 62 mg/L',
+          'C. 將前臭氧關掉並改用大量液氯進行前加氯消毒',
+          'D. 將結晶軟化槽 pH 拉高到 10.5 以上強制沉澱'
+        ],
+        answerIdx: 1,
+        explanation: '✨ 學時即時回饋：傳統人工瓶杯試驗（Jar Test）耗時 30 分鐘，面對暴雨泥沙暴衝會來不及反應；澄清湖導入 Vision-Floc Agent（CNN 電腦視覺），1 秒內即時辨識水下膠羽粒徑並前饋調整 PAC 混凝劑，穩定脈動沉澱池污泥毯！'
+      },
+      {
+        id: 'q2',
+        title: 'Q2.【消毒副產物與除藻機制】夏季澄清湖發生優養化（葉綠素 a 飆至 68 μg/L，水色偏藻綠且具土霉味 Geosmin），為什麼高級淨水場採用「前臭氧（Pre-O₃）」取代傳統「前加氯」？',
+        options: [
+          'A. 因為臭氧沒有氧化能力，不會破壞藻類細胞壁',
+          'B. 因為臭氧（標準電位 2.07 V）能強力破藻除臭，且從源頭避免氯與腐植質反應生成致癌「三鹵甲烷（THMs）」',
+          'C. 因為前臭氧可以直接把鈣鎂離子變成純水',
+          'D. 因為臭氧在水中永遠不會分解'
+        ],
+        answerIdx: 1,
+        explanation: '✨ 學時即時回饋：臭氧標準氧化電位高達 2.07 V（遠高於氯），能迅速打斷微囊藻細胞壁與土霉味分子雙鍵，更關鍵的是不引進游離氯與有機腐植質反應，從源頭杜絕致癌三鹵甲烷（THMs）！'
+      },
+      {
+        id: 'q3',
+        title: 'Q3.【兩廠除硬度策略與環工專業邊界】澄清湖採用「石英砂流化床結晶軟化」，為什麼環境工程師必須為 AI 設定「pH 黃金區間 8.8～9.4（嚴禁超過 9.6）」的安全邊界？',
+        options: [
+          'A. 若 pH 超過 9.6，水中鎂離子會生成「氫氧化鎂 Mg(OH)₂ 糊狀膠體污泥」，不僅無法在石英砂表面結晶，更會穿透並塞死後端快濾池！',
+          'B. 若 pH 超過 9.6，石英砂會瞬間溶解消失',
+          'C. pH 愈高水溫會沸騰到 100°C',
+          'D. 純 AI 黑盒子不需要任何物理化學邊界也能永遠安全'
+        ],
+        answerIdx: 0,
+        explanation: '✨ 學時即時回饋：這正是「環工專業（Domain Knowledge）不可被純 AI 取代」的最佳實證！pH 在 8.8–9.4 時 CaCO₃ 會在石英砂表面異相成核長成結實結晶珠；一旦超過 pH 9.6，Mg(OH)₂ 糊狀污泥爆發會導致出水濁度反彈並塞死濾池！'
+      },
+      {
+        id: 'q4',
+        title: 'Q4.【雙薄膜系統保護與節能調水】高雄拷潭高級淨水場採用「0.05 μm UF 超過濾 ＋ LPRO 低壓逆滲透」，為什麼單元 4 要開啟約 18%～24% 的 UF 產水旁通（Bypass）與 LPRO 純水混合？',
+        options: [
+          'A. 因為 UF 膜沒有過濾功能，只是裝飾用',
+          'B. 因為純 LPRO 產水缺乏礦物質且具管網腐蝕性（LSI < 0）；將已 100% 除菌除濁（攔截隱孢子蟲）的 UF 產水旁通 18%～24% 勾兌，既保留約 100 mg/L 甘甜適飲鈣鎂硬度，又能直接節省約 20% 高壓泵電力！',
+          'C. 為了讓出水濁度升高超過 5 NTU',
+          'D. 為了讓二價鐵錳直接進入自來水管網'
+        ],
+        answerIdx: 1,
+        explanation: '✨ 學時即時回饋：UF 超過濾（0.05 μm）已 100% 攔截膠體、細菌與隱孢子蟲，水質極為安全；透過 Blend-PID Agent 將 18%–24% UF 產水與 LPRO 純水依質量平衡調配，完美兼顧「適飲礦物質口感、防止管網腐蝕、節省高壓泵電費」三大工程目標！'
+      },
+      {
+        id: 'q5',
+        title: 'Q5.【AI 綠領職涯探索】面對氣候變遷（極端暴雨高濁度、枯水期高硬度）與半導體高科技產業對超純水／再生水的迫切需求，未來「AI 環工水處理工程師」的核心價值為何？',
+        options: [
+          'A. 結合環境工程物理／化學／生物機制與 AI 數位雙生（CNN 視覺、軟感測器、薄膜預測性維護 PdM），實現節能減碳與智慧水務守護',
+          'B. 只要每天用肉眼看水色就夠了，不需要任何儀器與 AI',
+          'C. 水處理技術已經一百年沒有改變了',
+          'D. 半導體晶圓廠完全不需要用到 UF 與 RO 薄膜技術'
+        ],
+        answerIdx: 0,
+        explanation: '✨ 學時即時回饋：答對了！無論是民生高級淨水廠或台積電等高科技半導體超純水／再生水廠，最搶手的就是同時懂「水處理工程原理（UF/RO/臭氧/高級氧化）」與「AI 智慧監控」的跨域綠領人才——這正是輔英科大環工系培育的核心能力！'
+      }
+    ];
+    const DEFAULT_RECORDS = [
+      { team: '第一組（澄清新星隊）', plant: '澄清湖高級淨水場', scenario: '病徵二：暴雨高濁度休克', mode: '🤖 AI 處方', turbidity: '0.15 NTU', hardness: '105 mg/L', cost: '2.24 元/噸', score: 96 },
+      { team: '第三組（薄膜特攻隊）', plant: '拷潭高級淨水場', scenario: '病徵二：薄膜血管硬化', mode: '🤖 AI 處方', turbidity: '0.04 NTU', hardness: '101 mg/L', cost: '2.12 元/噸', score: 96 },
+      { team: '第四組（淨水守護隊）', plant: '線上學習單＋臨床問答', scenario: '全院四診合參總評量', mode: '🎓 線上評分', turbidity: '0.05 NTU', hardness: '102 mg/L', cost: '2.10 元/噸', score: 98 },
+      { team: '第二組（綠腦先鋒隊）', plant: '澄清湖高級淨水場', scenario: '病徵一：湖水優養化發燒', mode: '🖐️ 手動調控', turbidity: '0.29 NTU', hardness: '136 mg/L', cost: '2.58 元/噸', score: 78 }
+    ];
+
+    // =========================================================================
+    // 4. APPLICATION STATE
+    // =========================================================================
+    let state = {
+      activeTab: 'water-visual', // Starts at Stage (1) per pedagogical flow
+      flowPlant: 'chengcing',
+      flowUnitIdx: 0,
+      currentPlant: 'chengcing',
+      currentScenarioIdx: 0,
+      selectedUnitIdx: 0,
+      isAiPrescribed: false,
+      showWorksheetAnswers: true,
+      darkMode: false,
+      activeBlankInput: null,
+      optics: {
+        turb: 120,
+        algae: 15,
+        femn: 0.25,
+        tds: 280,
+        laserOn: true
+      },
+      quizSelections: {},
+      onlineScore: {
+        partA: 0,
+        partB: 0,
+        partD: 0,
+        total: 0
+      },
+      sliders: {
+        pre_o3: 0.8,
+        coag_sed: 16,
+        pellet_soft: 8.4,
+        post_o3_bac: 0.8,
+        aeration_filter: 3.0,
+        uf_system: 55,
+        lpro_system: 11.5,
+        blend_tank: 10
+      },
+      manualSnapshot: {},
+      computed: {
+        score: 82,
+        turbidity: 0.18,
+        hardness: 118,
+        fourthVal: 12,
+        cost: 2.15,
+        radarScores: [85, 88, 86, 90, 84]
+      },
+      records: [...DEFAULT_RECORDS]
+    };
+
+    try {
+      const saved = localStorage.getItem('antigravity_water_records_v3');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) state.records = parsed;
+      }
+    } catch (e) {}
+
+    function saveRecordsToStorage() {
+      try {
+        localStorage.setItem('antigravity_water_records_v3', JSON.stringify(state.records));
+      } catch (e) {}
+    }
+
+    // =========================================================================
+    // 5. WATER TREATMENT SIMULATION ENGINE
+    // =========================================================================
+    function evaluateParameters(plantId, scen, sliderVals) {
+      const opt = scen.optimal;
+
+      if (plantId === 'chengcing') {
+        const s1 = sliderVals.pre_o3;
+        const s2 = sliderVals.coag_sed;
+        const s3 = sliderVals.pellet_soft;
+        const s4 = sliderVals.post_o3_bac;
+
+        const d1 = Math.abs(s1 - opt.pre_o3) / 1.5;
+        const d2 = Math.abs(s2 - opt.coag_sed) / 35;
+        const d3 = Math.abs(s3 - opt.pellet_soft) / 1.2;
+        const d4 = Math.abs(s4 - opt.post_o3_bac) / 1.2;
+
+        let turb = 0.12 + (scen.raw.turbidity / 400) * 0.04 + d2 * 0.48 + d1 * 0.12;
+        if (s3 > 9.65) turb += (s3 - 9.65) * 0.75;
+        turb = Math.max(0.08, Math.min(2.50, turb));
+
+        let hard = 105 + (scen.raw.hardness - 235) * 0.06 + Math.abs(s3 - opt.pellet_soft) * 95;
+        hard = Math.max(65, Math.min(330, Math.round(hard)));
+
+        let aoc = 10 + (scen.raw.algae / 25) * 1.2 + d4 * 28 + d1 * 14;
+        aoc = Math.max(6, Math.min(85, Math.round(aoc)));
+
+        let cost = 1.65 + s1 * 0.18 + s2 * 0.008 + Math.max(0, s3 - 8.0) * 0.22 + s4 * 0.16;
+
+        const rTurb = Math.max(20, Math.min(100, Math.round(98 - d2 * 65 - (turb > 0.3 ? 25 : 0))));
+        const rSoft = Math.max(20, Math.min(100, Math.round(98 - d3 * 75 - (s3 > 9.65 ? 25 : 0))));
+        const rAlgae = Math.max(20, Math.min(100, Math.round(98 - d1 * 70)));
+        const rBac = Math.max(20, Math.min(100, Math.round(98 - d4 * 70)));
+        const overDose = Math.max(0, s1 - opt.pre_o3) * 15 + Math.max(0, s2 - opt.coag_sed) * 0.6 + Math.max(0, s4 - opt.post_o3_bac) * 15;
+        const rEco = Math.max(25, Math.min(100, Math.round(97 - overDose - (d1 + d2 + d3 + d4) * 12)));
+
+        const totalScore = Math.round(rTurb * 0.22 + rSoft * 0.22 + rAlgae * 0.18 + rBac * 0.20 + rEco * 0.18);
+
+        return {
+          score: totalScore,
+          turbidity: Number(turb.toFixed(2)),
+          hardness: hard,
+          fourthVal: aoc,
+          cost: Number(cost.toFixed(2)),
+          radarScores: [rTurb, rSoft, rAlgae, rBac, rEco]
+        };
+      } else {
+        const s1 = sliderVals.aeration_filter;
+        const s2 = sliderVals.uf_system;
+        const s3 = sliderVals.lpro_system;
+        const s4 = sliderVals.blend_tank;
+
+        const d1 = Math.abs(s1 - opt.aeration_filter) / 4.5;
+        const d2 = Math.abs(s2 - opt.uf_system) / 30;
+        const d3 = Math.abs(s3 - opt.lpro_system) / 4.0;
+        const d4 = Math.abs(s4 - opt.blend_tank) / 20;
+
+        let turb = 0.04 + d1 * 0.09 + (s2 > opt.uf_system ? (s2 - opt.uf_system) * 0.006 : 0);
+        turb = Math.max(0.03, Math.min(0.85, turb));
+
+        const lproPermHardness = Math.max(8, 28 - (s3 - 6) * 2.2);
+        const ufPermHardness = scen.raw.hardness * 0.96;
+        const blendRatio = s4 / 100;
+        let hard = Math.round(ufPermHardness * blendRatio + lproPermHardness * (1 - blendRatio));
+        const hardDiff = Math.abs(hard - 102) / 85;
+
+        let recovery = 95.5 - (45 / s2) * 1.6 + (s3 - 9.5) * 0.35 + (s4 * 0.08) - d1 * 3.5;
+        recovery = Math.max(82.0, Math.min(97.2, Number(recovery.toFixed(1))));
+
+        let cost = 1.68 + s1 * 0.032 + (40 / s2) * 0.15 + s3 * 0.062 * (1 - blendRatio * 0.78);
+        if (s3 > 12.5 && s4 < 12) cost += 0.35;
+
+        const rPre = Math.max(20, Math.min(100, Math.round(98 - d1 * 75)));
+        const rUf = Math.max(20, Math.min(100, Math.round(98 - d2 * 75)));
+        const rLpro = Math.max(20, Math.min(100, Math.round(98 - d3 * 70)));
+        const rBlend = Math.max(20, Math.min(100, Math.round(98 - hardDiff * 70 - d4 * 35)));
+        const rEco = Math.max(25, Math.min(100, Math.round(98 - Math.abs(cost - 2.10) * 38 - (d1 + d2 + d3) * 10)));
+
+        const totalScore = Math.round(rPre * 0.20 + rUf * 0.22 + rLpro * 0.20 + rBlend * 0.20 + rEco * 0.18);
+
+        return {
+          score: totalScore,
+          turbidity: Number(turb.toFixed(2)),
+          hardness: hard,
+          fourthVal: recovery,
+          cost: Number(cost.toFixed(2)),
+          radarScores: [rPre, rUf, rLpro, rBlend, rEco]
+        };
+      }
+    }
+
+    function computeMetrics() {
+      const plant = PLANT_DATA[state.currentPlant];
+      const scen = plant.scenarios[state.currentScenarioIdx];
+      state.computed = evaluateParameters(state.currentPlant, scen, state.sliders);
+
+      if (!state.isAiPrescribed) {
+        state.manualSnapshot[scen.id] = {
+          sliders: { ...state.sliders },
+          computed: { ...state.computed }
+        };
+      }
+    }
+
+    // =========================================================================
+    // 6. RADAR CHART
+    // =========================================================================
+    let radarChart = null;
+
+    function initRadarChart() {
+      const ctx = document.getElementById('diagnostic-radar-chart').getContext('2d');
+      radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['CNN 快混除濁', '結晶軟化除硬', '前臭氧除藻', 'BAC 生物穩定', '節能省藥'],
+          datasets: [
+            {
+              label: '目前水廠各單元績效',
+              data: [85, 88, 86, 90, 84],
+              backgroundColor: 'rgba(0, 112, 192, 0.22)',
+              borderColor: '#0070C0',
+              pointBackgroundColor: '#7030A0',
+              pointBorderColor: '#fff',
+              borderWidth: 2.5
+            },
+            {
+              label: 'AI 綠色大腦黃金基準',
+              data: [97, 97, 97, 97, 97],
+              backgroundColor: 'rgba(84, 130, 53, 0.08)',
+              borderColor: '#548235',
+              borderDash: [4, 4],
+              pointRadius: 0,
+              borderWidth: 1.8
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              min: 0,
+              max: 100,
+              ticks: { stepSize: 25, display: false },
+              grid: { color: 'rgba(0, 32, 96, 0.15)' },
+              angleLines: { color: 'rgba(0, 32, 96, 0.15)' },
+              pointLabels: {
+                color: '#002060',
+                font: { family: "'Microsoft JhengHei', 'Noto Sans TC', sans-serif", size: 12, weight: '700' }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: '#1E293B',
+                boxWidth: 12,
+                font: { family: "'Microsoft JhengHei', 'Noto Sans TC', sans-serif", size: 11, weight: '700' }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function updateRadarChart() {
+      if (!radarChart) return;
+      if (state.currentPlant === 'chengcing') {
+        radarChart.data.labels = ['CNN 快混除濁', '結晶軟化除硬', '前臭氧除藻', 'BAC 生物穩定', '節能省藥'];
+      } else {
+        radarChart.data.labels = ['氣曝除鐵錳', 'UF 膜通量保護', 'LPRO 抗垢節能', '黃金比例調水', '高造水回收率'];
+      }
+      const labelColor = state.darkMode ? '#E2E8F0' : '#002060';
+      radarChart.options.scales.r.pointLabels.color = labelColor;
+      radarChart.options.plugins.legend.labels.color = labelColor;
+      radarChart.data.datasets[0].data = state.computed.radarScores;
+      radarChart.update();
+    }
+
+    // =========================================================================
+    // 7. MODULE (1) 3D BEAKER TRANSPARENCY & BEER-LAMBERT OPTICS ENGINE
+    // =========================================================================
+    function setBeakerPreset(type) {
+      if (type === 'storm') {
+        state.optics.turb = 360;
+        state.optics.algae = 12;
+        state.optics.femn = 0.2;
+        state.optics.tds = 210;
+      } else if (type === 'algae') {
+        state.optics.turb = 45;
+        state.optics.algae = 68;
+        state.optics.femn = 0.15;
+        state.optics.tds = 250;
+      } else if (type === 'femn') {
+        state.optics.turb = 55;
+        state.optics.algae = 8;
+        state.optics.femn = 1.85;
+        state.optics.tds = 290;
+      } else {
+        state.optics.turb = 15;
+        state.optics.algae = 10;
+        state.optics.femn = 0.2;
+        state.optics.tds = 255;
+      }
+      syncOpticsSlidersUI();
+    }
+
+    function syncOpticsSlidersUI() {
+      const o = state.optics;
+      document.getElementById('opt-turb-slider').value = o.turb;
+      document.getElementById('opt-algae-slider').value = o.algae;
+      document.getElementById('opt-femn-slider').value = o.femn;
+      document.getElementById('opt-tds-slider').value = o.tds;
+
+      // Beer-Lambert light transmittance %
+      const ext = (o.turb / 220) + (o.algae / 90) + (o.femn / 2.2);
+      const transPct = Math.max(2, Math.min(99, Math.round(100 * Math.pow(10, -ext * 0.55))));
+
+      document.getElementById('opt-turb-label').textContent = `${o.turb} NTU (透光率 ${transPct}%)`;
+      document.getElementById('opt-algae-label').textContent = `${o.algae} μg/L`;
+      document.getElementById('opt-femn-label').textContent = `${Number(o.femn).toFixed(2)} mg/L`;
+      document.getElementById('opt-tds-label').textContent = `${o.tds} mg/L`;
+
+      const badge = document.getElementById('opt-secchi-badge');
+      const desc = document.getElementById('opt-diagnosis-desc');
+      if (transPct < 30) {
+        badge.textContent = `原水透光率 ${transPct}%｜底部標靶：嚴重遮蔽`;
+        badge.className = 'px-2 py-0.5 rounded bg-rose-600 text-white';
+        desc.textContent = `原水高濃度污染（濁度 ${o.turb} NTU、藻類 ${o.algae} μg/L、鐵錳 ${o.femn} mg/L）造成強烈光消光與散射，雷射筆在左杯呈現明顯廷得耳光束；經澄清湖與拷潭高級處理後，透光率恢復至 98%–99.5%！`;
+      } else if (transPct < 70) {
+        badge.textContent = `原水透光率 ${transPct}%｜底部標靶：半透明模糊`;
+        badge.className = 'px-2 py-0.5 rounded bg-amber-600 text-white';
+        desc.textContent = `原水呈現微混濁或色度偏高，肉眼可見懸浮膠體與雷射光跡；經兩廠四道高級單元處理後，出水清澈見底且保留約 100 mg/L 適飲礦物質。`;
+      } else {
+        badge.textContent = `原水透光率 ${transPct}%｜底部標靶：尚可辨識`;
+        badge.className = 'px-2 py-0.5 rounded bg-emerald-600 text-white';
+        desc.textContent = `目前原水屬平水期低濁度狀態，但仍含溶解性硬度（TDS ${o.tds} mg/L）與微量有機物，需透過結晶軟化或 LPRO 逆滲透精準調質。`;
+      }
+    }
+
+    // Helper to draw a realistic 3D cylindrical glass beaker with liquid color/opacity, bottom Secchi target, particles & laser beam
+    function draw3DBeaker(ctx, x, y, w, h, config, timestamp) {
+      const { title, sub, r, g, b, alpha, transPct, tdsCount, suspCount, laserOn, laserScatter } = config;
+      const cx = x + w / 2;
+      const topY = y + 26;
+      const botY = y + h - 22;
+      const liquidTopY = topY + 22;
+      const rx = w * 0.42;
+      const ry = 11;
+
+      // 1. Bottom Secchi Crosshair Target (seen through the water column -> blurred/faded by liquid opacity!)
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(cx, botY, rx - 4, ry - 2, 0, 0, Math.PI * 2);
+      ctx.fillStyle = '#f8fafc';
+      ctx.fill();
+      ctx.strokeStyle = '#0f172a';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      // Target quadrants
+      ctx.beginPath();
+      ctx.moveTo(cx - rx + 10, botY);
+      ctx.lineTo(cx + rx - 10, botY);
+      ctx.moveTo(cx, botY - ry + 3);
+      ctx.lineTo(cx, botY + ry - 3);
+      ctx.strokeStyle = '#002060';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+
+      // 2. Liquid Column Body (Opacity directly reflects concentration via Beer-Lambert law!)
+      const liqGrad = ctx.createLinearGradient(x, liquidTopY, x + w, botY);
+      liqGrad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${Math.min(0.96, alpha * 0.92)})`);
+      liqGrad.addColorStop(1, `rgba(${Math.max(0, r - 25)}, ${Math.max(0, g - 25)}, ${Math.max(0, b - 25)}, ${Math.min(0.98, alpha)})`);
+
+      ctx.beginPath();
+      ctx.ellipse(cx, botY, rx, ry, 0, 0, Math.PI);
+      ctx.lineTo(cx - rx, liquidTopY);
+      ctx.lineTo(cx + rx, liquidTopY);
+      ctx.closePath();
+      ctx.fillStyle = liqGrad;
+      ctx.fill();
+
+      // 3. Laser Beam Tyndall Effect passing through middle of beaker
+      const laserY = (liquidTopY + botY) * 0.52;
+      if (laserOn) {
+        const beamWidth = 2 + laserScatter * 16;
+        const beamAlpha = 0.18 + laserScatter * 0.72;
+        const beamGrad = ctx.createLinearGradient(cx - rx, laserY - beamWidth, cx - rx, laserY + beamWidth);
+        beamGrad.addColorStop(0, 'rgba(255, 40, 60, 0)');
+        beamGrad.addColorStop(0.5, `rgba(255, 30, 60, ${beamAlpha})`);
+        beamGrad.addColorStop(1, 'rgba(255, 40, 60, 0)');
+        ctx.fillStyle = beamGrad;
+        ctx.fillRect(cx - rx + 2, laserY - beamWidth, rx * 2 - 4, beamWidth * 2);
+
+        // Core laser line
+        ctx.beginPath();
+        ctx.moveTo(cx - rx, laserY);
+        ctx.lineTo(cx + rx, laserY);
+        ctx.strokeStyle = `rgba(255, 80, 100, ${0.35 + laserScatter * 0.65})`;
+        ctx.lineWidth = 1.6;
+        ctx.stroke();
+      }
+
+      // 4. Suspended & Dissolved Particles inside Beaker
+      for (let i = 0; i < suspCount; i++) {
+        const px = cx - rx + 10 + ((i * 37 + timestamp * 0.02 * (i % 3 + 1)) % (rx * 2 - 20));
+        const py = liquidTopY + 10 + ((i * 23 + Math.sin(timestamp * 0.003 + i) * 8) % (botY - liquidTopY - 18));
+        ctx.beginPath();
+        ctx.arc(px, py, 2.2 + (i % 2), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${Math.min(255, r + 40)}, ${Math.min(255, g + 30)}, ${Math.max(40, b - 20)}, 0.85)`;
+        ctx.fill();
+      }
+
+      // Dissolved TDS ions (tiny sparkling dots)
+      for (let i = 0; i < tdsCount; i++) {
+        const px = cx - rx + 12 + ((i * 29) % (rx * 2 - 24));
+        const py = liquidTopY + 12 + ((i * 19 + Math.cos(timestamp * 0.004 + i) * 5) % (botY - liquidTopY - 20));
+        ctx.beginPath();
+        ctx.arc(px, py, 1.3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 217, 102, 0.75)';
+        ctx.fill();
+      }
+
+      // 5. Liquid Top Meniscus Ellipse with gentle wave
+      ctx.beginPath();
+      ctx.ellipse(cx, liquidTopY, rx, ry * 0.85, 0, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${Math.min(255, r + 25)}, ${Math.min(255, g + 25)}, ${Math.min(255, b + 25)}, ${Math.max(0.28, alpha * 0.85)})`;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+
+      // 6. 3D Glass Beaker Rim, Walls, Graduation Marks & Specular Highlight
+      ctx.beginPath();
+      ctx.ellipse(cx, topY, rx, ry * 0.8, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(186, 230, 253, 0.8)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(cx - rx, topY);
+      ctx.lineTo(cx - rx, botY);
+      ctx.ellipse(cx, botY, rx, ry, 0, Math.PI, 0, true);
+      ctx.lineTo(cx + rx, topY);
+      ctx.strokeStyle = 'rgba(224, 242, 254, 0.85)';
+      ctx.lineWidth = 2.2;
+      ctx.stroke();
+
+      // Glass Specular Reflection Strip
+      const specGrad = ctx.createLinearGradient(cx - rx + 6, topY, cx - rx + 18, topY);
+      specGrad.addColorStop(0, 'rgba(255,255,255,0.05)');
+      specGrad.addColorStop(0.5, 'rgba(255,255,255,0.32)');
+      specGrad.addColorStop(1, 'rgba(255,255,255,0.02)');
+      ctx.fillStyle = specGrad;
+      ctx.fillRect(cx - rx + 6, topY + 6, 12, botY - topY - 12);
+
+      // Graduation ticks on beaker
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      ctx.font = '9px monospace';
+      for (let m = 1; m <= 3; m++) {
+        const my = botY - m * ((botY - liquidTopY) / 3.5);
+        ctx.fillRect(cx + rx - 14, my, 8, 1.2);
+        ctx.fillText(`${m * 100}mL`, cx + rx - 42, my + 3);
+      }
+
+      // Labels
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 12px "Microsoft JhengHei", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(title, cx, y + 14);
+
+      ctx.fillStyle = transPct > 85 ? '#4ADE80' : (transPct > 45 ? '#FBBF24' : '#F87171');
+      ctx.font = 'bold 11px monospace';
+      ctx.fillText(`${sub}｜透光率 ${transPct}%`, cx, y + h - 2);
+      ctx.textAlign = 'left';
+    }
+
+    // =========================================================================
+    // 8. MODULE (2) 3D DYNAMIC PROCESS FLOW RENDERER
+    // =========================================================================
+    function selectFlowPlant(plantKey) {
+      state.flowPlant = plantKey;
+      state.flowUnitIdx = 0;
+      const btnCc = document.getElementById('flow-btn-cc');
+      const btnKt = document.getElementById('flow-btn-kt');
+      if (plantKey === 'chengcing') {
+        btnCc.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#002060] text-[#FFD966] shadow-md transition';
+        btnKt.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-white text-[#002060] hover:bg-sky-50 border border-[#0070C0] transition';
+        document.getElementById('flow-3d-banner-title').textContent = '🏥 澄清湖高級淨水場 3D 動態剖面流程圖（點擊槽體可切換焦點）';
+      } else {
+        btnKt.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-[#002060] text-[#FFD966] shadow-md transition';
+        btnCc.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-white text-[#002060] hover:bg-sky-50 border border-[#0070C0] transition';
+        document.getElementById('flow-3d-banner-title').textContent = '🔬 高雄拷潭高級淨水場 3D 雙薄膜動態剖面流程圖（點擊槽體可切換焦點）';
+      }
+      renderFlow3DCards();
+    }
+
+    function renderFlow3DCards() {
+      const grid = document.getElementById('flow-3d-cards-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      const plant = PLANT_DATA[state.flowPlant];
+
+      plant.units.forEach((u, idx) => {
+        const isSel = idx === state.flowUnitIdx;
+        const card = document.createElement('div');
+        card.className = `unit-3d-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between gap-2.5 ${isSel ? 'active-3d' : ''}`;
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between text-xs font-black ${isSel ? 'text-[#FFD966]' : 'text-[#7030A0]'}">
+              <span>${u.stepNum}｜${u.designCap}</span>
+              <span>${isSel ? '● 3D 動態聚焦中' : '點擊聚焦'}</span>
+            </div>
+            <h4 class="text-base font-black mt-1 ${isSel ? 'text-white' : 'text-[#002060]'}">${u.name}</h4>
+            <div class="my-2 p-2 rounded-xl bg-white/95 border border-sky-200">
+              ${getUnit3DSvg(u.id)}
+            </div>
+            <div class="text-xs font-black ${isSel ? 'text-[#FFD966]' : 'text-[#C55A11]'}">🎯 工程目的：</div>
+            <p class="text-xs leading-relaxed mt-0.5 ${isSel ? 'text-sky-100' : 'text-[#1E293B]'}">${u.purpose}</p>
+          </div>
+          <div class="pt-2 border-t ${isSel ? 'border-sky-400/30 text-sky-200' : 'border-slate-300 text-[#475569]'} text-[11px] leading-relaxed">
+            <strong class="${isSel ? 'text-white' : 'text-[#0070C0]'}">⚙️ 處理機制：</strong>${u.shortDesc}<br>
+            <strong class="${isSel ? 'text-[#FFD966]' : 'text-[#7030A0]'}">🤖 AI 代理：</strong>${u.aiMethod}
+          </div>
+        `;
+        card.addEventListener('click', () => {
+          state.flowUnitIdx = idx;
+          renderFlow3DCards();
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    function drawPlant3DFlowCanvas(timestamp) {
+      const c = document.getElementById('plant-3d-flow-canvas');
+      if (!c || state.activeTab !== 'plant-flow') return;
+      const ctx = c.getContext('2d');
+      const rect = c.parentElement.getBoundingClientRect();
+      if (c.width !== Math.floor(rect.width) || c.height !== Math.floor(rect.height)) {
+        c.width = Math.max(320, Math.floor(rect.width));
+        c.height = Math.max(240, Math.floor(rect.height));
+      }
+      const w = c.width;
+      const h = c.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Isometric Engineering Grid Background
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+      bgGrad.addColorStop(0, '#061024');
+      bgGrad.addColorStop(1, '#0d2247');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx < w; gx += 40) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke();
+      }
+      for (let gy = 0; gy < h; gy += 40) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
+      }
+
+      const plant = PLANT_DATA[state.flowPlant];
+      const padX = Math.max(24, w * 0.05);
+      const stepW = (w - padX * 2) / 4;
+      const pipeY = h * 0.56;
+
+      // Water color stages from Raw -> Unit 1 -> Unit 2 -> Unit 3 -> Unit 4 Clearwell
+      const stageColors = state.flowPlant === 'chengcing'
+        ? [
+            { r: 145, g: 130, b: 55, a: 0.92, label: '原水 (混濁藻綠)' },
+            { r: 110, g: 155, b: 95, a: 0.78, label: '前臭氧破藻水' },
+            { r: 65, g: 165, b: 205, a: 0.55, label: '脈動沉澱澄清水' },
+            { r: 30, g: 180, b: 235, a: 0.38, label: '結晶軟化低硬水' },
+            { r: 10, g: 195, b: 255, a: 0.24, label: 'BAC 生物穩定清水' }
+          ]
+        : [
+            { r: 175, g: 95, b: 45, a: 0.90, label: '伏流水 (含二價鐵錳)' },
+            { r: 95, g: 150, b: 175, a: 0.65, label: '氣曝快濾除鐵錳水' },
+            { r: 40, g: 180, b: 230, a: 0.35, label: '0.05μm UF 除菌水' },
+            { r: 15, g: 205, b: 255, a: 0.18, label: 'LPRO 逆滲透純水' },
+            { r: 25, g: 195, b: 250, a: 0.25, label: '黃金比例適飲清水' }
+          ];
+
+      // Draw connecting 3D pipelines & animated flowing water droplets
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = '#1e293b';
+      ctx.beginPath();
+      ctx.moveTo(padX, pipeY);
+      ctx.lineTo(w - padX, pipeY);
+      ctx.stroke();
+
+      for (let i = 0; i < 36; i++) {
+        const prog = ((i / 36) + (timestamp * 0.00012)) % 1;
+        const px = padX + prog * (w - padX * 2);
+        const stIdx = Math.min(4, Math.floor(prog * 5));
+        const col = stageColors[stIdx];
+        ctx.beginPath();
+        ctx.arc(px, pipeY, 4.2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${col.r}, ${col.g}, ${col.b}, 0.95)`;
+        ctx.fill();
+      }
+
+      // If Kaotan, draw the UF -> Blend Tank 22% Bypass overhead pipeline!
+      if (state.flowPlant === 'kaotan') {
+        const ufX = padX + stepW * 1.5;
+        const blendX = padX + stepW * 3.5;
+        const byY = h * 0.18;
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 4;
+        ctx.setLineDash([6, 4]);
+        ctx.beginPath();
+        ctx.moveTo(ufX, pipeY - 55);
+        ctx.lineTo(ufX, byY);
+        ctx.lineTo(blendX, byY);
+        ctx.lineTo(blendX, pipeY - 55);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#ffd966';
+        ctx.font = 'bold 11px "Microsoft JhengHei", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('⚡ UF 產水旁通管線 (Bypass 18%～24% 直接勾兌省電)', (ufX + blendX) / 2, byY - 5);
+      }
+
+      // Draw 4 3D Isometric Reactor Units along the pipeline
+      plant.units.forEach((u, idx) => {
+        const cx = padX + stepW * (idx + 0.5);
+        const cy = pipeY;
+        const boxW = Math.min(135, stepW * 0.78);
+        const boxH = 108;
+        const isSel = idx === state.flowUnitIdx;
+        const col = stageColors[idx + 1];
+
+        // 3D Shadow & Pedestal
+        ctx.fillStyle = isSel ? 'rgba(0, 176, 240, 0.28)' : 'rgba(0, 0, 0, 0.35)';
+        ctx.beginPath();
+        ctx.ellipse(cx, cy + boxH / 2 + 12, boxW * 0.52, 14, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 3D Tank Cylinder / Isometric Box
+        const topY = cy - boxH / 2;
+        const botY = cy + boxH / 2;
+        const rx = boxW * 0.44;
+        const ry = 12;
+
+        // Tank Wall
+        const wallGrad = ctx.createLinearGradient(cx - rx, topY, cx + rx, botY);
+        wallGrad.addColorStop(0, isSel ? '#0284c7' : '#1e3a5f');
+        wallGrad.addColorStop(1, isSel ? '#002060' : '#0f172a');
+        ctx.fillStyle = wallGrad;
+        ctx.beginPath();
+        ctx.ellipse(cx, botY, rx, ry, 0, 0, Math.PI);
+        ctx.lineTo(cx - rx, topY);
+        ctx.lineTo(cx + rx, topY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = isSel ? '#ffd966' : '#38bdf8';
+        ctx.lineWidth = isSel ? 3 : 1.5;
+        ctx.stroke();
+
+        // Cutaway Window showing internal water transparency & reaction particles
+        ctx.fillStyle = `rgba(${col.r}, ${col.g}, ${col.b}, ${col.a})`;
+        ctx.fillRect(cx - rx + 10, topY + 18, rx * 2 - 20, boxH - 28);
+        ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(cx - rx + 10, topY + 18, rx * 2 - 20, boxH - 28);
+
+        // Internal animated reaction elements inside cutaway window
+        for (let p = 0; p < 8; p++) {
+          const px = cx - rx + 18 + ((p * 23 + timestamp * 0.02) % (rx * 2 - 36));
+          const py = botY - 16 - ((p * 17 + timestamp * 0.035) % (boxH - 38));
+          ctx.beginPath();
+          ctx.arc(px, py, idx === 2 && state.flowPlant === 'chengcing' ? 4 : 3, 0, Math.PI * 2);
+          ctx.fillStyle = idx === 2 && state.flowPlant === 'chengcing' ? '#ffffff' : '#ffd966';
+          ctx.fill();
+        }
+
+        // Tank Top Roof Ellipse
+        ctx.beginPath();
+        ctx.ellipse(cx, topY, rx, ry, 0, 0, Math.PI * 2);
+        ctx.fillStyle = isSel ? '#38bdf8' : '#0369a1';
+        ctx.fill();
+        ctx.strokeStyle = isSel ? '#ffd966' : '#bae6fd';
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+
+        // Unit Title & Purpose Pill below tank
+        ctx.textAlign = 'center';
+        ctx.fillStyle = isSel ? '#ffd966' : '#ffffff';
+        ctx.font = 'bold 13px "Microsoft JhengHei", sans-serif';
+        ctx.fillText(`${u.stepNum}：${u.name}`, cx, botY + 30);
+
+        ctx.fillStyle = '#7dd3fc';
+        ctx.font = '11px "Microsoft JhengHei", sans-serif';
+        ctx.fillText(u.shortDesc, cx, botY + 46);
+        ctx.textAlign = 'left';
+      });
+    }
+
+    // =========================================================================
+    // 9. UI RENDERING FUNCTIONS FOR SIMULATOR & WORKSHEET
+    // =========================================================================
+    function updateTopNavHighlight() {
+      const navConfig = [
+        { id: 'tab-water-visual', key: 'water-visual', defaultBg: 'bg-[#0070C0] text-white hover:bg-sky-600' },
+        { id: 'tab-plant-flow', key: 'plant-flow', defaultBg: 'bg-[#7030A0] text-white hover:bg-purple-700' },
+        { id: 'tab-chengcing', key: 'chengcing', defaultBg: 'bg-[#0070C0] text-white hover:bg-sky-600' },
+        { id: 'tab-kaotan', key: 'kaotan', defaultBg: 'bg-[#0070C0] text-white hover:bg-sky-600' },
+        { id: 'tab-online-quiz', key: 'online-quiz', defaultBg: 'bg-[#548235] text-white hover:bg-emerald-700' },
+        { id: 'tab-scoreboard', key: 'scoreboard', defaultBg: 'bg-[#C55A11] text-white hover:bg-amber-700' }
+      ];
+
+      navConfig.forEach(item => {
+        const btn = document.getElementById(item.id);
+        if (!btn) return;
+        const isActive = state.activeTab === item.key;
+        btn.className = `px-2.5 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1 ${
+          isActive
+            ? 'bg-[#FFD966] text-[#002060] shadow-md ring-2 ring-white'
+            : item.defaultBg
+        }`;
+      });
+    }
+
+    function loadScenario(scenarioIdx, useOptimal = false) {
+      state.currentScenarioIdx = scenarioIdx;
+      const plant = PLANT_DATA[state.currentPlant];
+      const scen = plant.scenarios[scenarioIdx];
+
+      if (!state.manualSnapshot[scen.id]) {
+        const initSliders = { ...state.sliders, ...scen.manualInit };
+        state.manualSnapshot[scen.id] = {
+          sliders: initSliders,
+          computed: evaluateParameters(state.currentPlant, scen, initSliders)
+        };
+      }
+
+      state.isAiPrescribed = useOptimal;
+      const sourceVals = useOptimal ? scen.optimal : scen.manualInit;
+      Object.keys(sourceVals).forEach(k => {
+        state.sliders[k] = sourceVals[k];
+      });
+
+      renderAll();
+    }
+
+    function renderScenarioButtons() {
+      const plant = PLANT_DATA[state.currentPlant];
+      const container = document.getElementById('scenario-buttons-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const badgeStyles = {
+        emerald: 'bg-[#548235] text-white',
+        amber: 'bg-[#C55A11] text-white',
+        rose: 'bg-[#C00000] text-white',
+        sky: 'bg-[#0070C0] text-white'
+      };
+
+      plant.scenarios.forEach((scen, idx) => {
+        const isSelected = idx === state.currentScenarioIdx;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `text-left p-3.5 rounded-xl transition-all flex flex-col justify-between gap-2 ${
+          isSelected
+            ? 'ide-card-active bg-[#DEEBF7]/60'
+            : 'bg-[#F2F2F2] hover:bg-[#DEEBF7]/40 border border-[#BDD7EE]'
+        }`;
+        btn.innerHTML = `
+          <div class="flex items-center justify-between gap-1">
+            <span class="px-2.5 py-0.5 text-xs font-black rounded ${badgeStyles[scen.badgeColor]}">${scen.badge}</span>
+            ${isSelected ? '<span class="text-xs text-[#C00000] font-black">● 診斷中</span>' : ''}
+          </div>
+          <div class="text-sm font-black text-[#002060] leading-snug">${scen.title}</div>
+        `;
+        btn.addEventListener('click', () => loadScenario(idx, false));
+        container.appendChild(btn);
+      });
+
+      const activeScen = plant.scenarios[state.currentScenarioIdx];
+      document.getElementById('symptom-badge').textContent = activeScen.badge;
+      document.getElementById('symptom-title').textContent = activeScen.title;
+      document.getElementById('symptom-detail').textContent = activeScen.detail;
+    }
+
+    function renderUnitPrincipleCard() {
+      const plant = PLANT_DATA[state.currentPlant];
+      const unit = plant.units[state.selectedUnitIdx];
+
+      document.getElementById('principle-unit-badge').textContent = `${unit.stepNum}｜工程原理`;
+      document.getElementById('principle-unit-title').textContent = `${unit.name} — 實際對應工程操作原理`;
+      document.getElementById('principle-design-cap').textContent = unit.designCap;
+      document.getElementById('principle-mechanism-text').innerHTML = unit.mechanismHtml;
+      document.getElementById('principle-formula-box').textContent = unit.formula;
+      document.getElementById('principle-control-text').innerHTML = `<strong>🎯 工程目的：</strong>${unit.purpose}<br><strong>⚙️ 實廠控制邏輯：</strong>${unit.controlNote}`;
+    }
+
+    function getStatusBadgeHtml(diffRatio) {
+      if (diffRatio < 0.08) {
+        return '<span class="text-xs font-bold px-2 py-0.5 rounded bg-[#548235] text-white">已運作：最佳區間</span>';
+      } else if (diffRatio < 0.22) {
+        return '<span class="text-xs font-bold px-2 py-0.5 rounded bg-[#FFF2CC] text-[#C55A11] border border-[#C55A11]">規劃中：可再優化</span>';
+      }
+      return '<span class="text-xs font-bold px-2 py-0.5 rounded bg-[#FBE5D6] text-[#C00000] border border-[#C00000]">異常：參數偏離</span>';
+    }
+
+    function renderDiffLog() {
+      const plant = PLANT_DATA[state.currentPlant];
+      const scen = plant.scenarios[state.currentScenarioIdx];
+      const diffContainer = document.getElementById('agent-diff-log');
+      const scoreDiffBar = document.getElementById('agent-score-diff-bar');
+      if (!diffContainer) return;
+      diffContainer.innerHTML = '';
+
+      const snap = state.manualSnapshot[scen.id] || {
+        sliders: scen.manualInit,
+        computed: evaluateParameters(state.currentPlant, scen, scen.manualInit)
+      };
+      const aiEval = evaluateParameters(state.currentPlant, scen, scen.optimal);
+
+      plant.units.forEach(unit => {
+        const currentVal = state.sliders[unit.id];
+        const manualVal = snap.sliders[unit.id] !== undefined ? snap.sliders[unit.id] : scen.manualInit[unit.id];
+        const optVal = scen.optimal[unit.id];
+        const isMatched = Math.abs(currentVal - optVal) < 0.01;
+
+        const diffItem = document.createElement('div');
+        diffItem.className = 'p-2.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between gap-2';
+        diffItem.innerHTML = `
+          <span class="text-slate-300 font-bold truncate">${unit.name}:</span>
+          <span class="shrink-0">
+            <span class="text-amber-300 mr-1">手動 ${manualVal}</span>
+            <span class="text-emerald-400 font-bold">➔ AI 處方 ${optVal} ${unit.unit}</span>
+            ${isMatched ? '<span class="ml-1 text-sky-400 font-bold">[已套用]</span>' : ''}
+          </span>
+        `;
+        diffContainer.appendChild(diffItem);
+      });
+
+      scoreDiffBar.innerHTML = `
+        <div class="text-slate-300">
+          📋 <strong>線上看診紀錄｜</strong>手動健康總分：<span class="text-amber-300 font-bold">${snap.computed.score} 分</span>（成本 ${snap.computed.cost.toFixed(2)} 元/噸）
+          ➔ AI 綠色大腦處方總分：<span class="text-emerald-400 font-bold">${aiEval.score} 分</span>（成本 ${aiEval.cost.toFixed(2)} 元/噸）
+        </div>
+        <div class="text-[#FFD966] font-bold">💡 駐桌重點：${scen.teacherNote}</div>
+      `;
+    }
+
+    function renderProcessChainAndSliders() {
+      const plant = PLANT_DATA[state.currentPlant];
+      const scen = plant.scenarios[state.currentScenarioIdx];
+      const chainContainer = document.getElementById('process-chain-container');
+      const slidersContainer = document.getElementById('unit-sliders-container');
+      if (!chainContainer || !slidersContainer) return;
+
+      chainContainer.innerHTML = '';
+      slidersContainer.innerHTML = '';
+
+      plant.units.forEach((unit, idx) => {
+        const isFocused = idx === state.selectedUnitIdx;
+        const currentVal = state.sliders[unit.id];
+        const optVal = scen.optimal[unit.id];
+        const diffRatio = Math.abs(currentVal - optVal) / (unit.max - unit.min);
+
+        // 1. 3D Isometric Process Pipeline Node Card
+        const nodeBtn = document.createElement('button');
+        nodeBtn.type = 'button';
+        nodeBtn.id = `node-btn-${idx}`;
+        nodeBtn.className = `unit-3d-card text-left p-2.5 rounded-xl transition-all ${isFocused ? 'active-3d' : ''}`;
+        nodeBtn.innerHTML = `
+          <div class="flex items-center justify-between text-[11px] font-black ${isFocused ? 'text-[#FFD966]' : 'text-[#7030A0]'}">
+            <span>${unit.stepNum}</span>
+            <span>${isFocused ? '👁️ 3D 剖面中' : '點擊看 3D'}</span>
+          </div>
+          <div class="my-1.5 bg-white/95 rounded-lg p-1 border border-sky-200">
+            ${getUnit3DSvg(unit.id)}
+          </div>
+          <div class="text-xs sm:text-sm font-black truncate ${isFocused ? 'text-white' : 'text-[#002060]'}">${unit.name}</div>
+          <div class="text-[11px] ${isFocused ? 'text-sky-200' : 'text-[#475569]'} truncate">${unit.shortDesc}</div>
+        `;
+        nodeBtn.addEventListener('click', () => {
+          state.selectedUnitIdx = idx;
+          renderUnitPrincipleCard();
+          updateUnitFocusStyles();
+          updateCanvasHeader();
+        });
+        chainContainer.appendChild(nodeBtn);
+
+        // 2. Unit Slider Control Row
+        const sliderCard = document.createElement('div');
+        sliderCard.id = `slider-card-${idx}`;
+        sliderCard.className = `p-3.5 rounded-xl border-2 transition-all ${
+          isFocused ? 'bg-[#DEEBF7]/50 border-[#0070C0]' : 'bg-[#F2F2F2] border-[#BDD7EE]'
+        }`;
+        sliderCard.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2.5 py-0.5 text-xs font-black rounded bg-[#002060] text-white">${unit.name}</span>
+              <span class="text-sm font-black text-[#002060]">${unit.sliderLabel}</span>
+              <span id="slider-badge-${unit.id}">${getStatusBadgeHtml(diffRatio)}</span>
+            </div>
+            <div class="flex items-baseline gap-1">
+              <span id="slider-val-text-${unit.id}" class="text-lg font-black text-[#C55A11] font-mono-code">${currentVal}</span>
+              <span class="text-xs font-bold text-[#002060]">${unit.unit}</span>
+              <span class="text-xs font-bold text-[#7030A0] ml-1">（AI 處方：${optVal} ${unit.unit}）</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs font-mono-code font-bold text-[#475569] w-10 text-right">${unit.min}</span>
+            <input
+              id="slider-input-${unit.id}"
+              type="range"
+              min="${unit.min}"
+              max="${unit.max}"
+              step="${unit.step}"
+              value="${currentVal}"
+              class="w-full h-2.5 bg-slate-300 rounded-lg"
+            />
+            <span class="text-xs font-mono-code font-bold text-[#475569] w-10">${unit.max}</span>
+          </div>
+          <div class="text-xs font-bold text-[#7030A0] mt-1.5 flex items-center justify-between">
+            <span>🤖 對應 AI 代理：${unit.aiMethod}</span>
+          </div>
+        `;
+
+        const rangeInput = sliderCard.querySelector('input[type="range"]');
+        rangeInput.addEventListener('input', (e) => {
+          const val = Number(e.target.value);
+          state.sliders[unit.id] = val;
+          state.selectedUnitIdx = idx;
+          state.isAiPrescribed = false;
+
+          const valTextEl = document.getElementById(`slider-val-text-${unit.id}`);
+          if (valTextEl) valTextEl.textContent = val;
+
+          const newDiffRatio = Math.abs(val - optVal) / (unit.max - unit.min);
+          const badgeEl = document.getElementById(`slider-badge-${unit.id}`);
+          if (badgeEl) badgeEl.innerHTML = getStatusBadgeHtml(newDiffRatio);
+
+          computeMetrics();
+          renderUnitPrincipleCard();
+          updateUnitFocusStyles();
+          renderDiffLog();
+          renderKpisAndPrescription();
+          updateRadarChart();
+          updateCanvasHeader();
+          renderWorksheetTable();
+        });
+
+        slidersContainer.appendChild(sliderCard);
+      });
+
+      renderDiffLog();
+    }
+
+    function updateUnitFocusStyles() {
+      const plant = PLANT_DATA[state.currentPlant];
+      plant.units.forEach((unit, idx) => {
+        const isFocused = idx === state.selectedUnitIdx;
+        const nodeBtn = document.getElementById(`node-btn-${idx}`);
+        const sliderCard = document.getElementById(`slider-card-${idx}`);
+        if (nodeBtn) {
+          nodeBtn.className = `unit-3d-card text-left p-2.5 rounded-xl transition-all ${isFocused ? 'active-3d' : ''}`;
+        }
+        if (sliderCard) {
+          sliderCard.className = `p-3.5 rounded-xl border-2 transition-all ${
+            isFocused ? 'bg-[#DEEBF7]/50 border-[#0070C0]' : 'bg-[#F2F2F2] border-[#BDD7EE]'
+          }`;
+        }
+      });
+    }
+
+    function renderKpisAndPrescription() {
+      const plant = PLANT_DATA[state.currentPlant];
+      const scen = plant.scenarios[state.currentScenarioIdx];
+      const c = state.computed;
+
+      const scoreEl = document.getElementById('kpi-score');
+      const scoreStatusEl = document.getElementById('kpi-score-status');
+      scoreEl.textContent = c.score;
+
+      if (c.score >= 90) {
+        scoreEl.className = 'kpi-ok-green';
+        scoreStatusEl.textContent = '已運作：黃金處方達標';
+        scoreStatusEl.className = 'text-xs font-bold text-[#548235] mt-1';
+      } else if (c.score >= 75) {
+        scoreEl.className = 'kpi-hero-amber';
+        scoreStatusEl.textContent = '規劃中：尚可再優化';
+        scoreStatusEl.className = 'text-xs font-bold text-[#C55A11] mt-1';
+      } else {
+        scoreEl.className = 'kpi-alert-red';
+        scoreStatusEl.textContent = '警示：水質或能耗異常';
+        scoreStatusEl.className = 'text-xs font-bold text-[#C00000] mt-1';
+      }
+
+      document.getElementById('kpi-turbidity').textContent = c.turbidity.toFixed(2);
+      document.getElementById('kpi-hardness').textContent = c.hardness;
+      document.getElementById('kpi-fourth-label').textContent = plant.fourthKpiLabel;
+      document.getElementById('kpi-fourth-val').textContent = c.fourthVal;
+      document.getElementById('kpi-fourth-unit').textContent = plant.fourthKpiUnit;
+      document.getElementById('kpi-cost-sub').textContent = `單位成本 ${c.cost.toFixed(2)} 元/噸`;
+
+      const statusPill = document.getElementById('ai-status-pill');
+      const presText = document.getElementById('ai-prescription-text');
+      const execStatus = document.getElementById('agent-exec-status');
+
+      if (state.isAiPrescribed) {
+        statusPill.textContent = '已運作：Antigravity AI 處方已套用';
+        statusPill.className = 'text-xs font-bold px-3 py-1 rounded-full bg-[#548235] text-white';
+        presText.textContent = scen.prescription;
+        execStatus.textContent = 'PATCH APPLIED (4/4 AGENTS CONVERGED)';
+      } else {
+        statusPill.textContent = '規劃中：手動調控摸索模式';
+        statusPill.className = 'text-xs font-bold px-3 py-1 rounded-full bg-[#FBE5D6] text-[#C55A11] border border-[#C55A11]';
+        presText.textContent = `目前為手動調控模式（健康總分 ${c.score} 分，出水濁度 ${c.turbidity.toFixed(2)} NTU，成本 ${c.cost.toFixed(2)} 元/噸）。請觀察右側「3D 實體反應器剖面與水體透明度燒杯」，再點擊「🤖 AI 綠色大腦一鍵看診開處方」！`;
+        execStatus.textContent = 'DIFF PENDING REVIEW';
+      }
+    }
+
+    function updateCanvasHeader() {
+      const plant = PLANT_DATA[state.currentPlant];
+      const unit = plant.units[state.selectedUnitIdx];
+      document.getElementById('canvas-unit-title').textContent = `🔍 3D 實體反應器與水體透明度：${unit.name}`;
+      document.getElementById('canvas-unit-subtitle').textContent = `${unit.shortDesc}｜${unit.aiMethod}`;
+
+      const val = state.sliders[unit.id];
+      const outTrans = Math.max(15, Math.min(99.5, 100 - state.computed.turbidity * 28)).toFixed(1);
+      document.getElementById('overlay-left').textContent = `${unit.sliderLabel}：${val} ${unit.unit}`;
+      document.getElementById('overlay-right').textContent = `出水透光率：${outTrans}%｜健康分：${state.computed.score} 分`;
+
+      const alertBanner = document.getElementById('canvas-alert-banner');
+      if (state.currentPlant === 'chengcing' && state.selectedUnitIdx === 2 && state.sliders.pellet_soft > 9.65) {
+        alertBanner.classList.remove('hidden');
+      } else {
+        alertBanner.classList.add('hidden');
+      }
+    }
+
+    // =========================================================================
+    // 10. MODULE (4) ONLINE WORKSHEET, WORD BANK, QUIZ & AUTO-GRADING
+    // =========================================================================
+    function initOnlineWorksheetUI() {
+      // 1. Word Bank Pills
+      const wbContainer = document.getElementById('word-bank-container');
+      if (wbContainer) {
+        wbContainer.innerHTML = '';
+        WORD_BANK_LIST.forEach(word => {
+          const pill = document.createElement('button');
+          pill.type = 'button';
+          pill.className = 'px-2.5 py-1 rounded-lg bg-[#002060] text-[#FFD966] hover:bg-[#7030A0] font-bold text-xs transition shadow-sm';
+          pill.textContent = word;
+          pill.addEventListener('click', () => {
+            if (state.activeBlankInput) {
+              state.activeBlankInput.value = word;
+              state.activeBlankInput.focus();
+            } else {
+              const emptyInput = document.querySelector('.blank-input[value=""], .blank-input:not(:valid)');
+              const allInputs = Array.from(document.querySelectorAll('.blank-input'));
+              const firstEmpty = allInputs.find(inp => !inp.value.trim());
+              if (firstEmpty) {
+                firstEmpty.value = word;
+                firstEmpty.focus();
+                state.activeBlankInput = firstEmpty;
+              }
+            }
+          });
+          wbContainer.appendChild(pill);
+        });
+      }
+
+      document.querySelectorAll('.blank-input').forEach(inp => {
+        inp.addEventListener('focus', () => {
+          state.activeBlankInput = inp;
+        });
+      });
+
+      // 2. Interactive Clinical Quiz Questions (Instant Formative Feedback on click)
+      const quizContainer = document.getElementById('interactive-quiz-container');
+      if (quizContainer) {
+        quizContainer.innerHTML = '';
+        QUIZ_QUESTIONS.forEach((q, qIdx) => {
+          const card = document.createElement('div');
+          card.className = 'bg-white p-4 rounded-xl border border-[#7030A0]/30 space-y-2.5';
+          const optsHtml = q.options.map((optText, oIdx) => `
+            <button
+              type="button"
+              data-qid="${q.id}"
+              data-oidx="${oIdx}"
+              class="quiz-opt-btn w-full text-left p-2.5 rounded-lg border border-slate-300 hover:border-[#7030A0] hover:bg-[#F1EBF7]/50 text-xs sm:text-sm font-medium transition flex items-center justify-between"
+            >
+              <span>${optText}</span>
+              <span class="quiz-opt-tag text-xs font-black"></span>
+            </button>
+          `).join('');
+
+          card.innerHTML = `
+            <div class="font-black text-[#002060] text-xs sm:text-sm">${q.title}</div>
+            <div class="space-y-1.5" id="opts-${q.id}">${optsHtml}</div>
+            <div id="qfb-${q.id}" class="hidden p-3 rounded-lg text-xs leading-relaxed font-bold"></div>
+          `;
+          quizContainer.appendChild(card);
+        });
+
+        quizContainer.querySelectorAll('.quiz-opt-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const qid = btn.getAttribute('data-qid');
+            const oidx = Number(btn.getAttribute('data-oidx'));
+            handleQuizOptionClick(qid, oidx);
+          });
+        });
+      }
+    }
+
+    function handleQuizOptionClick(qid, selectedIdx) {
+      state.quizSelections[qid] = selectedIdx;
+      const qObj = QUIZ_QUESTIONS.find(q => q.id === qid);
+      if (!qObj) return;
+
+      const optsWrap = document.getElementById(`opts-${qid}`);
+      const fbEl = document.getElementById(`qfb-${qid}`);
+      const isCorrect = selectedIdx === qObj.answerIdx;
+
+      optsWrap.querySelectorAll('.quiz-opt-btn').forEach((b, idx) => {
+        const tag = b.querySelector('.quiz-opt-tag');
+        if (idx === qObj.answerIdx) {
+          b.className = 'quiz-opt-btn w-full text-left p-2.5 rounded-lg border-2 border-emerald-600 bg-emerald-50 text-emerald-950 text-xs sm:text-sm font-black transition flex items-center justify-between';
+          tag.textContent = '✓ 正確答案';
+          tag.className = 'quiz-opt-tag text-xs font-black text-emerald-700 shrink-0 ml-2';
+        } else if (idx === selectedIdx && !isCorrect) {
+          b.className = 'quiz-opt-btn w-full text-left p-2.5 rounded-lg border-2 border-rose-600 bg-rose-50 text-rose-950 text-xs sm:text-sm font-bold transition flex items-center justify-between';
+          tag.textContent = '✗ 再想一下';
+          tag.className = 'quiz-opt-tag text-xs font-black text-rose-700 shrink-0 ml-2';
+        } else {
+          b.className = 'quiz-opt-btn w-full text-left p-2.5 rounded-lg border border-slate-200 opacity-75 text-xs sm:text-sm font-medium transition flex items-center justify-between';
+          tag.textContent = '';
+        }
+      });
+
+      fbEl.classList.remove('hidden');
+      fbEl.className = `p-3 rounded-lg text-xs leading-relaxed font-bold ${
+        isCorrect ? 'bg-emerald-100 text-emerald-900 border border-emerald-400' : 'bg-amber-100 text-amber-900 border border-amber-400'
+      }`;
+      fbEl.innerHTML = `${isCorrect ? '🎉 <strong>答對了！（+8 分）</strong>' : '💡 <strong>即時觀念診斷（已為您標示正確選項）：</strong>'}<br>${qObj.explanation}`;
+
+      recalculateQuizScoreOnly();
+    }
+
+    function recalculateQuizScoreOnly() {
+      let dScore = 0;
+      QUIZ_QUESTIONS.forEach(q => {
+        if (state.quizSelections[q.id] === q.answerIdx) dScore += 8;
+      });
+      state.onlineScore.partD = dScore;
+      document.getElementById('partD-score-badge').textContent = `已得 ${dScore} / 40 分`;
+      state.onlineScore.total = state.onlineScore.partA + state.onlineScore.partB + state.onlineScore.partD;
+      document.getElementById('online-total-score').textContent = state.onlineScore.total;
+    }
+
+    function normalizeAnswer(str) {
+      return (str || '').trim().toLowerCase().replace(/\s+/g, '');
+    }
+
+    function gradeAllOnlineWorksheet() {
+      // 1. Grade Part A (TDS Blind Test, 15 pts)
+      let scoreA = 0;
+      const aTds = Number(document.getElementById('cupA-tds').value);
+      const bTds = Number(document.getElementById('cupB-tds').value);
+      const cTds = Number(document.getElementById('cupC-tds').value);
+      const aRole = document.getElementById('cupA-role').value;
+      const bRole = document.getElementById('cupB-role').value;
+      const cRole = document.getElementById('cupC-role').value;
+
+      const checkCup = (tds, role, fbId, cupName) => {
+        const fb = document.getElementById(fbId);
+        fb.classList.remove('hidden');
+        const expectedRole = tds >= 200 ? 'raw' : (tds <= 45 ? 'ro' : 'blend');
+        if (role === expectedRole) {
+          scoreA += 5;
+          fb.className = 'text-[11px] font-bold p-1.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-400';
+          fb.textContent = `✓ 判讀正確 (+5分)！TDS ${tds} mg/L 對應正確認證。`;
+        } else {
+          fb.className = 'text-[11px] font-bold p-1.5 rounded bg-rose-100 text-rose-800 border border-rose-400';
+          fb.textContent = `✗ 依 TDS ${tds} mg/L 應為「${expectedRole === 'raw' ? '高硬度原水' : (expectedRole === 'ro' ? 'LPRO 純水' : '黃金調配水')}」。`;
+        }
+      };
+      checkCup(aTds, aRole, 'cupA-feedback', 'A');
+      checkCup(bTds, bRole, 'cupB-feedback', 'B');
+      checkCup(cTds, cRole, 'cupC-feedback', 'C');
+      state.onlineScore.partA = scoreA;
+      document.getElementById('partA-score-badge').textContent = `得分：${scoreA} / 15 分`;
+
+      // 2. Grade Part B (15 Engineering Fill-in-the-blanks, 3 pts each = 45 pts, with multiple accepted answers)
+      let scoreB = 0;
+      document.querySelectorAll('.blank-input').forEach(inp => {
+        const bid = inp.getAttribute('data-blank-id');
+        const rubric = BLANK_RUBRIC[bid];
+        if (!rubric) return;
+        const userVal = normalizeAnswer(inp.value);
+        const isHit = rubric.accepted.some(ans => normalizeAnswer(ans) === userVal || (userVal.length >= 2 && normalizeAnswer(ans).includes(userVal)));
+        if (isHit) {
+          scoreB += 3;
+          inp.classList.remove('wrong');
+          inp.classList.add('correct');
+        } else {
+          inp.classList.remove('correct');
+          inp.classList.add('wrong');
+        }
+      });
+
+      // Show multi-answer feedback boxes in Part B
+      const showBlankFb = (elId, keys) => {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        el.classList.remove('hidden');
+        el.innerHTML = `<span class="font-black text-[#7030A0]">📚 標準與多元可接受答案：</span>` +
+          keys.map((k, idx) => `<span class="mr-2 font-bold text-[#002060]">• ${ BLANK_RUBRIC[k].display }</span>`).join('');
+      };
+      showBlankFb('fb-cc_b1_b2', ['cc_b1', 'cc_b2']);
+      showBlankFb('fb-cc_b3_b5', ['cc_b3', 'cc_b4', 'cc_b5']);
+      showBlankFb('fb-cc_b6_b7', ['cc_b6', 'cc_b7']);
+      showBlankFb('fb-cc_b8', ['cc_b8']);
+      showBlankFb('fb-kt_b1_b2', ['kt_b1', 'kt_b2']);
+      showBlankFb('fb-kt_b3_b4', ['kt_b3', 'kt_b4']);
+      showBlankFb('fb-kt_b5_b6', ['kt_b5', 'kt_b6']);
+      showBlankFb('fb-kt_b7', ['kt_b7']);
+
+      state.onlineScore.partB = scoreB;
+      document.getElementById('partB-score-badge').textContent = `得分：${scoreB} / 45 分`;
+
+      // 3. Ensure Part D is graded
+      QUIZ_QUESTIONS.forEach(q => {
+        if (state.quizSelections[q.id] === undefined) {
+          const fbEl = document.getElementById(`qfb-${q.id}`);
+          fbEl.classList.remove('hidden');
+          fbEl.className = 'p-3 rounded-lg text-xs leading-relaxed font-bold bg-amber-100 text-amber-900 border border-amber-400';
+          fbEl.innerHTML = `⚠️ <strong>尚未作答本題！標準解答為選項 ${['A','B','C','D'][q.answerIdx]}：</strong><br>${q.explanation}`;
+        }
+      });
+      recalculateQuizScoreOnly();
+
+      const total = state.onlineScore.total;
+      const team = document.getElementById('team-select').value;
+      const sName = document.getElementById('student-name-input').value.trim() || '駐診學員';
+      const titleBanner = document.getElementById('cert-title-banner');
+      const fbBanner = document.getElementById('cert-Personalized-feedback');
+
+      const rankTitle = total >= 90 ? '🌟【榮譽總院長級 AI 水務工程師】' : (total >= 75 ? '🏥【資深主治級 AI 水務醫師】' : '🔬【新銳住院總醫師】');
+      titleBanner.textContent = `${team}（${sName}）線上評量總分：${total} / 100 分 — 獲頒 ${rankTitle}`;
+      fbBanner.textContent = `診斷回饋：破冰盲測 ${scoreA}/15 分、兩廠工程原理填空 ${scoreB}/45 分、臨床會診問答 ${state.onlineScore.partD}/40 分！你已掌握「臭氧BAC生物穩定」、「石英砂流化床結晶軟化」與「UF/LPRO雙薄膜調水」三大尖端水處理科技，非常適合加入【輔英科技大學環境工程與科學系】深造！`;
+
+      showToast(`🎉 線上學習單批改完成！總得分：${total} / 100 分`);
+    }
+
+    function fillDemoCorrectAnswers() {
+      document.getElementById('cupA-tds').value = 285;
+      document.getElementById('cupA-role').value = 'raw';
+      document.getElementById('cupB-tds').value = 12;
+      document.getElementById('cupB-role').value = 'ro';
+      document.getElementById('cupC-tds').value = 105;
+      document.getElementById('cupC-role').value = 'blend';
+
+      document.querySelectorAll('.blank-input').forEach(inp => {
+        const bid = inp.getAttribute('data-blank-id');
+        if (BLANK_RUBRIC[bid]) inp.value = BLANK_RUBRIC[bid].demo;
+      });
+
+      QUIZ_QUESTIONS.forEach(q => {
+        handleQuizOptionClick(q.id, q.answerIdx);
+      });
+
+      gradeAllOnlineWorksheet();
+    }
+
+    function renderWorksheetTable() {
+      const tbody = document.getElementById('worksheet-summary-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      ['chengcing', 'kaotan'].forEach(pKey => {
+        const plant = PLANT_DATA[pKey];
+        plant.scenarios.forEach(scen => {
+          const snap = state.manualSnapshot[scen.id] || {
+            sliders: scen.manualInit,
+            computed: evaluateParameters(pKey, scen, scen.manualInit)
+          };
+          const aiComp = evaluateParameters(pKey, scen, scen.optimal);
+          const u = plant.units;
+          const ansVisible = state.showWorksheetAnswers;
+
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-[#DEEBF7]/30 transition';
+          tr.innerHTML = `
+            <td class="py-2 px-3 font-black text-[#002060]">${plant.name}</td>
+            <td class="py-2 px-3 font-bold text-[#7030A0]">${scen.badge}</td>
+            <td class="py-2 px-3 font-mono-code">
+              <span class="text-[#C55A11]">手動:${snap.sliders[u[0].id]}</span><br>
+              <span class="font-bold text-[#548235]">AI:${ansVisible ? scen.optimal[u[0].id] : '___'}</span>
+            </td>
+            <td class="py-2 px-3 font-mono-code">
+              <span class="text-[#C55A11]">手動:${snap.sliders[u[1].id]}</span><br>
+              <span class="font-bold text-[#548235]">AI:${ansVisible ? scen.optimal[u[1].id] : '___'}</span>
+            </td>
+            <td class="py-2 px-3 font-mono-code">
+              <span class="text-[#C55A11]">手動:${snap.sliders[u[2].id]}</span><br>
+              <span class="font-bold text-[#548235]">AI:${ansVisible ? scen.optimal[u[2].id] : '___'}</span>
+            </td>
+            <td class="py-2 px-3 font-mono-code">
+              <span class="text-[#C55A11]">手動:${snap.sliders[u[3].id]}</span><br>
+              <span class="font-bold text-[#548235]">AI:${ansVisible ? scen.optimal[u[3].id] : '___'}</span>
+            </td>
+            <td class="py-2 px-3 font-mono-code">
+              <span class="text-[#C55A11]">手動:${snap.computed.score}分</span><br>
+              <span class="font-black text-[#0070C0]">AI:${ansVisible ? aiComp.score + '分 (' + aiComp.cost.toFixed(2) + '元)' : '___'}</span>
+            </td>
+            <td class="py-2 px-3 text-xs font-medium text-[#1E293B]">${scen.teacherNote}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+    }
+
+    function renderScoreboard() {
+      const tbody = document.getElementById('scoreboard-tbody');
+      const podiumGrid = document.getElementById('team-podium-grid');
+      document.getElementById('badge-record-count').textContent = state.records.length;
+      if (!tbody || !podiumGrid) return;
+      tbody.innerHTML = '';
+      podiumGrid.innerHTML = '';
+
+      const teams = [
+        '第一組（澄清新星隊）',
+        '第二組（綠腦先鋒隊）',
+        '第三組（薄膜特攻隊）',
+        '第四組（淨水守護隊）'
+      ];
+
+      const teamStats = teams.map(tName => {
+        const tRecs = state.records.filter(r => r.team.startsWith(tName));
+        const bestScore = tRecs.length ? Math.max(...tRecs.map(r => r.score)) : 0;
+        return { team: tName, count: tRecs.length, best: bestScore };
+      }).sort((a, b) => b.best - a.best);
+
+      teamStats.forEach((st, idx) => {
+        const medal = idx === 0 && st.best > 0 ? '🥇 駐診冠軍' : (idx === 1 && st.best > 0 ? '🥈 駐診亞軍' : (idx === 2 && st.best > 0 ? '🥉 駐診季軍' : '🏥 駐診團隊'));
+        const card = document.createElement('div');
+        card.className = `p-3.5 rounded-xl border-2 ${idx === 0 && st.best > 0 ? 'bg-[#FFF2CC] border-[#C55A11]' : 'bg-[#F2F2F2] border-[#BDD7EE]'}`;
+        card.innerHTML = `
+          <div class="flex items-center justify-between text-xs font-black text-[#7030A0]">
+            <span>${medal}</span>
+            <span>登錄 ${st.count} 筆</span>
+          </div>
+          <div class="text-sm font-black text-[#002060] mt-1">${st.team}</div>
+          <div class="mt-2 flex items-baseline justify-between">
+            <span class="text-xs font-bold text-[#475569]">最高積分：</span>
+            <span class="text-xl font-black text-[#C55A11] font-mono-code">${st.best} <span class="text-xs">分</span></span>
+          </div>
+        `;
+        podiumGrid.appendChild(card);
+      });
+
+      const sorted = [...state.records].sort((a, b) => b.score - a.score);
+      sorted.forEach((rec, i) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-[#DEEBF7]/40 transition';
+        const medal = i === 0 ? '🥇 1' : (i === 1 ? '🥈 2' : (i === 2 ? '🥉 3' : `${i + 1}`));
+        tr.innerHTML = `
+          <td class="py-3 px-4 font-black text-[#002060]">${medal}</td>
+          <td class="py-3 px-4 font-black text-[#002060]">${rec.team}</td>
+          <td class="py-3 px-4 font-bold text-[#0070C0]">${rec.plant}</td>
+          <td class="py-3 px-4 font-medium">${rec.scenario}</td>
+          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded text-xs font-bold bg-[#F1EBF7] text-[#7030A0]">${rec.mode}</span></td>
+          <td class="py-3 px-4 text-right font-mono-code font-bold">${rec.turbidity}</td>
+          <td class="py-3 px-4 text-right font-mono-code font-bold">${rec.hardness}</td>
+          <td class="py-3 px-4 text-right font-mono-code font-bold">${rec.cost}</td>
+          <td class="py-3 px-4 text-right font-mono-code font-black text-[#C55A11] text-base">${rec.score}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderAll() {
+      updateTopNavHighlight();
+      computeMetrics();
+      renderScenarioButtons();
+      renderUnitPrincipleCard();
+      renderProcessChainAndSliders();
+      renderKpisAndPrescription();
+      updateRadarChart();
+      updateCanvasHeader();
+      renderWorksheetTable();
+      renderScoreboard();
+    }
+
+    // =========================================================================
+    // 11. UNIFIED ANIMATION LOOP (MODULE 1 BEAKERS, MODULE 2 3D FLOW, MODULE 3 3D CUTAWAY, MODULE 4 TDS CUPS)
+    // =========================================================================
+    let particles = [];
+    let animFrameId = null;
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < 45; i++) {
+        particles.push({
+          x: Math.random() * 500,
+          y: Math.random() * 240,
+          vx: 0.45 + Math.random() * 1.1,
+          vy: (Math.random() - 0.5) * 0.8,
+          r: 2.5 + Math.random() * 4.5,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    function drawModule1Beakers(timestamp) {
+      const c = document.getElementById('beaker-compare-canvas');
+      if (!c || state.activeTab !== 'water-visual') return;
+      const ctx = c.getContext('2d');
+      const rect = c.parentElement.getBoundingClientRect();
+      if (c.width !== Math.floor(rect.width) || c.height !== Math.floor(rect.height)) {
+        c.width = Math.max(320, Math.floor(rect.width));
+        c.height = Math.max(220, Math.floor(rect.height));
+      }
+      const w = c.width;
+      const h = c.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const o = state.optics;
+      // Compute raw water RGB & alpha from turbidity, algae, Fe/Mn
+      const turbRatio = o.turb / 380;
+      const algaeRatio = o.algae / 80;
+      const femnRatio = o.femn / 2.5;
+
+      const rawR = Math.min(210, Math.round(35 + turbRatio * 145 + femnRatio * 140 - algaeRatio * 20));
+      const rawG = Math.min(200, Math.round(135 + algaeRatio * 75 + turbRatio * 25 - femnRatio * 65));
+      const rawB = Math.max(25, Math.round(195 - turbRatio * 145 - femnRatio * 135 - algaeRatio * 80));
+      const rawAlpha = Math.min(0.96, 0.25 + turbRatio * 0.65 + algaeRatio * 0.35 + femnRatio * 0.45);
+      const ext = (o.turb / 220) + (o.algae / 90) + (o.femn / 2.2);
+      const rawTrans = Math.max(2, Math.min(99, Math.round(100 * Math.pow(10, -ext * 0.55))));
+      const scatter = Math.min(1, (rawAlpha - 0.2) * 1.3);
+
+      const colW = w / 3;
+      // Beaker 1: Raw Water (Dynamic concentration)
+      draw3DBeaker(ctx, 8, 8, colW - 14, h - 14, {
+        title: '① 原水樣本 (隨滑桿濃度變化)',
+        sub: `${o.turb} NTU`,
+        r: rawR, g: rawG, b: rawB,
+        alpha: rawAlpha,
+        transPct: rawTrans,
+        tdsCount: Math.round(o.tds / 22),
+        suspCount: Math.round(o.turb / 14 + o.algae / 5 + o.femn * 8),
+        laserOn: o.laserOn,
+        laserScatter: scatter
+      }, timestamp);
+
+      // Beaker 2: Chengcing Pellet Softening + BAC Treated Water
+      draw3DBeaker(ctx, colW + 6, 8, colW - 14, h - 14, {
+        title: '② 澄清湖高級出水 (軟化+BAC)',
+        sub: '0.12 NTU',
+        r: 20, g: 185, b: 245,
+        alpha: 0.22,
+        transPct: 98,
+        tdsCount: 5,
+        suspCount: 1,
+        laserOn: o.laserOn,
+        laserScatter: 0.05
+      }, timestamp);
+
+      // Beaker 3: Kaotan Dual Membrane UF + LPRO Treated Water
+      draw3DBeaker(ctx, colW * 2 + 4, 8, colW - 14, h - 14, {
+        title: '③ 拷潭雙薄膜黃金調配水',
+        sub: '0.04 NTU',
+        r: 10, g: 200, b: 255,
+        alpha: 0.16,
+        transPct: 99,
+        tdsCount: 4,
+        suspCount: 0,
+        laserOn: o.laserOn,
+        laserScatter: 0.02
+      }, timestamp);
+    }
+
+    function drawModule4TdsCups(timestamp) {
+      const c = document.getElementById('tds-cups-canvas');
+      if (!c || state.activeTab !== 'online-quiz') return;
+      const ctx = c.getContext('2d');
+      const rect = c.parentElement.getBoundingClientRect();
+      if (c.width !== Math.floor(rect.width) || c.height !== Math.floor(rect.height)) {
+        c.width = Math.max(280, Math.floor(rect.width));
+        c.height = Math.max(160, Math.floor(rect.height));
+      }
+      const w = c.width;
+      const h = c.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const cups = [
+        { id: 'A', tds: Number(document.getElementById('cupA-tds').value || 285), ntu: Number(document.getElementById('cupA-ntu').value || 35), labelEl: 'cupA-ntu-label' },
+        { id: 'B', tds: Number(document.getElementById('cupB-tds').value || 12), ntu: Number(document.getElementById('cupB-ntu').value || 0), labelEl: 'cupB-ntu-label' },
+        { id: 'C', tds: Number(document.getElementById('cupC-tds').value || 105), ntu: Number(document.getElementById('cupC-ntu').value || 0), labelEl: 'cupC-ntu-label' }
+      ];
+
+      const colW = w / 3;
+      cups.forEach((cup, idx) => {
+        const trans = Math.max(5, Math.min(99, Math.round(100 * Math.pow(10, -(cup.ntu / 160)))));
+        const lbl = document.getElementById(cup.labelEl);
+        if (lbl) lbl.textContent = `${cup.ntu} NTU (透光率 ${trans}%)`;
+
+        const ratio = cup.ntu / 200;
+        const r = Math.round(20 + ratio * 150);
+        const g = Math.round(185 - ratio * 45);
+        const b = Math.round(250 - ratio * 170);
+        const alpha = 0.16 + ratio * 0.78;
+
+        draw3DBeaker(ctx, idx * colW + 4, 4, colW - 8, h - 8, {
+          title: `${cup.id} 杯 (${cup.tds} mg/L)`,
+          sub: `${cup.ntu} NTU`,
+          r, g, b, alpha,
+          transPct: trans,
+          tdsCount: Math.min(25, Math.round(cup.tds / 18)),
+          suspCount: Math.min(22, Math.round(cup.ntu / 8)),
+          laserOn: true,
+          laserScatter: ratio * 0.9
+        }, timestamp);
+      });
+    }
+
+    function drawSimulatorMicroCanvas(timestamp) {
+      const c = document.getElementById('micro-canvas');
+      if (!c || (state.activeTab !== 'chengcing' && state.activeTab !== 'kaotan')) return;
+      const ctx = c.getContext('2d');
+      const rect = c.parentElement.getBoundingClientRect();
+      if (c.width !== Math.floor(rect.width) || c.height !== Math.floor(rect.height)) {
+        c.width = Math.max(300, Math.floor(rect.width));
+        c.height = Math.max(200, Math.floor(rect.height));
+      }
+      const w = c.width;
+      const h = c.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Split Canvas: Left 66% = 3D Cutaway Reactor Vessel; Right 34% = Live Treated Water Transparency Beaker
+      const reactorW = Math.floor(w * 0.65);
+      const beakerX = reactorW + 6;
+      const beakerW = w - beakerX - 6;
+
+      // Dynamic water background inside reactor reflecting current turbidity & quality
+      const turb = state.computed.turbidity;
+      const turbFactor = Math.min(1, Math.max(0, (turb - 0.05) / 1.2));
+      const bgR = Math.round(8 + turbFactor * 110);
+      const bgG = Math.round(45 + turbFactor * 65);
+      const bgB = Math.round(105 - turbFactor * 55);
+
+      const grad = ctx.createLinearGradient(0, 0, reactorW, h);
+      grad.addColorStop(0, '#041028');
+      grad.addColorStop(1, `rgb(${bgR}, ${bgG}, ${bgB})`);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, reactorW, h);
+
+      // Draw 3D Reactor Vessel Frame in Left Zone
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(8, 26, reactorW - 16, h - 62);
+
+      const unitIdx = state.selectedUnitIdx;
+
+      if (state.currentPlant === 'chengcing') {
+        if (unitIdx === 0) {
+          const o3Dose = state.sliders.pre_o3;
+          // 3D Bottom Diffuser Bar
+          ctx.fillStyle = '#ffd966';
+          ctx.fillRect(28, h - 46, reactorW - 56, 6);
+          particles.forEach((p, idx) => {
+            const px = 20 + ((p.x + timestamp * 0.03) % (reactorW - 40));
+            const py = 34 + ((p.y + Math.sin(timestamp * 0.003 + p.phase) * 10) % (h - 85));
+            if (idx % 2 === 0) {
+              const by = h - 46 - ((timestamp * 0.05 + idx * 15) % (h - 80));
+              ctx.beginPath();
+              ctx.arc(px, by, 2 + o3Dose * 1.4, 0, Math.PI * 2);
+              ctx.strokeStyle = '#00B0F0';
+              ctx.lineWidth = 1.6;
+              ctx.stroke();
+            } else {
+              const intact = o3Dose < 1.3;
+              ctx.beginPath();
+              ctx.arc(px, py, p.r, 0, Math.PI * 2);
+              ctx.fillStyle = intact ? '#4ADE80' : 'rgba(74, 222, 128, 0.22)';
+              ctx.fill();
+            }
+          });
+          ctx.fillStyle = '#FFD966';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText(`⚡ 3D 前臭氧接觸塔剖面 (O₃: ${o3Dose} mg/L)`, 14, 18);
+        } else if (unitIdx === 1) {
+          const pac = state.sliders.coag_sed;
+          const flocRadius = Math.min(13, 3 + pac * 0.14);
+          // 3D Pulsator Bell & Sludge Blanket
+          ctx.fillStyle = 'rgba(197, 90, 17, 0.42)';
+          ctx.fillRect(10, h - 88, reactorW - 20, 50);
+          ctx.fillStyle = '#334155';
+          ctx.fillRect(reactorW / 2 - 22, 28, 44, 52);
+          ctx.strokeStyle = '#ffd966';
+          ctx.strokeRect(reactorW / 2 - 22, 28, 44, 52);
+
+          particles.slice(0, 18).forEach((p, idx) => {
+            const px = 20 + ((p.x + timestamp * 0.025) % (reactorW - 40));
+            const py = 40 + ((p.y + timestamp * 0.02) % (h - 90));
+            ctx.beginPath();
+            ctx.arc(px, py, flocRadius, 0, Math.PI * 2);
+            ctx.fillStyle = '#F59E0B';
+            ctx.fill();
+            if (idx % 4 === 0) {
+              const bs = flocRadius * 2.5;
+              ctx.strokeStyle = '#FFD966';
+              ctx.lineWidth = 1.5;
+              ctx.strokeRect(px - bs / 2, py - bs / 2, bs, bs);
+              ctx.fillStyle = '#FFD966';
+              ctx.font = 'bold 9px monospace';
+              ctx.fillText(`CNN ${(flocRadius * 18).toFixed(0)}μm`, px - bs / 2, py - bs / 2 - 2);
+            }
+          });
+          ctx.fillStyle = '#FFD966';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText(`👁️ 3D 脈動沉澱池與 CNN 視覺框選膠羽`, 14, 18);
+        } else if (unitIdx === 2) {
+          const ph = state.sliders.pellet_soft;
+          const isOverPh = ph > 9.65;
+          const crystalSize = Math.max(3.5, Math.min(10, (ph - 7.5) * 3.2));
+          // Draw 3D Inverted Cone Hopper Walls
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.moveTo(16, 30);
+          ctx.lineTo(48, h - 40);
+          ctx.lineTo(reactorW - 48, h - 40);
+          ctx.lineTo(reactorW - 16, 30);
+          ctx.stroke();
+
+          particles.slice(0, 26).forEach((p, idx) => {
+            const floatY = h - 48 - ((idx * 17 + Math.sin(timestamp * 0.004 + p.phase) * 14) % (h - 95));
+            const floatX = 52 + ((idx * 29) % (reactorW - 104)) + Math.cos(timestamp * 0.003 + idx) * 5;
+            ctx.beginPath();
+            ctx.arc(floatX, floatY, crystalSize, 0, Math.PI * 2);
+            ctx.fillStyle = isOverPh ? '#F87171' : '#FFFFFF';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(floatX, floatY, 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = '#C55A11';
+            ctx.fill();
+          });
+          ctx.fillStyle = isOverPh ? '#FCA5A5' : '#FFD966';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText(`💎 3D 錐形流化床結晶槽 (石英砂長成 CaCO₃ 珠)`, 14, 18);
+        } else {
+          const bacDose = state.sliders.post_o3_bac;
+          for (let gx = 26; gx < reactorW - 24; gx += 36) {
+            for (let gy = h * 0.44; gy < h - 44; gy += 30) {
+              ctx.beginPath();
+              ctx.arc(gx + (gy % 14), gy, 10, 0, Math.PI * 2);
+              ctx.fillStyle = '#1E293B';
+              ctx.fill();
+              ctx.strokeStyle = bacDose >= 1.0 ? '#4ADE80' : '#94A3B8';
+              ctx.lineWidth = 2.4;
+              ctx.stroke();
+            }
+          }
+          ctx.fillStyle = '#FFD966';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText(`🦠 3D BAC 生物活性碳濾床 (異營菌分解 AOC)`, 14, 18);
+        }
+      } else {
+        if (unitIdx === 0) {
+          const airRatio = state.sliders.aeration_filter;
+          // 3D Cascade Trays
+          ctx.fillStyle = '#ffd966';
+          ctx.fillRect(24, 52, reactorW * 0.45, 5);
+          ctx.fillRect(reactorW * 0.35, 86, reactorW * 0.45, 5);
+          ctx.fillStyle = 'rgba(217, 119, 6, 0.55)';
+          ctx.fillRect(14, h - 68, reactorW - 28, 30);
+          particles.slice(0, 24).forEach((p, idx) => {
+            const px = 20 + ((p.x + timestamp * 0.03) % (reactorW - 40));
+            const py = 34 + ((p.y + timestamp * 0.04) % (h - 75));
+            ctx.beginPath();
+            ctx.arc(px, py, 3.6, 0, Math.PI * 2);
+            ctx.fillStyle = airRatio >= 4.0 ? '#00B0F0' : '#C55A11';
+            ctx.fill();
+          });
+          ctx.fillStyle = '#FFD966';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText(`🌬️ 3D 階梯氣曝塔與快濾池 (氣水比 ${airRatio})`, 14, 18);
+        } else if (unitIdx === 1 || unitIdx === 2) {
+          const memX = reactorW * 0.52;
+          ctx.strokeStyle = unitIdx === 1 ? '#00B0F0' : '#FFD966';
+          ctx.lineWidth = 5;
+          ctx.setLineDash([6, 4]);
+          ctx.beginPath();
+          ctx.moveTo(memX, 30);
+          ctx.lineTo(memX, h - 40);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          particles.slice(0, 28).forEach((p, idx) => {
+            p.x = (p.x + p.vx * 1.1) % (reactorW - 20);
+            const isClean = idx % 2 === 0;
+            const drawX = (!isClean && p.x > memX - 10) ? (p.x % (memX - 24)) + 14 : Math.max(14, p.x);
+            const drawY = 34 + (p.y % (h - 78));
+            ctx.beginPath();
+            ctx.arc(drawX, drawY, isClean ? 2.8 : 5, 0, Math.PI * 2);
+            ctx.fillStyle = isClean ? '#00B0F0' : '#F87171';
+            ctx.fill();
+          });
+          ctx.fillStyle = '#FFD966';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText(unitIdx === 1 ? `🔬 3D 0.05μm UF 中空纖維膜篩分` : `💎 3D LPRO 逆滲透聚醯胺膜截留鈣鎂`, 14, 18);
+        } else {
+          const blend = state.sliders.blend_tank;
+          particles.slice(0, 28).forEach((p, idx) => {
+            const px = 20 + ((p.x + timestamp * 0.04) % (reactorW - 40));
+            const py = 36 + ((p.y + Math.sin(timestamp * 0.004 + idx) * 8) % (h - 80));
+            const isMin = (idx % 100) < blend * 1.6;
+            ctx.beginPath();
+            ctx.arc(px, py, isMin ? 4.2 : 2.8, 0, Math.PI * 2);
+            ctx.fillStyle = isMin ? '#FFD966' : '#00B0F0';
+            ctx.fill();
+          });
+          ctx.fillStyle = '#FFD966';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText(`⚖️ 3D UF/LPRO 產水混合池 (旁通 ${blend}%)`, 14, 18);
+        }
+      }
+
+      // Draw Right Zone: Live Treated Water Transparency 3D Beaker!
+      const outTrans = Math.max(15, Math.min(99, Math.round(100 - turb * 32)));
+      const outAlpha = Math.min(0.92, 0.16 + turb * 0.42);
+      const outR = Math.min(190, Math.round(15 + turb * 110));
+      const outG = Math.round(190 - turb * 40);
+      const outB = Math.max(60, Math.round(250 - turb * 120));
+
+      draw3DBeaker(ctx, beakerX, 4, beakerW, h - 40, {
+        title: '目前出水透明度',
+        sub: `${turb.toFixed(2)} NTU`,
+        r: outR, g: outG, b: outB,
+        alpha: outAlpha,
+        transPct: outTrans,
+        tdsCount: Math.max(2, Math.round(state.computed.hardness / 25)),
+        suspCount: Math.round(turb * 12),
+        laserOn: true,
+        laserScatter: Math.min(0.95, turb * 0.65)
+      }, timestamp);
+    }
+
+    function masterAnimationLoop(timestamp) {
+      drawModule1Beakers(timestamp);
+      drawPlant3DFlowCanvas(timestamp);
+      drawSimulatorMicroCanvas(timestamp);
+      drawModule4TdsCups(timestamp);
+      animFrameId = requestAnimationFrame(masterAnimationLoop);
+    }
+
+    // =========================================================================
+    // 12. NAVIGATION & EVENT LISTENERS
+    // =========================================================================
+    function switchTab(target) {
+      state.activeTab = target;
+      const views = {
+        'water-visual': document.getElementById('water-visual-view'),
+        'plant-flow': document.getElementById('plant-flow-view'),
+        'chengcing': document.getElementById('simulator-view'),
+        'kaotan': document.getElementById('simulator-view'),
+        'online-quiz': document.getElementById('online-quiz-view'),
+        'scoreboard': document.getElementById('scoreboard-view')
+      };
+
+      Object.values(views).forEach(v => { if (v) v.classList.add('hidden'); });
+      if (views[target]) views[target].classList.remove('hidden');
+
+      if (target === 'chengcing' || target === 'kaotan') {
+        state.currentPlant = target;
+        state.currentScenarioIdx = 0;
+        state.selectedUnitIdx = 0;
+        loadScenario(0, false);
+      } else if (target === 'plant-flow') {
+        renderFlow3DCards();
+        updateTopNavHighlight();
+      } else if (target === 'online-quiz') {
+        renderWorksheetTable();
+        updateTopNavHighlight();
+      } else if (target === 'scoreboard') {
+        renderScoreboard();
+        updateTopNavHighlight();
+      } else {
+        syncOpticsSlidersUI();
+        updateTopNavHighlight();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-msg');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3200);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initRadarChart();
+      initParticles();
+      initOnlineWorksheetUI();
+      syncOpticsSlidersUI();
+      renderFlow3DCards();
+
+      ['chengcing', 'kaotan'].forEach(pKey => {
+        PLANT_DATA[pKey].scenarios.forEach(scen => {
+          state.manualSnapshot[scen.id] = {
+            sliders: { ...scen.manualInit },
+            computed: evaluateParameters(pKey, scen, scen.manualInit)
+          };
+        });
+      });
+
+      loadScenario(0, false);
+      switchTab('water-visual'); // Start on Stage (1) Water Appearance & Standards
+
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+      animFrameId = requestAnimationFrame(masterAnimationLoop);
+
+      // Click interaction on Module 2 3D Flow Canvas to select unit tank
+      const flowCanvas = document.getElementById('plant-3d-flow-canvas');
+      if (flowCanvas) {
+        flowCanvas.addEventListener('click', (e) => {
+          const rect = flowCanvas.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          const idx = Math.min(3, Math.max(0, Math.floor((clickX / rect.width) * 4)));
+          state.flowUnitIdx = idx;
+          renderFlow3DCards();
+        });
+      }
+
+      // Module 1 Optics Sliders Listeners
+      ['opt-turb-slider', 'opt-algae-slider', 'opt-femn-slider', 'opt-tds-slider'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', () => {
+            state.optics.turb = Number(document.getElementById('opt-turb-slider').value);
+            state.optics.algae = Number(document.getElementById('opt-algae-slider').value);
+            state.optics.femn = Number(document.getElementById('opt-femn-slider').value);
+            state.optics.tds = Number(document.getElementById('opt-tds-slider').value);
+            syncOpticsSlidersUI();
+          });
+        }
+      });
+
+      const laserToggle = document.getElementById('toggle-laser-beam');
+      if (laserToggle) {
+        laserToggle.addEventListener('change', (e) => {
+          state.optics.laserOn = e.target.checked;
+        });
+      }
+
+      // Top Navigation Buttons
+      document.getElementById('tab-water-visual').addEventListener('click', () => switchTab('water-visual'));
+      document.getElementById('tab-plant-flow').addEventListener('click', () => switchTab('plant-flow'));
+      document.getElementById('tab-chengcing').addEventListener('click', () => switchTab('chengcing'));
+      document.getElementById('tab-kaotan').addEventListener('click', () => switchTab('kaotan'));
+      document.getElementById('tab-online-quiz').addEventListener('click', () => switchTab('online-quiz'));
+      document.getElementById('tab-scoreboard').addEventListener('click', () => switchTab('scoreboard'));
+      document.getElementById('btn-quick-quiz').addEventListener('click', () => switchTab('online-quiz'));
+      document.getElementById('btn-back-to-sim').addEventListener('click', () => switchTab(state.currentPlant));
+
+      // Theme Toggle
+      const toggleTheme = () => {
+        state.darkMode = !state.darkMode;
+        document.body.classList.toggle('dark-ide', state.darkMode);
+        updateRadarChart();
+      };
+      document.getElementById('btn-theme-toggle').addEventListener('click', toggleTheme);
+      document.getElementById('btn-theme-toggle-desktop').addEventListener('click', toggleTheme);
+
+      // Simulator Controls
+      document.getElementById('btn-ai-diagnose').addEventListener('click', () => {
+        loadScenario(state.currentScenarioIdx, true);
+        showToast('⚡ Antigravity 4 組 AI Agent 已完成四診合參並自動套用黃金處方參數！');
+      });
+
+      document.getElementById('btn-reset-sliders').addEventListener('click', () => {
+        loadScenario(state.currentScenarioIdx, false);
+        showToast('↺ 已重設為傳統人工定值模式');
+      });
+
+      document.getElementById('btn-save-score').addEventListener('click', () => {
+        const team = document.getElementById('team-select').value;
+        const sName = document.getElementById('student-name-input').value.trim();
+        const teamDisplay = sName ? `${team} (${sName})` : team;
+        const plant = PLANT_DATA[state.currentPlant];
+        const scen = plant.scenarios[state.currentScenarioIdx];
+        state.records.unshift({
+          team: teamDisplay,
+          plant: plant.name,
+          scenario: scen.badge,
+          mode: state.isAiPrescribed ? '🤖 AI 處方' : '🖐️ 手動調控',
+          turbidity: `${state.computed.turbidity.toFixed(2)} NTU`,
+          hardness: `${state.computed.hardness} mg/L`,
+          cost: `${state.computed.cost.toFixed(2)} 元/噸`,
+          score: state.computed.score
+        });
+        saveRecordsToStorage();
+        renderScoreboard();
+        showToast(`🏆 已將「${teamDisplay}」看診成績（${state.computed.score} 分）登錄至排行榜！`);
+      });
+
+      // Online Worksheet Grading & Submission Buttons
+      document.getElementById('btn-grade-all').addEventListener('click', gradeAllOnlineWorksheet);
+      document.getElementById('btn-fill-demo-answers').addEventListener('click', fillDemoCorrectAnswers);
+
+      document.getElementById('btn-toggle-answers').addEventListener('click', () => {
+        state.showWorksheetAnswers = !state.showWorksheetAnswers;
+        renderWorksheetTable();
+      });
+
+      document.getElementById('btn-submit-quiz-to-board').addEventListener('click', () => {
+        gradeAllOnlineWorksheet();
+        const team = document.getElementById('team-select').value;
+        const sName = document.getElementById('student-name-input').value.trim();
+        const teamDisplay = sName ? `${team} (${sName})` : team;
+        state.records.unshift({
+          team: teamDisplay,
+          plant: '線上學習單＋臨床問答',
+          scenario: '全院四診合參總評量',
+          mode: '🎓 線上評分',
+          turbidity: `${state.computed.turbidity.toFixed(2)} NTU`,
+          hardness: `${state.computed.hardness} mg/L`,
+          cost: `${state.computed.cost.toFixed(2)} 元/噸`,
+          score: state.onlineScore.total
+        });
+        saveRecordsToStorage();
+        renderScoreboard();
+        switchTab('scoreboard');
+        showToast(`🏆 已將「${teamDisplay}」線上評量總分（${state.onlineScore.total} 分）登錄至排行榜！`);
+      });
+
+      document.getElementById('btn-reset-default-records').addEventListener('click', () => {
+        state.records = [...DEFAULT_RECORDS];
+        saveRecordsToStorage();
+        renderScoreboard();
+        showToast('已載入預設四組競賽範例紀錄');
+      });
+
+      document.getElementById('btn-clear-records').addEventListener('click', () => {
+        state.records = [];
+        saveRecordsToStorage();
+        renderScoreboard();
+        showToast('已清空排行榜紀錄');
+      });
+    });
+  </script>
+</body>
+</html>
